@@ -1,3 +1,10 @@
-## [0.0.1] - TODO: Add release date.
+## [0.0.2] - 03/06/2018
 
-* TODO: Describe initial release.
+- Update documentation
+
+## [0.0.1] - 02/06/2018
+
+- Implement search bar widget
+- Support query callbacks
+- Support query set loader
+- Include search bar examples
