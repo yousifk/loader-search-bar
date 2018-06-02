@@ -1,4 +1,4 @@
-import 'package:example/Person.dart';
+import 'Person.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_search_bar/loader_search_bar.dart';
 

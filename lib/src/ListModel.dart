@@ -56,5 +56,5 @@ class ListModel<T> {
 
   Iterable<T> where(bool test(T item)) => _items.where(test);
 
-  bool equals(List<T> other) => ListEquality().equals(_items, other);
+  bool equals(List<T> other) => IterableEquality().equals(_items, other);
 }
