@@ -1,0 +1,15 @@
+name: loader_search_bar
+description: App bar and search widget integrated.
+version: 0.0.1
+author:
+homepage:
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
