@@ -90,6 +90,11 @@
       <span class="name ">merge</span>
 (<wbr><span class="parameter" id="merge-param-other"><span class="type-annotation"><a href="loader_search_bar/SearchBarAttrs-class.html">SearchBarAttrs</a></span> <span class="parameter-name">other</span></span>)
     </section>
+    <section class="desc markdown">
+      <p>Merges attributes with <code>other</code> into new object. Returned instance will
+take all attrs of <code>other</code> that are not null and source object attributes
+otherwise.</p>
+    </section>
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
@@ -98,11 +103,15 @@
     primaryColor: other.primaryColor ?? this.primaryColor,
     secondaryColor: other.secondaryColor ?? this.secondaryColor,
     searchBarColor: other.searchBarColor ?? this.searchBarColor,
-    textBoxBackgroundColor: other.textBoxBackgroundColor ?? this.textBoxBackgroundColor,
-    textBoxOutlineColor: other.textBoxOutlineColor ?? this.textBoxOutlineColor,
+    textBoxBackgroundColor:
+        other.textBoxBackgroundColor ?? this.textBoxBackgroundColor,
+    textBoxOutlineColor:
+        other.textBoxOutlineColor ?? this.textBoxOutlineColor,
     loaderBottomMargin: other.loaderBottomMargin ?? this.loaderBottomMargin,
-    textBoxOutlineWidth: other.textBoxOutlineWidth ?? this.textBoxOutlineWidth,
-    textBoxOutlineRadius: other.textBoxOutlineRadius ?? this.textBoxOutlineRadius,
+    textBoxOutlineWidth:
+        other.textBoxOutlineWidth ?? this.textBoxOutlineWidth,
+    textBoxOutlineRadius:
+        other.textBoxOutlineRadius ?? this.textBoxOutlineRadius,
   );
 }</code></pre>
     </section>
@@ -116,7 +125,7 @@
 
 <footer>
   <span class="no-break">
-    loader_search_bar 0.0.1
+    loader_search_bar 0.0.2
   </span>
 
 </footer>

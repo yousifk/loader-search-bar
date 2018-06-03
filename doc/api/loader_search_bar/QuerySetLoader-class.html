@@ -43,7 +43,6 @@
       <li><a href="loader_search_bar/QuerySetLoaderState-class.html">QuerySetLoaderState</a></li>
       <li><a href="loader_search_bar/SearchBar-class.html">SearchBar</a></li>
       <li><a href="loader_search_bar/SearchBarAttrs-class.html">SearchBarAttrs</a></li>
-      <li><a href="loader_search_bar/SearchBarButton-class.html">SearchBarButton</a></li>
       <li><a href="loader_search_bar/SearchBarState-class.html">SearchBarState</a></li>
     
     
@@ -60,6 +59,10 @@
   <div class="col-xs-12 col-sm-9 col-md-8 main-content">
     <h1>QuerySetLoader&lt;<wbr><span class="type-parameter">T</span>&gt; class</h1>
 
+    <section class="desc markdown">
+      <p>Widget that loads data set for current query string and transforms it into
+ListView populated with loaded data</p>
+    </section>
     
 
     <section class="summary offset-anchor" id="constructors">
@@ -84,7 +87,8 @@
           <span class="signature">&#8594; bool</span>
         </dt>
         <dd>
-          
+          Determines whether ListView's insert and remove operations should be
+animated.
           <div class="features">final</div>
 </dd>
         <dt id="itemBuilder" class="property">
@@ -92,7 +96,8 @@
           <span class="signature">&#8594; <a href="loader_search_bar/QuerySetItemBuilder.html">QuerySetItemBuilder</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span>
         </dt>
         <dd>
-          
+          Function taking single element of current data set and returning ListView
+item corresponding to that element.
           <div class="features">final</div>
 </dd>
         <dt id="loadOnEachChange" class="property">
@@ -100,7 +105,8 @@
           <span class="signature">&#8594; bool</span>
         </dt>
         <dd>
-          
+          Indicating whether <code>querySetCall</code> should be triggered on each query
+change. If false query set is loaded once user submits query.
           <div class="features">final</div>
 </dd>
         <dt id="querySetCall" class="property">
@@ -108,7 +114,9 @@
           <span class="signature">&#8594; <a href="loader_search_bar/QuerySetCall.html">QuerySetCall</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span>
         </dt>
         <dd>
-          
+          Function being called in order to load data. Takes query string as
+argument and returns list of corresponding items. Received function is
+called asynchronously within the loader.
           <div class="features">final</div>
 </dd>
         <dt id="hashCode" class="property inherited">
@@ -260,7 +268,7 @@ tools and by <a href="loader_search_bar/QuerySetLoader/toStringDeep.html">toStri
           <span class="signature">&#8594; <a href="loader_search_bar/QuerySetLoader-class.html">QuerySetLoader</a></span>
         </dt>
         <dd>
-          
+          Instance with empty function bodies used internally by <code>SearchBar</code>.
           <div class="features">final</div>
 </dd>
       </dl>
@@ -312,7 +320,7 @@ tools and by <a href="loader_search_bar/QuerySetLoader/toStringDeep.html">toStri
 
 <footer>
   <span class="no-break">
-    loader_search_bar 0.0.1
+    loader_search_bar 0.0.2
   </span>
 
 </footer>

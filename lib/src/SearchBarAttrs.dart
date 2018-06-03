@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// Holder class containing attributes used during building [SearchBar] widget
+/// that can be adjusted. Each of the attributes is optional and takes its
+/// default value if omitted.
 class SearchBarAttrs {
   const SearchBarAttrs({
     this.primaryColor = Colors.black87,
@@ -36,16 +39,23 @@ class SearchBarAttrs {
       const EdgeInsets.symmetric(vertical: 5.0, horizontal: 40.0);
   final Size searchBarSize = const Size(360.0, 56.0);
 
+  /// Merges attributes with [other] into new object. Returned instance will
+  /// take all attrs of [other] that are not null and source object attributes
+  /// otherwise.
   SearchBarAttrs merge(SearchBarAttrs other) {
     return SearchBarAttrs(
       primaryColor: other.primaryColor ?? this.primaryColor,
       secondaryColor: other.secondaryColor ?? this.secondaryColor,
       searchBarColor: other.searchBarColor ?? this.searchBarColor,
-      textBoxBackgroundColor: other.textBoxBackgroundColor ?? this.textBoxBackgroundColor,
-      textBoxOutlineColor: other.textBoxOutlineColor ?? this.textBoxOutlineColor,
+      textBoxBackgroundColor:
+          other.textBoxBackgroundColor ?? this.textBoxBackgroundColor,
+      textBoxOutlineColor:
+          other.textBoxOutlineColor ?? this.textBoxOutlineColor,
       loaderBottomMargin: other.loaderBottomMargin ?? this.loaderBottomMargin,
-      textBoxOutlineWidth: other.textBoxOutlineWidth ?? this.textBoxOutlineWidth,
-      textBoxOutlineRadius: other.textBoxOutlineRadius ?? this.textBoxOutlineRadius,
+      textBoxOutlineWidth:
+          other.textBoxOutlineWidth ?? this.textBoxOutlineWidth,
+      textBoxOutlineRadius:
+          other.textBoxOutlineRadius ?? this.textBoxOutlineRadius,
     );
   }
 }

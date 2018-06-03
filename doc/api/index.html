@@ -43,7 +43,7 @@
       <section class="desc markdown">
         <h1>Loader SearchBar</h1>
 <p><a href="https://pub.dartlang.org/packages/loader_search_bar"><img alt="pub package" src="https://img.shields.io/pub/v/loader_search_bar.svg"></a></p>
-<p>Flutter widget integrating search field feature into app bar, allowing to receive query change callbacks and automatically load new dataset into ListView. It replaces standard AppBar widget and <strong>needs to be placed underneath Scaffold</strong> element in the widget tree to work properly.</p>
+<p>Flutter widget integrating search field feature into app bar, allowing to receive query change callbacks and automatically load new data set into ListView. It replaces standard AppBar widget and <strong>needs to be placed underneath Scaffold</strong> element in the widget tree to work properly.</p>
 <p><img alt="Loader SearchBar demo" src="https://thumbs.gfycat.com/HealthyAmbitiousImpala-max-14mb.gif"></p>
 <h2>Getting started</h2>
 <p>To start using SearchBar insert it in place of an AppBar element in the Scaffold widget. Regardless of the use case, <strong>defaultAppBar</strong> named argument has to be specified, which basically is a widget that will be displayed whenever SearchBar is not in activated state:</p>
@@ -65,9 +65,9 @@ Widget build(BuildContext context) {
    );
 }
 </code></pre>
-<h2>Optional attributes</h2><ul><li>searchHint - hint string being displayed until user inputs any text</li><li>iconified - boolean value indicating way of representing non-activated SearchBar:<ul><li><em>true</em> if widget should be showed as an action item in <em>defaultAppBar</em></li><li><em>false</em> if widget should be merged with <em>defaufltAppBar</em> (only leading icon of the default widget and search input field are displayed in such case)</li></ul></li><li>autofocus - boolean value determining if search text field should get focus whenever it becomes visible</li><li>attrs - SearchBarAttrs class instance allowing to specify part of exact values used during widget building (e.g. search bar colors, text size, border radius)</li><li>onActivatedChanged - callback function receiving widget's current state as a boolean value; triggered whenever user begins or cancels/ends search action</li></ul>
+<h2>Optional attributes</h2><ul><li>searchHint - hint string being displayed until user inputs any text</li><li>iconified - boolean value indicating way of representing non-activated SearchBar:<ul><li><em>true</em> if widget should be showed as an action item in <em>defaultAppBar</em></li><li><em>false</em> if widget should be merged with <em>defaultAppBar</em> (only leading icon of the default widget and search input field are displayed in such case)</li></ul></li><li>autofocus - boolean value determining if search text field should get focus whenever it becomes visible</li><li>attrs - SearchBarAttrs class instance allowing to specify part of exact values used during widget building (e.g. search bar colors, text size, border radius)</li><li>onActivatedChanged - callback function receiving widget's current state as a boolean value; triggered whenever user begins or cancels/ends search action</li></ul>
 <h2>Query callbacks</h2>
-<p>To get notified about user input specify <strong>onQueryChanged</strong> and/or <strong>onQuerySubmitted</strong> callback functions that receive current query string as an argument:</p>
+<p>To get notified about user input specify <em>onQueryChanged</em> and/or <em>onQuerySubmitted</em> callback functions that receive current query string as an argument:</p>
 <pre class="language-Dart"><code class="language-Dart">appBar: SearchBar(
    ...
    onQueryChanged: (query) =&gt; _handleQueryChanged(context, query),
@@ -103,7 +103,9 @@ To do so, make use of <a href="https://github.com/tomwyr/loader-search-bar/compa
               <span class="name"><a href="loader_search_bar/loader_search_bar-library.html">loader_search_bar</a></span>
             </dt>
             <dd>
-              
+              Flutter widget integrating search field feature into app bar,
+allowing to receive query change callbacks and automatically
+load new data set into ListView.
             </dd>          </dl>
         </section>
 
@@ -113,7 +115,7 @@ To do so, make use of <a href="https://github.com/tomwyr/loader-search-bar/compa
 
 <footer>
   <span class="no-break">
-    loader_search_bar 0.0.1
+    loader_search_bar 0.0.2
   </span>
 
 </footer>

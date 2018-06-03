@@ -10,6 +10,8 @@ typedef List<T> QuerySetCall<T>(String query);
 
 typedef Widget QuerySetItemBuilder<T>(T item);
 
+/// Widget that loads data set for current query string and transforms it into
+/// ListView populated with loaded data.
 class QuerySetLoader<T> extends StatefulWidget {
   QuerySetLoader({
     @required this.querySetCall,
@@ -18,15 +20,25 @@ class QuerySetLoader<T> extends StatefulWidget {
     this.animateChanges = true,
   });
 
+  /// Instance with empty function bodies used internally by [SearchBar].
   static final QuerySetLoader blank =
       QuerySetLoader(querySetCall: (_) {}, itemBuilder: (_) {});
 
+  /// Function being called in order to load data. Takes query string as
+  /// argument and returns list of corresponding items. Received function is
+  /// called asynchronously within the loader.
   final QuerySetCall<T> querySetCall;
 
+  /// Function taking single element of current data set and returning ListView
+  /// item corresponding to that element.
   final QuerySetItemBuilder<T> itemBuilder;
 
+  /// Indicating whether [querySetCall] should be triggered on each query
+  /// change. If false query set is loaded once user submits query.
   final bool loadOnEachChange;
 
+  /// Determines whether ListView's insert and remove operations should be
+  /// animated.
   final bool animateChanges;
 
   @override

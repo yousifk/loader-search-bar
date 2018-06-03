@@ -43,7 +43,6 @@
       <li><a href="loader_search_bar/QuerySetLoaderState-class.html">QuerySetLoaderState</a></li>
       <li><a href="loader_search_bar/SearchBar-class.html">SearchBar</a></li>
       <li><a href="loader_search_bar/SearchBarAttrs-class.html">SearchBarAttrs</a></li>
-      <li><a href="loader_search_bar/SearchBarButton-class.html">SearchBarButton</a></li>
       <li><a href="loader_search_bar/SearchBarState-class.html">SearchBarState</a></li>
     
     
@@ -60,6 +59,11 @@
   <div class="col-xs-12 col-sm-9 col-md-8 main-content">
     <h1>SearchBarAttrs class</h1>
 
+    <section class="desc markdown">
+      <p>Holder class containing attributes used during building <a href="loader_search_bar/SearchBar-class.html">SearchBar</a> widget
+that can be adjusted. Each of the attributes is optional and takes its
+default value if omitted.</p>
+    </section>
     
 
     <section class="summary offset-anchor" id="constructors">
@@ -276,7 +280,9 @@
           </span>
         </dt>
         <dd>
-          
+          Merges attributes with <code>other</code> into new object. Returned instance will
+take all attrs of <code>other</code> that are not null and source object attributes
+otherwise.
           
 </dd>
         <dt id="noSuchMethod" class="callable inherited">
@@ -369,7 +375,7 @@
 
 <footer>
   <span class="no-break">
-    loader_search_bar 0.0.1
+    loader_search_bar 0.0.2
   </span>
 
 </footer>

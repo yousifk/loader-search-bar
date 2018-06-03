@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="generator" content="made with love by dartdoc 0.19.0">
+  <meta name="description" content="loader_search_bar API docs, for the Dart programming language.">
+  <title>loader_search_bar - Dart API docs</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link rel="stylesheet" href="static-assets/github.css">
+  <link rel="stylesheet" href="static-assets/styles.css">
+  <link rel="icon" href="static-assets/favicon.png">
+
+</head>
+
+<body>
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="https://github.com/tomwyr/loader-search-bar">loader_search_bar package</a></li>
+  </ol>
+  <div class="self-name">loader_search_bar</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <h5><span class="package-name">loader_search_bar</span> <span class="package-kind">package</span></h5>
+    <ol>
+    </ol>
+  </div>
+
+  <div class="col-xs-12 col-sm-9 col-md-8 main-content">
+      <section class="desc markdown">
+        <h1>Loader SearchBar</h1>
+<p><a href="https://pub.dartlang.org/packages/loader_search_bar"><img alt="pub package" src="https://img.shields.io/pub/v/loader_search_bar.svg"></a></p>
+<p>Flutter widget integrating search field feature into app bar, allowing to receive query change callbacks and automatically load new data set into ListView. It replaces standard AppBar widget and <strong>needs to be placed underneath Scaffold</strong> element in the widget tree to work properly.</p>
+<p><img alt="Loader SearchBar demo" src="https://thumbs.gfycat.com/HealthyAmbitiousImpala-max-14mb.gif"></p>
+<h2>Getting started</h2>
+<p>To start using SearchBar insert it in place of an AppBar element in the Scaffold widget. Regardless of the use case, <strong>defaultAppBar</strong> named argument has to be specified, which basically is a widget that will be displayed whenever SearchBar is not in activated state:</p>
+<pre class="language-Dart"><code class="language-Dart">@override
+Widget build(BuildContext context) {
+   return Scaffold(
+     appBar: SearchBar(
+       defaultAppBar: AppBar(
+         leading: IconButton(
+           icon: Icon(Icons.menu),
+           onPressed: _openDrawer,
+         ),
+         title: Text('Default app bar title'),
+       ),
+       ...
+     ),
+     body: _body,
+     drawer: _drawer,
+   );
+}
+</code></pre>
+<h2>Optional attributes</h2><ul><li>searchHint - hint string being displayed until user inputs any text</li><li>iconified - boolean value indicating way of representing non-activated SearchBar:<ul><li><em>true</em> if widget should be showed as an action item in <em>defaultAppBar</em></li><li><em>false</em> if widget should be merged with <em>defaultAppBar</em> (only leading icon of the default widget and search input field are displayed in such case)</li></ul></li><li>autofocus - boolean value determining if search text field should get focus whenever it becomes visible</li><li>attrs - SearchBarAttrs class instance allowing to specify part of exact values used during widget building (e.g. search bar colors, text size, border radius)</li><li>onActivatedChanged - callback function receiving widget's current state as a boolean value; triggered whenever user begins or cancels/ends search action</li></ul>
+<h2>Query callbacks</h2>
+<p>To get notified about user input specify <em>onQueryChanged</em> and/or <em>onQuerySubmitted</em> callback functions that receive current query string as an argument:</p>
+<pre class="language-Dart"><code class="language-Dart">appBar: SearchBar(
+   ...
+   onQueryChanged: (query) =&gt; _handleQueryChanged(context, query),
+   onQuerySubmitted: (query) =&gt; _handleQuerySubmitted(context, query),
+),
+</code></pre>
+<h2>QuerySetLoader</h2>
+<p>By passing QuerySetLoader object as an argument one can additionally benefit from search results being automatically built as ListView widget whenever search query changes:</p>
+<pre class="language-Dart"><code class="language-Dart">appBar: SearchBar(
+  ...
+  loader: QuerySetLoader&lt;Item&gt;(
+     querySetCall: _getItemListForQuery,
+     itemBuilder: _buildItemWidget,
+     loadOnEachChange: true,
+     animateChanges: true,
+  ),
+),
+
+List&lt;Item&gt; _getItemListForQuery(String query) { ... }
+
+Widget _buildItemWidget(Item item) { ... }
+</code></pre><ul><li><em>querySetCall</em> - function transforming search query into list of items being then rendered in ListView (required)</li><li><em>itemBuilder</em> - function creating Widget object for received item, called during ListView building for each element of the results set (required)</li><li><em>loadOnEachChange</em> - boolean value indicating whether <em>querySetCall</em> should be triggered on each query change; if <em>false</em> query set is loaded once user submits query</li><li><em>animateChanges</em> - determines whether ListView's insert and remove operations should be animated</li></ul>
+<h2>Contributions</h2>
+<p>Any kind of contribution to the project is welcomed.<br>
+Feel free to request new features, report encountered bugs or pull request changes you've made.<br>
+To do so, make use of <a href="https://github.com/tomwyr/loader-search-bar/compare">Pull requests</a> and <a href="https://github.com/tomwyr/loader-search-bar/issues/new">Issues</a> tabs.</p>
+      </section>
+      
+
+  </div> <!-- /.main-content -->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    loader_search_bar 0.0.2+1
+  </span>
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="static-assets/typeahead.bundle.min.js"></script>
+<script src="static-assets/highlight.pack.js"></script>
+<script src="static-assets/URI.js"></script>
+<script src="static-assets/script.js"></script>
+
+
+</body>
+
+</html>

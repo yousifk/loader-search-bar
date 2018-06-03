@@ -5,7 +5,7 @@ import 'package:loader_search_bar/loader_search_bar.dart';
 
 enum Example { CALLBACK, LOADER }
 
-void main() => _runExample(Example.CALLBACK);
+void main() => _runExample(Example.LOADER);
 
 void _runExample(Example example) {
   runApp(MaterialApp(
@@ -39,11 +39,7 @@ class CallbackSearchBarPageState extends State<CallbackSearchBarPage> {
   }
 
   AppBar get _appBar => AppBar(
-        leading: SearchBarButton(
-          icon: Icons.menu,
-          color: Colors.black,
-          onPressed: () {},
-        ),
+        leading: _leadingButton,
         title: Text('Search bar example'),
       );
 
@@ -61,8 +57,6 @@ class CallbackSearchBarPageState extends State<CallbackSearchBarPage> {
       ),
     );
   }
-
-  Drawer get _drawer => Drawer();
 
   _onQueryChanged(BuildContext context, String query) {
     setState(() => _queryText = 'Query changed: $query');
@@ -94,26 +88,27 @@ class LoaderSearchBarPage extends StatelessWidget {
   }
 
   AppBar get _appBar => AppBar(
-        leading: SearchBarButton(
-          icon: Icons.menu,
-          color: Colors.black,
-          onPressed: () {},
-        ),
+        leading: _leadingButton,
         title: Text('Loader example'),
       );
 
   Widget get _body => Container(
         color: Colors.black12,
         child: Center(
-          child: Text(
-            'Iconified bar page',
-            style: TextStyle(fontSize: 18.0),
-          ),
+          child: Text('Iconified bar page', style: TextStyle(fontSize: 18.0)),
         ),
       );
-
-  Drawer get _drawer => Drawer();
 }
+
+Widget get _leadingButton => InkWell(
+      borderRadius: BorderRadius.circular(16.0),
+      child: Container(
+        margin: EdgeInsets.all(12.0),
+        child: Icon(Icons.menu, color: Colors.black, size: 24.0),
+      ),
+    );
+
+Drawer get _drawer => Drawer();
 
 class Person {
   const Person(this.name, this.uri, this.address, this.hasPhone, this.hasEmail);

@@ -25,7 +25,7 @@ class SearchBarButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(16.0),
       child: Container(
         margin: padding,
-        child: Icon(icon, color: color, size: 24.0),
+        child: Icon(icon, color: color, size: size),
       ),
     );
   }

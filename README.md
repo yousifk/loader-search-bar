@@ -2,7 +2,7 @@
 
 [![pub package](https://img.shields.io/pub/v/loader_search_bar.svg)](https://pub.dartlang.org/packages/loader_search_bar)
 
-Flutter widget integrating search field feature into app bar, allowing to receive query change callbacks and automatically load new dataset into ListView. It replaces standard AppBar widget and **needs to be placed underneath Scaffold** element in the widget tree to work properly.
+Flutter widget integrating search field feature into app bar, allowing to receive query change callbacks and automatically load new data set into ListView. It replaces standard AppBar widget and **needs to be placed underneath Scaffold** element in the widget tree to work properly.
 
 ![Loader SearchBar demo](https://thumbs.gfycat.com/HealthyAmbitiousImpala-max-14mb.gif)
 
@@ -32,13 +32,13 @@ Widget build(BuildContext context) {
  - searchHint - hint string being displayed until user inputs any text
  - iconified - boolean value indicating way of representing non-activated SearchBar:
    - *true* if widget should be showed as an action item in *defaultAppBar*
-   - *false* if widget should be merged with *defaufltAppBar* (only leading icon of the default widget and search input field are displayed in such case)
+   - *false* if widget should be merged with *defaultAppBar* (only leading icon of the default widget and search input field are displayed in such case)
  - autofocus - boolean value determining if search text field should get focus whenever it becomes visible
  - attrs - SearchBarAttrs class instance allowing to specify part of exact values used during widget building (e.g. search bar colors, text size, border radius)
  - onActivatedChanged - callback function receiving widget's current state as a boolean value; triggered whenever user begins or cancels/ends search action
 
 ## Query callbacks
-To get notified about user input specify **onQueryChanged** and/or **onQuerySubmitted** callback functions that receive current query string as an argument:
+To get notified about user input specify *onQueryChanged* and/or *onQuerySubmitted* callback functions that receive current query string as an argument:
 ```Dart
 appBar: SearchBar(
    ...

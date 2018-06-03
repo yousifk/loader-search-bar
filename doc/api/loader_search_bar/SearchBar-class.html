@@ -43,7 +43,6 @@
       <li><a href="loader_search_bar/QuerySetLoaderState-class.html">QuerySetLoaderState</a></li>
       <li><a href="loader_search_bar/SearchBar-class.html">SearchBar</a></li>
       <li><a href="loader_search_bar/SearchBarAttrs-class.html">SearchBarAttrs</a></li>
-      <li><a href="loader_search_bar/SearchBarButton-class.html">SearchBarButton</a></li>
       <li><a href="loader_search_bar/SearchBarState-class.html">SearchBarState</a></li>
     
     
@@ -60,6 +59,22 @@
   <div class="col-xs-12 col-sm-9 col-md-8 main-content">
     <h1>SearchBar class</h1>
 
+    <section class="desc markdown">
+      <p>Search field widget being displayed within Scaffold element.
+Depending on its state and passed attributes it can be rendered
+as an appBar action, expanded to its full size when activated or merged
+with appBar, making the search field visible although not activated.</p>
+<p>SearchBar needs to be placed underneath Scaffold element in the
+widget tree, in place of the original AppBar.</p>
+<p>Specifying <a href="loader_search_bar/SearchBar/onQueryChanged.html">onQueryChanged</a>, <a href="loader_search_bar/SearchBar/onQuerySubmitted.html">onQuerySubmitted</a> allows to receive callbacks
+whenever user input occurs.
+If <a href="loader_search_bar/SearchBar/loader.html">loader</a> argument is passed, data set will be automatically loaded when
+query changes (or is submitted). When it happens, widget will change its
+preferred size requested by Scaffold ancestor, making the ListView take
+whole available space below app bar. Once user cancels search action
+(navigates back) widget is rebuilt with default app bar size making
+Scaffold body visible again.</p>
+    </section>
     
 
     <section class="summary offset-anchor" id="constructors">
@@ -84,7 +99,8 @@
           <span class="signature">&#8594; ValueChanged<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span>
         </dt>
         <dd>
-          
+          Callback function receiving widget's current state whenever user begins
+or cancels/ends search action.
           <div class="features">final</div>
 </dd>
         <dt id="attrs" class="property">
@@ -92,7 +108,8 @@
           <span class="signature">&#8594; <a href="loader_search_bar/SearchBarAttrs-class.html">SearchBarAttrs</a></span>
         </dt>
         <dd>
-          
+          SearchBarAttrs instance allowing to specify part of exact values used
+during widget building.
           <div class="features">final</div>
 </dd>
         <dt id="autofocus" class="property">
@@ -100,7 +117,7 @@
           <span class="signature">&#8594; bool</span>
         </dt>
         <dd>
-          
+          Determining if search field should get focus once it becomes visible.
           <div class="features">final</div>
 </dd>
         <dt id="defaultAppBar" class="property">
@@ -108,7 +125,8 @@
           <span class="signature">&#8594; AppBar</span>
         </dt>
         <dd>
-          
+          AppBar widget that will be displayed whenever SearchBar is not in
+activated state.
           <div class="features">final</div>
 </dd>
         <dt id="iconified" class="property">
@@ -116,7 +134,9 @@
           <span class="signature">&#8594; bool</span>
         </dt>
         <dd>
-          
+          Indicating way of representing non-activated SearchBar:
+  true if widget should be showed as an action item in defaultAppBar,
+  false if widget should be merged with defaultAppBar.
           <div class="features">final</div>
 </dd>
         <dt id="loader" class="property">
@@ -124,7 +144,8 @@
           <span class="signature">&#8594; <a href="loader_search_bar/QuerySetLoader-class.html">QuerySetLoader</a></span>
         </dt>
         <dd>
-          
+          Widget automatically loading data corresponding to current query
+and displaying it in ListView.
           <div class="features">final</div>
 </dd>
         <dt id="onQueryChanged" class="property">
@@ -132,7 +153,8 @@
           <span class="signature">&#8594; ValueChanged<span class="signature">&lt;<wbr><span class="type-parameter">String</span>&gt;</span></span>
         </dt>
         <dd>
-          
+          Function being called whenever query changes with its current value
+as an argument.
           <div class="features">final</div>
 </dd>
         <dt id="onQuerySubmitted" class="property">
@@ -140,7 +162,8 @@
           <span class="signature">&#8594; ValueChanged<span class="signature">&lt;<wbr><span class="type-parameter">String</span>&gt;</span></span>
         </dt>
         <dd>
-          
+          Function being called whenever query is submitted with its current value
+as an argument.
           <div class="features">final</div>
 </dd>
         <dt id="preferredSize" class="property">
@@ -156,7 +179,7 @@
           <span class="signature">&#8594; String</span>
         </dt>
         <dd>
-          
+          Hint string being displayed until user inputs any text.
           <div class="features">final</div>
 </dd>
         <dt id="hashCode" class="property inherited">
@@ -350,7 +373,7 @@ tools and by <a href="loader_search_bar/SearchBar/toStringDeep.html">toStringDee
 
 <footer>
   <span class="no-break">
-    loader_search_bar 0.0.1
+    loader_search_bar 0.0.2
   </span>
 
 </footer>
