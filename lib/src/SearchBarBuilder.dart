@@ -134,7 +134,7 @@ class SearchBarBuilder extends StatelessWidget {
   Widget _buildCancelSearchButton() {
     return SearchBarButton(
       icon: Icons.arrow_back,
-      color: _attrs.primaryColor,
+      color: _attrs.primaryDetailColor,
       onPressed: _state.onCancelSearch,
     );
   }
@@ -166,7 +166,7 @@ class SearchBarBuilder extends StatelessWidget {
       child: Center(
         child: TextField(
           style: TextStyle(
-            color: _attrs.primaryColor,
+            color: _attrs.primaryDetailColor,
             fontSize: _attrs.fontSize,
           ),
           autofocus: _widget.autofocus,
@@ -186,7 +186,8 @@ class SearchBarBuilder extends StatelessWidget {
         color: _attrs.textBoxOutlineColor,
         width: _attrs.textBoxOutlineWidth,
       ),
-      borderRadius: BorderRadius.all(Radius.circular(_attrs.textBoxOutlineRadius)),
+      borderRadius:
+          BorderRadius.all(Radius.circular(_attrs.textBoxOutlineRadius)),
       color: _attrs.textBoxBackgroundColor,
     );
   }
@@ -197,7 +198,9 @@ class SearchBarBuilder extends StatelessWidget {
       border: InputBorder.none,
       hintText: _widget.searchHint,
       hintStyle: TextStyle(
-          color: !_state.focused ? _attrs.secondaryColor : _attrs.disabledTextColor),
+          color: !_state.focused
+              ? _attrs.secondaryDetailColor
+              : _attrs.disabledDetailColor),
     );
   }
 
@@ -211,8 +214,8 @@ class SearchBarBuilder extends StatelessWidget {
         child: SearchBarButton(
           icon: Icons.search,
           color: _state.queryNotEmpty || !_state.focused
-              ? _attrs.primaryColor
-              : _attrs.secondaryColor,
+              ? _attrs.primaryDetailColor
+              : _attrs.secondaryDetailColor,
           onPressed: _state.onPrefixSearchTap,
           padding: EdgeInsets.all(4.0),
         ),
@@ -230,8 +233,8 @@ class SearchBarBuilder extends StatelessWidget {
         child: SearchBarButton(
           icon: Icons.clear,
           color: _state.queryNotEmpty
-              ? _attrs.primaryColor
-              : _attrs.secondaryColor,
+              ? _attrs.primaryDetailColor
+              : _attrs.secondaryDetailColor,
           onPressed: _state.onClearQuery,
           padding: EdgeInsets.all(4.0),
         ),

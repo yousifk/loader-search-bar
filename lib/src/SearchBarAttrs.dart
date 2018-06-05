@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 /// default value if omitted.
 class SearchBarAttrs {
   const SearchBarAttrs({
-    this.primaryColor = Colors.black87,
-    this.secondaryColor = Colors.black54,
-    this.disabledTextColor = Colors.black26,
+    this.primaryDetailColor = Colors.black87,
+    this.secondaryDetailColor = Colors.black54,
+    this.disabledDetailColor = Colors.black26,
     this.searchBarColor = Colors.white30,
     this.loaderBottomMargin = 0.0,
     this.textBoxOutlineWidth = 1.0,
@@ -16,10 +16,10 @@ class SearchBarAttrs {
     this.textBoxBackgroundColor,
   });
 
-  final Color primaryColor;
-  final Color secondaryColor;
+  final Color primaryDetailColor;
+  final Color secondaryDetailColor;
   final Color searchBarColor;
-  final Color disabledTextColor;
+  final Color disabledDetailColor;
   final Color textBoxBackgroundColor;
   final Color textBoxOutlineColor;
   final double textBoxOutlineWidth;
@@ -44,8 +44,8 @@ class SearchBarAttrs {
   /// otherwise.
   SearchBarAttrs merge(SearchBarAttrs other) {
     return SearchBarAttrs(
-      primaryColor: other.primaryColor ?? this.primaryColor,
-      secondaryColor: other.secondaryColor ?? this.secondaryColor,
+      primaryDetailColor: other.primaryDetailColor ?? this.primaryDetailColor,
+      secondaryDetailColor: other.secondaryDetailColor ?? this.secondaryDetailColor,
       searchBarColor: other.searchBarColor ?? this.searchBarColor,
       textBoxBackgroundColor:
           other.textBoxBackgroundColor ?? this.textBoxBackgroundColor,
