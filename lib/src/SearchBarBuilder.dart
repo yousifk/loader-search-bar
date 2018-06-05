@@ -115,10 +115,32 @@ class SearchBarBuilder extends StatelessWidget {
   Widget _buildMergedBar() {
     return _buildBaseBar(
       content: [
-        _widget.defaultAppBar.leading,
+        _widget.defaultAppBar.leading ??
+            _buildScaffoldDefaultLeading(_state.context),
         _buildSearchStackContainer(),
-      ],
+      ].where((it) => it != null).toList(),
     );
+  }
+
+  Widget _buildScaffoldDefaultLeading(BuildContext context) {
+    final scaffold = Scaffold.of(context);
+    final hasDrawer = scaffold?.hasDrawer ?? false;
+    final parentRoute = ModalRoute.of(context);
+    final canPop = parentRoute?.canPop ?? false;
+    final useCloseButton =
+        parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
+
+    if (hasDrawer) {
+      return IconButton(
+        icon: Icon(Icons.menu),
+        onPressed: scaffold.openDrawer,
+        tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+      );
+    } else if (canPop) {
+      return useCloseButton ? CloseButton() : BackButton();
+    } else {
+      return null;
+    }
   }
 
   Widget _buildSearchBar() {
