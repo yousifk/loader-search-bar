@@ -77,13 +77,33 @@ class SearchBarBuilder extends StatelessWidget {
   bool get isInMergedState => !_widget.iconified && !_state.activated;
 
   Widget _buildDefaultBar() {
-    return AppBar(
-      title: _widget.defaultAppBar.title,
-      actions: _defaultActionsOrEmpty()..insert(0, _buildSearchAction()),
-    );
+    final actions = <Widget>[]..insert(0, _buildSearchAction());
+    actions.addAll(_widget.defaultAppBar.actions ?? []);
+    return _copyDefaultBar(actions);
   }
 
-  List<Widget> _defaultActionsOrEmpty() => _widget.defaultAppBar.actions ?? [];
+  AppBar _copyDefaultBar(List<Widget> actions) {
+    final defaultBar = _widget.defaultAppBar;
+    return AppBar(
+      toolbarOpacity: defaultBar.toolbarOpacity,
+      textTheme: defaultBar.textTheme,
+      primary: defaultBar.primary,
+      iconTheme: defaultBar.iconTheme,
+      flexibleSpace: defaultBar.flexibleSpace,
+      centerTitle: defaultBar.centerTitle,
+      brightness: defaultBar.brightness,
+      bottomOpacity: defaultBar.bottomOpacity,
+      backgroundColor: defaultBar.backgroundColor,
+      leading: defaultBar.leading,
+      automaticallyImplyLeading: defaultBar.automaticallyImplyLeading,
+      titleSpacing: defaultBar.titleSpacing,
+      elevation: defaultBar.elevation,
+      bottom: defaultBar.bottom,
+      key: defaultBar.key,
+      title: defaultBar.title,
+      actions: actions,
+    );
+  }
 
   Widget _buildSearchAction() {
     return IconButton(
