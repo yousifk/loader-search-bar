@@ -162,7 +162,7 @@ class SearchBarBuilder extends StatelessWidget {
           height: _searchBarTotalHeight,
           color: _attrs.searchBarColor,
           child: Container(
-            margin: _attrs.searchBarTopMargin,
+            margin: _searchBarTopMargin,
             child: Padding(
               padding: _attrs.searchBarPadding,
               child: Row(children: content),
@@ -178,6 +178,7 @@ class SearchBarBuilder extends StatelessWidget {
       icon: Icons.arrow_back,
       color: _attrs.primaryDetailColor,
       onPressed: _state.onCancelSearch,
+      marginHorizontal: _attrs.cancelSearchMarginLeft,
     );
   }
 
@@ -259,7 +260,6 @@ class SearchBarBuilder extends StatelessWidget {
               ? _attrs.primaryDetailColor
               : _attrs.secondaryDetailColor,
           onPressed: _state.onPrefixSearchTap,
-          padding: EdgeInsets.all(4.0),
         ),
       ),
     );
@@ -278,14 +278,18 @@ class SearchBarBuilder extends StatelessWidget {
               ? _attrs.primaryDetailColor
               : _attrs.secondaryDetailColor,
           onPressed: _state.onClearQuery,
-          padding: EdgeInsets.all(4.0),
         ),
       ),
     );
   }
 
   double get _searchBarTotalHeight =>
-      _attrs.searchBarSize.height + _attrs.statusBarHeight;
+      _attrs.searchBarSize.height +
+      (_state.hasStatusBar ? _attrs.statusBarHeight : 0);
+
+  EdgeInsets get _searchBarTopMargin => _state.hasStatusBar
+      ? _attrs.searchBarDefaultTopMargin
+      : _attrs.searchBarNoTopMargin;
 
   double get _loaderHeight =>
       _widget.preferredSize.height - _searchBarTotalHeight;

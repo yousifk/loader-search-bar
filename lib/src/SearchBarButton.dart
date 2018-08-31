@@ -5,18 +5,13 @@ class SearchBarButton extends StatelessWidget {
     this.icon,
     this.color,
     this.onPressed,
-    this.size = defaultSize,
-    this.padding = defaultPadding,
+    this.marginHorizontal = 0.0,
   });
-
-  static const defaultSize = 24.0;
-  static const defaultPadding = EdgeInsets.all(12.0);
 
   final IconData icon;
   final Color color;
   final GestureTapCallback onPressed;
-  final double size;
-  final EdgeInsets padding;
+  final double marginHorizontal;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +19,13 @@ class SearchBarButton extends StatelessWidget {
       onTap: onPressed,
       borderRadius: BorderRadius.circular(16.0),
       child: Container(
-        margin: padding,
-        child: Icon(icon, color: color, size: size),
+        margin: EdgeInsets.symmetric(horizontal: marginHorizontal),
+        child: Padding(
+          padding: EdgeInsets.all(4.0),
+          child: Container(
+            child: Icon(icon, color: color, size: 24.0),
+          ),
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -47,12 +48,12 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
     return attrs != null ? defaultAttrs.merge(attrs) : defaultAttrs;
   }
 
-  static const _defaultIconifiedAttrs = SearchBarAttrs(
+  static final _defaultIconifiedAttrs = SearchBarAttrs(
     textBoxBackgroundColor: Colors.transparent,
     textBoxOutlineColor: Colors.transparent,
   );
 
-  static const _defaultMergedAttrs = SearchBarAttrs(
+  static final _defaultMergedAttrs = SearchBarAttrs(
     textBoxBackgroundColor: Colors.black12,
     textBoxOutlineColor: Colors.black26,
   );
@@ -142,6 +143,8 @@ class SearchBarState extends State<SearchBar> {
   String loaderQuery;
 
   Orientation currentOrientation;
+
+  bool get hasStatusBar => Platform.isAndroid || currentOrientation == Orientation.portrait;
 
   @override
   void initState() {
