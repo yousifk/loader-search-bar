@@ -43,7 +43,7 @@ class SearchBarAttrs {
   final EdgeInsets searchBarPadding = EdgeInsets.all(4.0);
   final EdgeInsets searchTextFieldPadding =
       EdgeInsets.symmetric(vertical: 5.0, horizontal: 40.0);
-  final Size searchBarSize = Size(360.0, _platformAttrs.appBarHeight);
+  final Size searchBarSize = Size(360.0, 56.0);
 
   /// Merges attributes with [other] into new object. Returned instance will
   /// take all attrs of [other] that are not null and source object attributes
@@ -77,17 +77,15 @@ abstract class SearchBarPlatformAttrs {
 
   const SearchBarPlatformAttrs({
     @required this.statusBarHeight,
-    @required this.appBarHeight,
   });
 
   final double statusBarHeight;
-  final double appBarHeight;
 }
 
 class SearchBarAndroidAttrs extends SearchBarPlatformAttrs {
-  SearchBarAndroidAttrs() : super(statusBarHeight: 24.0, appBarHeight: 56.0);
+  SearchBarAndroidAttrs() : super(statusBarHeight: 24.0);
 }
 
 class SearchBarIosAttrs extends SearchBarPlatformAttrs {
-  SearchBarIosAttrs() : super(statusBarHeight: 20.0, appBarHeight: 56.0);
+  SearchBarIosAttrs() : super(statusBarHeight: 20.0);
 }
