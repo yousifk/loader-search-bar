@@ -114,15 +114,26 @@ class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final items = _buildAnimatedList();
     if (_loaded) {
       _loaded = false;
-      return items;
     } else {
       _cancelQuerySetLoad();
       _querySetStream = _getQuerySetStream(context);
-      return _coverItemsWithProgressIndicator(items);
     }
+    return _buildListStack(_loaded);
+  }
+
+  Widget _buildListStack(bool showProgress) {
+    final stack = Stack(
+      children: [_buildAnimatedList()],
+    );
+    if (showProgress) {
+      stack.children.add(Container(
+        color: Colors.black12,
+        child: Center(child: CircularProgressIndicator()),
+      ));
+    }
+    return stack;
   }
 
   Widget _buildAnimatedList() {
@@ -149,18 +160,6 @@ class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
         sizeFactor: animation,
         child: widget.itemBuilder(item),
       ),
-    );
-  }
-
-  Widget _coverItemsWithProgressIndicator(Widget items) {
-    return Stack(
-      children: [
-        items,
-        Container(
-          color: Colors.black12,
-          child: Center(child: CircularProgressIndicator()),
-        ),
-      ],
     );
   }
 }
