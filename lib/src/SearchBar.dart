@@ -150,8 +150,7 @@ class SearchBarState extends State<SearchBar> {
 
   Orientation currentOrientation;
 
-  bool get hasStatusBar =>
-      Platform.isAndroid || currentOrientation == Orientation.portrait;
+  EdgeInsets get screenPadding => MediaQuery.of(context).padding;
 
   @override
   void initState() {

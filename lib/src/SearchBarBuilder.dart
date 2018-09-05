@@ -205,15 +205,18 @@ class SearchBarBuilder extends StatelessWidget {
         child: Container(
           height: _searchBarTotalHeight,
           color: _attrs.searchBarColor,
-          child: Container(
-            margin: _searchBarTopMargin,
+          child: SafeArea(
+            left: true,
+            top: true,
+            right: true,
+            bottom: false,
             child: Row(
               children: []
                 ..add(Container(width: _attrs.searchBarPadding))
                 ..add(leading)
                 ..add(search)
                 ..add(Container(width: _attrs.searchBarPadding))
-                ..addAll(actions)
+                ..addAll(actions ?? [])
                 ..removeWhere((it) => it == null),
             ),
           ),
@@ -333,12 +336,7 @@ class SearchBarBuilder extends StatelessWidget {
   }
 
   double get _searchBarTotalHeight =>
-      _attrs.searchBarSize.height +
-      (_state.hasStatusBar ? _attrs.statusBarHeight : 0);
-
-  EdgeInsets get _searchBarTopMargin => _state.hasStatusBar
-      ? _attrs.searchBarDefaultTopMargin
-      : _attrs.searchBarNoTopMargin;
+      _attrs.searchBarSize.height + _state.screenPadding.top;
 
   double get _loaderHeight =>
       _widget.preferredSize.height - _searchBarTotalHeight;
