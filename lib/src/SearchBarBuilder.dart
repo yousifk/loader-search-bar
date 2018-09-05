@@ -161,10 +161,9 @@ class SearchBarBuilder extends StatelessWidget {
 
   Widget _buildMergedBar() {
     return _buildBaseBar(
-      content: [
-        _widget.defaultBar.leading ?? _buildScaffoldDefaultLeading(_context),
-        _buildSearchStackContainer(),
-      ].where((it) => it != null).toList(),
+      leading:
+          _widget.defaultBar.leading ?? _buildScaffoldDefaultLeading(_context),
+      search: _buildSearchStackContainer(),
       actions: _widget.defaultBar.actions ?? [],
     );
   }
@@ -192,14 +191,12 @@ class SearchBarBuilder extends StatelessWidget {
 
   Widget _buildSearchBar() {
     return _buildBaseBar(
-      content: [
-        _buildCancelSearchButton(),
-        _buildSearchStackContainer(),
-      ],
+      leading: _buildCancelSearchButton(),
+      search: _buildSearchStackContainer(),
     );
   }
 
-  Widget _buildBaseBar({List<Widget> content, List<Widget> actions}) {
+  Widget _buildBaseBar({Widget leading, Widget search, List<Widget> actions}) {
     return Container(
       color: _attrs.searchBarColor,
       child: Material(
@@ -213,9 +210,11 @@ class SearchBarBuilder extends StatelessWidget {
             child: Row(
               children: []
                 ..add(Container(width: _attrs.searchBarPadding))
-                ..addAll(content)
+                ..add(leading)
+                ..add(search)
                 ..add(Container(width: _attrs.searchBarPadding))
-                ..addAll(actions ?? []),
+                ..addAll(actions)
+                ..removeWhere((it) => it == null),
             ),
           ),
         ),
@@ -236,8 +235,8 @@ class SearchBarBuilder extends StatelessWidget {
     return Expanded(
       child: Container(
         height: _attrs.searchTextFieldHeight,
-        margin:
-            EdgeInsets.symmetric(horizontal: _attrs.searchBoxHorizontalMargin),
+        margin: _attrs.searchInputMargin,
+        padding: _attrs.searchInputBaseMargin,
         decoration: _buildSearchTextBoxDecoration(),
         child: _buildSearchStack(),
       ),

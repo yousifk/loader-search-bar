@@ -29,7 +29,7 @@ class CallbackSearchBarPageState extends State<CallbackSearchBarPage> {
     return Scaffold(
       appBar: SearchBar(
         iconified: false,
-        defaultBar: _appBar,
+        defaultBar: AppBar(),
         onQueryChanged: (query) => _onQueryChanged(context, query),
         onQuerySubmitted: (query) => _onQuerySubmitted(context, query),
       ),
@@ -37,11 +37,6 @@ class CallbackSearchBarPageState extends State<CallbackSearchBarPage> {
       drawer: _drawer,
     );
   }
-
-  AppBar get _appBar => AppBar(
-        leading: _leadingButton,
-        title: Text('Search bar example'),
-      );
 
   Container get _body {
     return Container(

@@ -13,11 +13,13 @@ class SearchBarAttrs {
     this.loaderBottomMargin = 0.0,
     this.textBoxOutlineWidth = 1.0,
     this.textBoxOutlineRadius = 16.0,
+    this.searchInputMargin = const EdgeInsets.all(0.0),
     this.textBoxOutlineColor,
     this.textBoxBackgroundColor,
   });
 
-  static SearchBarPlatformAttrs _platformAttrs = SearchBarPlatformAttrs.create();
+  static _SearchBarPlatformAttrs _platformAttrs =
+      _SearchBarPlatformAttrs.create();
 
   final Color primaryDetailColor;
   final Color secondaryDetailColor;
@@ -27,7 +29,6 @@ class SearchBarAttrs {
   final Color textBoxOutlineColor;
   final double textBoxOutlineWidth;
   final double textBoxOutlineRadius;
-  final double searchBoxHorizontalMargin = 4.0;
   final double loaderBottomMargin;
   final double fontSize = 20.0;
   final double blankInputIconSize = 40.0;
@@ -35,12 +36,15 @@ class SearchBarAttrs {
   final double cancelSearchMarginLeft = 8.0;
   final double statusBarHeight = _platformAttrs.statusBarHeight;
   final double searchTextFieldHeight = 36.0;
+  final double searchBarPadding = 4.0;
+  final EdgeInsets searchInputMargin;
   final EdgeInsets highlightButtonMargin = EdgeInsets.only(left: 4.0);
   final EdgeInsets clearButtonMargin = EdgeInsets.only(right: 4.0);
+  final EdgeInsets searchInputBaseMargin =
+      EdgeInsets.symmetric(horizontal: 4.0);
   final EdgeInsets searchBarDefaultTopMargin =
       EdgeInsets.only(top: _platformAttrs.statusBarHeight);
   final EdgeInsets searchBarNoTopMargin = EdgeInsets.only(top: 2.0);
-  final EdgeInsets searchBarPadding = EdgeInsets.all(4.0);
   final EdgeInsets searchTextFieldPadding =
       EdgeInsets.symmetric(vertical: 5.0, horizontal: 40.0);
   final Size searchBarSize = Size(360.0, 56.0);
@@ -63,29 +67,29 @@ class SearchBarAttrs {
           other.textBoxOutlineWidth ?? this.textBoxOutlineWidth,
       textBoxOutlineRadius:
           other.textBoxOutlineRadius ?? this.textBoxOutlineRadius,
+      searchInputMargin: other.searchInputMargin ?? this.searchInputMargin,
     );
   }
 }
 
-abstract class SearchBarPlatformAttrs {
-
-  static SearchBarPlatformAttrs create() {
-    if (Platform.isAndroid) return SearchBarAndroidAttrs();
-    if (Platform.isIOS) return SearchBarIosAttrs();
+abstract class _SearchBarPlatformAttrs {
+  static _SearchBarPlatformAttrs create() {
+    if (Platform.isAndroid) return _SearchBarAndroidAttrs();
+    if (Platform.isIOS) return _SearchBarIosAttrs();
     throw Exception('Not supported platform.');
   }
 
-  const SearchBarPlatformAttrs({
+  const _SearchBarPlatformAttrs({
     @required this.statusBarHeight,
   });
 
   final double statusBarHeight;
 }
 
-class SearchBarAndroidAttrs extends SearchBarPlatformAttrs {
-  SearchBarAndroidAttrs() : super(statusBarHeight: 24.0);
+class _SearchBarAndroidAttrs extends _SearchBarPlatformAttrs {
+  _SearchBarAndroidAttrs() : super(statusBarHeight: 24.0);
 }
 
-class SearchBarIosAttrs extends SearchBarPlatformAttrs {
-  SearchBarIosAttrs() : super(statusBarHeight: 20.0);
+class _SearchBarIosAttrs extends _SearchBarPlatformAttrs {
+  _SearchBarIosAttrs() : super(statusBarHeight: 20.0);
 }
