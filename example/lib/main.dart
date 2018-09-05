@@ -29,7 +29,7 @@ class CallbackSearchBarPageState extends State<CallbackSearchBarPage> {
     return Scaffold(
       appBar: SearchBar(
         iconified: false,
-        defaultAppBar: _appBar,
+        defaultBar: _appBar,
         onQueryChanged: (query) => _onQueryChanged(context, query),
         onQuerySubmitted: (query) => _onQuerySubmitted(context, query),
       ),
@@ -73,7 +73,14 @@ class LoaderSearchBarPage extends StatelessWidget {
     return Scaffold(
       appBar: SearchBar(
         iconified: true,
-        defaultAppBar: _appBar,
+        searchItem: SearchItem.menu(
+          builder: (_) => PopupMenuItem(
+                child: Text("Search  🔍"),
+                value: "search",
+              ),
+          gravity: SearchItemGravity.end,
+        ),
+        defaultBar: _appBar,
         searchHint: 'Search persons...',
         loader: QuerySetLoader<Person>(
           querySetCall: Person.filterPersonsByQuery,
@@ -104,7 +111,7 @@ Widget get _leadingButton => InkWell(
       borderRadius: BorderRadius.circular(16.0),
       child: Container(
         margin: EdgeInsets.all(12.0),
-        child: Icon(Icons.menu, color: Colors.black, size: 24.0),
+        child: Icon(Icons.menu, color: Colors.white, size: 24.0),
       ),
     );
 

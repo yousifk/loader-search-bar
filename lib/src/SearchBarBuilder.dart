@@ -4,18 +4,20 @@ import 'InheritedSearchWidget.dart';
 import 'SearchBar.dart';
 import 'SearchBarAttrs.dart';
 import 'SearchBarButton.dart';
+import 'SearchItem.dart';
 
 class SearchBarBuilder extends StatelessWidget {
-  SearchBarBuilder(SearchBarState state)
-      : _widget = state.widget,
-        _attrs = state.widget.attrs,
-        _state = state;
+  SearchBarBuilder(this._state, this._context)
+      : _widget = _state.widget,
+        _attrs = _state.widget.attrs;
 
   final SearchBar _widget;
 
   final SearchBarAttrs _attrs;
 
   final SearchBarState _state;
+
+  final BuildContext _context;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +66,7 @@ class SearchBarBuilder extends StatelessWidget {
 
   Widget _buildAppBar() {
     if (isInDefaultState) {
-      return _buildDefaultBar();
+      return _buildIconifiedBar();
     } else if (isInMergedState) {
       return _buildMergedBar();
     } else {
@@ -76,14 +78,66 @@ class SearchBarBuilder extends StatelessWidget {
 
   bool get isInMergedState => !_widget.iconified && !_state.activated;
 
-  Widget _buildDefaultBar() {
-    final actions = <Widget>[]..insert(0, _buildSearchAction());
-    actions.addAll(_widget.defaultAppBar.actions ?? []);
-    return _copyDefaultBar(actions);
+  Widget _buildIconifiedBar() {
+    final actions = <Widget>[]..addAll(_widget.defaultBar.actions ?? []);
+    final itemType = _widget.searchItem.type;
+    switch (itemType) {
+      case SearchItemType.ACTION:
+        addSearchActionItem(actions);
+        break;
+      case SearchItemType.MENU:
+        addSearchMenuItem(actions);
+        break;
+      default:
+        throw Exception(
+            "Attempted to build SearchItem of unknown type: $itemType.");
+    }
+    return _cloneDefaultBarWith(actions);
   }
 
-  AppBar _copyDefaultBar(List<Widget> actions) {
-    final defaultBar = _widget.defaultAppBar;
+  void addSearchActionItem(List<Widget> actions) {
+    final item = InkWell(
+      onTap: _state.onSearchAction,
+      child: AbsorbPointer(
+        child: _widget.searchItem.builder(_context),
+      ),
+    );
+    final index = _widget.searchItem.gravity.getInsertPosition(actions);
+    actions.insert(index, item);
+  }
+
+  void addSearchMenuItem(List<Widget> actions) {
+    final menuIndex = actions.lastIndexWhere((it) => it is PopupMenuButton);
+    final menu = menuIndex != -1 ? actions[menuIndex] : _defaultMenu;
+    final wrapperIndex = menuIndex != -1 ? menuIndex : actions.length;
+    final menuWrapper = wrapMenuWithSearchItem(menu);
+    actions
+      ..remove(menu)
+      ..insert(wrapperIndex, menuWrapper);
+  }
+
+  PopupMenuButton get _defaultMenu => PopupMenuButton(itemBuilder: (_) => []);
+
+  PopupMenuButton wrapMenuWithSearchItem(PopupMenuButton menu) {
+    final searchItem = _widget.searchItem.builder(_context) as PopupMenuItem;
+    return PopupMenuButton(
+      itemBuilder: (context) {
+        final items = menu.itemBuilder(context);
+        final searchIndex = _widget.searchItem.gravity.getInsertPosition(items);
+        return items..insert(searchIndex, searchItem);
+      },
+      onSelected: (value) {
+        if (value == searchItem.value) {
+          _state.onSearchAction();
+        } else {
+          menu.onSelected(value);
+        }
+      },
+    );
+  }
+
+  AppBar _cloneDefaultBarWith(List<Widget> actions) {
+    final defaultBar = _widget.defaultBar;
     return AppBar(
       toolbarOpacity: defaultBar.toolbarOpacity,
       textTheme: defaultBar.textTheme,
@@ -105,20 +159,13 @@ class SearchBarBuilder extends StatelessWidget {
     );
   }
 
-  Widget _buildSearchAction() {
-    return IconButton(
-      icon: Icon(Icons.search),
-      onPressed: _state.onSearchAction,
-    );
-  }
-
   Widget _buildMergedBar() {
     return _buildBaseBar(
       content: [
-        _widget.defaultAppBar.leading ??
-            _buildScaffoldDefaultLeading(_state.context),
+        _widget.defaultBar.leading ?? _buildScaffoldDefaultLeading(_context),
         _buildSearchStackContainer(),
       ].where((it) => it != null).toList(),
+      actions: _widget.defaultBar.actions ?? [],
     );
   }
 
@@ -152,7 +199,7 @@ class SearchBarBuilder extends StatelessWidget {
     );
   }
 
-  Widget _buildBaseBar({List<Widget> content}) {
+  Widget _buildBaseBar({List<Widget> content, List<Widget> actions}) {
     return Container(
       color: _attrs.searchBarColor,
       child: Material(
@@ -163,9 +210,12 @@ class SearchBarBuilder extends StatelessWidget {
           color: _attrs.searchBarColor,
           child: Container(
             margin: _searchBarTopMargin,
-            child: Padding(
-              padding: _attrs.searchBarPadding,
-              child: Row(children: content),
+            child: Row(
+              children: []
+                ..add(Container(width: _attrs.searchBarPadding))
+                ..addAll(content)
+                ..add(Container(width: _attrs.searchBarPadding))
+                ..addAll(actions ?? []),
             ),
           ),
         ),

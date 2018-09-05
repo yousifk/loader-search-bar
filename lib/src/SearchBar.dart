@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:ui';
 import 'dart:io' show Platform;
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'QuerySetLoader.dart';
 import 'SearchBarAttrs.dart';
 import 'SearchBarBuilder.dart';
+import 'SearchItem.dart';
 import 'StateHolder.dart';
 
 /// Search field widget being displayed within Scaffold element.
@@ -28,16 +29,18 @@ import 'StateHolder.dart';
 /// Scaffold body visible again.
 class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   SearchBar({
-    @required this.defaultAppBar,
+    @required this.defaultBar,
     this.onQueryChanged,
     this.onQuerySubmitted,
     this.loader,
     this.searchHint = 'Tap to search...',
     this.iconified = true,
     bool autofocus,
+    SearchItem searchItem,
     ValueChanged<bool> onActivatedChanged,
     SearchBarAttrs attrs,
   })  : this.autofocus = autofocus ?? iconified,
+        this.searchItem = searchItem ?? SearchItem.action(),
         this.attrs = _initAttrs(iconified, attrs),
         this.activatedChangedCallback =
             onActivatedChanged ?? _blankActivatedCallback;
@@ -93,7 +96,7 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
 
   /// AppBar widget that will be displayed whenever SearchBar is not in
   /// activated state.
-  final AppBar defaultAppBar;
+  final AppBar defaultBar;
 
   /// Hint string being displayed until user inputs any text.
   final String searchHint;
@@ -109,6 +112,9 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   /// Callback function receiving widget's current state whenever user begins
   /// or cancels/ends search action.
   final ValueChanged<bool> activatedChangedCallback;
+
+  /// Defining how to position and build search item widget in AppBar
+  final SearchItem searchItem;
 
   static final ValueChanged<bool> _blankActivatedCallback = (_) {};
 
@@ -144,7 +150,8 @@ class SearchBarState extends State<SearchBar> {
 
   Orientation currentOrientation;
 
-  bool get hasStatusBar => Platform.isAndroid || currentOrientation == Orientation.portrait;
+  bool get hasStatusBar =>
+      Platform.isAndroid || currentOrientation == Orientation.portrait;
 
   @override
   void initState() {
@@ -264,6 +271,6 @@ class SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     _handleOrientationIfChanged(context);
-    return SearchBarBuilder(this);
+    return SearchBarBuilder(this, context);
   }
 }
