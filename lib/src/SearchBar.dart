@@ -190,7 +190,6 @@ class SearchBarState extends State<SearchBar> {
         widget.activatedChangedCallback(true);
       }
     });
-    _redrawScaffold();
   }
 
   void onCancelSearch() {
@@ -200,14 +199,17 @@ class SearchBarState extends State<SearchBar> {
         widget.activatedChangedCallback(false);
       }
       if (widget.iconified) expanded = false;
+      loaderQuery = null;
     });
     queryInputController.clear();
     searchFocusNode.unfocus();
-    _redrawScaffold();
   }
 
   void _redrawScaffold() {
-    Scaffold.of(context).setState(() {});
+    Future.delayed(
+      Duration(milliseconds: 50),
+      () => Scaffold.of(context).setState(() {}),
+    );
   }
 
   void onPrefixSearchTap() {
