@@ -50,9 +50,11 @@ class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
 
   ListModel<T> _listModel;
 
-  bool _loaded = true;
+  bool _isLoading = false;
 
   StreamSubscription<List<T>> _querySetStream;
+
+  String _previousQuery;
 
   @override
   void initState() {
@@ -67,14 +69,32 @@ class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
     );
   }
 
-  StreamSubscription<List> _getQuerySetStream(BuildContext context) {
-    return _loadQuerySet(context)
-        .asStream()
-        .listen(_onQuerySetData, onError: (_) => _onQuerySetData([]));
+  void _loadDataIfQueryChanged(BuildContext context) {
+    final _currentQuery = InheritedSearchQuery.of(context);
+    if (_previousQuery != _currentQuery) {
+      _cancelQuerySetLoad();
+      _launchQuerySetLoad(context, _currentQuery);
+      _previousQuery = _currentQuery;
+    }
   }
 
-  Future<List<T>> _loadQuerySet(BuildContext context) async {
-    final query = InheritedSearchQuery.of(context);
+  void _cancelQuerySetLoad() {
+    if (_querySetStream != null) {
+      _querySetStream.cancel();
+    }
+    _setLoadedState();
+  }
+
+  void _launchQuerySetLoad(BuildContext context, String query) {
+    setState(() {
+      _isLoading = true;
+    });
+    _querySetStream = _loadQuerySet(context, query)
+        .asStream()
+        .listen(_onQuerySetData, onError: _onQuerySetError);
+  }
+
+  Future<List<T>> _loadQuerySet(BuildContext context, String query) async {
     return query != null ? widget.querySetCall(query) : [];
   }
 
@@ -83,10 +103,7 @@ class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
       _removeItems(data);
       _insertItems(data);
     }
-    setState(() {
-      _loaded = true;
-      _querySetStream = null;
-    });
+    _setLoadedState();
   }
 
   void _removeItems(List<T> items) {
@@ -105,29 +122,27 @@ class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
     });
   }
 
-  void _cancelQuerySetLoad() {
-    if (_querySetStream != null) {
-      _querySetStream.cancel();
+  void _onQuerySetError(Object error) => _onQuerySetData([]);
+
+  void _setLoadedState() {
+    setState(() {
       _querySetStream = null;
-    }
+      _isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_loaded) {
-      _loaded = false;
-    } else {
-      _cancelQuerySetLoad();
-      _querySetStream = _getQuerySetStream(context);
-    }
-    return _buildListStack(_loaded);
+    _loadDataIfQueryChanged(context);
+    return _buildListStack();
   }
 
-  Widget _buildListStack(bool showProgress) {
+  Widget _buildListStack() {
     final stack = Stack(
       children: [_buildAnimatedList()],
     );
-    if (showProgress) {
+    print("Loading is $_isLoading");
+    if (_isLoading) {
       stack.children.add(Container(
         color: Colors.black12,
         child: Center(child: CircularProgressIndicator()),
