@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 import 'InheritedSearchWidget.dart';
 import 'ListModel.dart';
-import 'StateHolder.dart';
 
 typedef List<T> QuerySetCall<T>(String query);
 
@@ -19,7 +18,9 @@ class QuerySetLoader<T> extends StatefulWidget {
     @required this.itemBuilder,
     this.loadOnEachChange = false,
     this.animateChanges = true,
-  });
+  }) : super(key: _stateKey);
+
+  static final _stateKey = GlobalKey<QuerySetLoaderState>();
 
   /// Instance with empty function bodies used internally by [SearchBar].
   static final QuerySetLoader blank =
@@ -42,14 +43,11 @@ class QuerySetLoader<T> extends StatefulWidget {
   /// animated.
   final bool animateChanges;
 
-  /// Stores latest [QuerySetLoaderState] instance.
-  final StateHolder<QuerySetLoaderState> _state = StateHolder();
-
   /// Used internally by SearchBar to clear list data once user ends search action.
-  void clearData() => _state.runSafe((it) => it.clearListModel());
+  void clearData() => _stateKey.currentState.clearListModel();
 
   @override
-  QuerySetLoaderState createState() => _state.applyState(QuerySetLoaderState<T>());
+  QuerySetLoaderState createState() => QuerySetLoaderState<T>();
 }
 
 class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {

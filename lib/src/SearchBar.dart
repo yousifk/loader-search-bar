@@ -9,7 +9,6 @@ import 'QuerySetLoader.dart';
 import 'SearchBarAttrs.dart';
 import 'SearchBarBuilder.dart';
 import 'SearchItem.dart';
-import 'StateHolder.dart';
 
 /// Search field widget being displayed within Scaffold element.
 /// Depending on its state and passed attributes it can be rendered
@@ -44,7 +43,8 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
         this.searchItem = searchItem ?? SearchItem.action(),
         this.attrs = _initAttrs(iconified, attrs),
         this.activatedChangedCallback =
-            onActivatedChanged ?? _blankActivatedCallback;
+            onActivatedChanged ?? _blankActivatedCallback,
+        super(key: _stateKey);
 
   static SearchBarAttrs _initAttrs(bool iconified, SearchBarAttrs attrs) {
     final defaultAttrs =
@@ -63,12 +63,7 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   );
 
   bool get _shouldTakeWholeSpace =>
-      (_stateHolder.value?.activated ?? false) && loader != null;
-
-  Size get _tryGetScreenSize {
-    final context = _stateHolder.value?.context;
-    return (context != null) ? MediaQuery.of(context).size : null;
-  }
+      loader != null && (_stateKey.currentState?.activated ?? false);
 
   Size get _tryGetAvailableSpace {
     final screenSize = _tryGetScreenSize;
@@ -77,7 +72,12 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
         : null;
   }
 
-  final _stateHolder = StateHolder<SearchBarState>();
+  Size get _tryGetScreenSize {
+    final context = _stateKey.currentState.context;
+    return (context != null) ? MediaQuery.of(context).size : null;
+  }
+
+  static final _stateKey = GlobalKey<SearchBarState>();
 
   /// Function being called whenever query changes with its current value
   /// as an argument.
@@ -128,7 +128,7 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
       : attrs.searchBarSize;
 
   @override
-  State createState() => _stateHolder.applyState(SearchBarState());
+  State createState() => SearchBarState();
 }
 
 class SearchBarState extends State<SearchBar> {
