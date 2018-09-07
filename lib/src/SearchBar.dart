@@ -123,11 +123,9 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   static final ValueChanged<bool> _blankActivatedCallback = (_) {};
 
   @override
-  Size get preferredSize {
-    return _shouldTakeWholeSpace
-        ? _tryGetAvailableSpace ?? attrs.searchBarSize
-        : attrs.searchBarSize;
-  }
+  Size get preferredSize => _shouldTakeWholeSpace
+      ? _tryGetAvailableSpace ?? attrs.searchBarSize
+      : attrs.searchBarSize;
 
   @override
   State createState() => _stateHolder.applyState(SearchBarState());
@@ -246,6 +244,7 @@ class SearchBarState extends State<SearchBar> {
     setState(() {
       expanded = true;
     });
+    _redrawScaffold();
   }
 
   @override

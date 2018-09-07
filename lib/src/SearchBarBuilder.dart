@@ -42,7 +42,7 @@ class SearchBarBuilder extends StatelessWidget {
       children: [
         Positioned(
           top: _searchBarTotalHeight,
-          height: _loaderHeight,
+          bottom: 0.0,
           left: 0.0,
           right: 0.0,
           child: _buildLoaderWidget(),
@@ -138,24 +138,24 @@ class SearchBarBuilder extends StatelessWidget {
   }
 
   AppBar _cloneDefaultBarWith(List<Widget> actions) {
-    final defaultBar = _widget.defaultBar;
+    final other = _widget.defaultBar;
     return AppBar(
-      toolbarOpacity: defaultBar.toolbarOpacity,
-      textTheme: defaultBar.textTheme,
-      primary: defaultBar.primary,
-      iconTheme: defaultBar.iconTheme,
-      flexibleSpace: defaultBar.flexibleSpace,
-      centerTitle: defaultBar.centerTitle,
-      brightness: defaultBar.brightness,
-      bottomOpacity: defaultBar.bottomOpacity,
-      backgroundColor: defaultBar.backgroundColor,
-      leading: defaultBar.leading,
-      automaticallyImplyLeading: defaultBar.automaticallyImplyLeading,
-      titleSpacing: defaultBar.titleSpacing,
-      elevation: defaultBar.elevation,
-      bottom: defaultBar.bottom,
-      key: defaultBar.key,
-      title: defaultBar.title,
+      toolbarOpacity: other.toolbarOpacity,
+      textTheme: other.textTheme,
+      primary: other.primary,
+      iconTheme: other.iconTheme,
+      flexibleSpace: other.flexibleSpace,
+      centerTitle: other.centerTitle,
+      brightness: other.brightness,
+      bottomOpacity: other.bottomOpacity,
+      backgroundColor: other.backgroundColor,
+      leading: other.leading,
+      automaticallyImplyLeading: other.automaticallyImplyLeading,
+      titleSpacing: other.titleSpacing,
+      elevation: other.elevation,
+      bottom: other.bottom,
+      key: other.key,
+      title: other.title,
       actions: actions,
     );
   }
@@ -355,7 +355,4 @@ class SearchBarBuilder extends StatelessWidget {
 
   double get _searchBarTotalHeight =>
       _attrs.searchBarSize.height + _state.screenPadding.top;
-
-  double get _loaderHeight =>
-      _widget.preferredSize.height - _searchBarTotalHeight;
 }
