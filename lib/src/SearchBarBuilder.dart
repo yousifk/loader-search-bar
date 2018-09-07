@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'InheritedSearchWidget.dart';
 import 'SearchBar.dart';
@@ -197,32 +198,49 @@ class SearchBarBuilder extends StatelessWidget {
   }
 
   Widget _buildBaseBar({Widget leading, Widget search, List<Widget> actions}) {
-    return Container(
-      color: _attrs.searchBarColor,
-      child: Material(
-        borderRadius: BorderRadius.zero,
-        elevation: _attrs.searchBarElevation,
-        child: Container(
-          height: _searchBarTotalHeight,
-          color: _attrs.searchBarColor,
-          child: SafeArea(
-            left: true,
-            top: true,
-            right: true,
-            bottom: false,
-            child: Row(
-              children: []
-                ..add(Container(width: _attrs.searchBarPadding))
-                ..add(leading)
-                ..add(search)
-                ..add(Container(width: _attrs.searchBarPadding))
-                ..addAll(actions ?? [])
-                ..removeWhere((it) => it == null),
-            ),
+    final barContent = _buildBaseBarContent(leading, search, actions);
+    final barWidget = _buildBaseBarWidget(barContent);
+    return _wrapWithOverlayIfPresent(barWidget);
+  }
+
+  List<Widget> _buildBaseBarContent(
+      Widget leading, Widget search, List<Widget> actions) {
+    return []
+      ..add(Container(width: _attrs.searchBarPadding))
+      ..add(leading)
+      ..add(search)
+      ..add(Container(width: _attrs.searchBarPadding))
+      ..addAll(actions ?? [])
+      ..removeWhere((it) => it == null);
+  }
+
+  Material _buildBaseBarWidget(List barContent) {
+    return Material(
+      borderRadius: BorderRadius.zero,
+      elevation: _attrs.searchBarElevation,
+      child: Container(
+        height: _searchBarTotalHeight,
+        color: _attrs.statusBarColor,
+        child: SafeArea(
+          bottom: false,
+          child: Container(
+            color: _attrs.searchBarColor,
+            child: Row(children: barContent),
           ),
         ),
       ),
     );
+  }
+
+  Widget _wrapWithOverlayIfPresent(Widget widget) {
+    if (_widget.overlayStyle != null) {
+      return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: _widget.overlayStyle,
+        child: widget,
+      );
+    } else {
+      return widget;
+    }
   }
 
   Widget _buildCancelSearchButton() {

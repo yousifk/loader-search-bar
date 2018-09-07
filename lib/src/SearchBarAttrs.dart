@@ -1,4 +1,5 @@
 import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 
 /// Holder class containing attributes used during building [SearchBar] widget
@@ -16,10 +17,8 @@ class SearchBarAttrs {
     this.searchInputMargin = const EdgeInsets.all(0.0),
     this.textBoxOutlineColor,
     this.textBoxBackgroundColor,
+    this.statusBarColor = Colors.transparent,
   });
-
-  static _SearchBarPlatformAttrs _platformAttrs =
-      _SearchBarPlatformAttrs.create();
 
   final Color primaryDetailColor;
   final Color secondaryDetailColor;
@@ -30,6 +29,7 @@ class SearchBarAttrs {
   final double textBoxOutlineWidth;
   final double textBoxOutlineRadius;
   final double loaderBottomMargin;
+  final Color statusBarColor;
   final double fontSize = 20.0;
   final double blankInputIconSize = 40.0;
   final double searchBarElevation = 4.0;
@@ -50,6 +50,8 @@ class SearchBarAttrs {
   /// otherwise.
   SearchBarAttrs merge(SearchBarAttrs other) {
     return SearchBarAttrs(
+      disabledDetailColor:
+          other.disabledDetailColor ?? this.disabledDetailColor,
       primaryDetailColor: other.primaryDetailColor ?? this.primaryDetailColor,
       secondaryDetailColor:
           other.secondaryDetailColor ?? this.secondaryDetailColor,
@@ -64,6 +66,7 @@ class SearchBarAttrs {
       textBoxOutlineRadius:
           other.textBoxOutlineRadius ?? this.textBoxOutlineRadius,
       searchInputMargin: other.searchInputMargin ?? this.searchInputMargin,
+      statusBarColor: other.statusBarColor ?? this.statusBarColor,
     );
   }
 }

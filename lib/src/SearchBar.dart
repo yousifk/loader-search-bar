@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:io' show Platform;
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'QuerySetLoader.dart';
 import 'SearchBarAttrs.dart';
@@ -33,6 +33,7 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
     this.onQueryChanged,
     this.onQuerySubmitted,
     this.loader,
+    this.overlayStyle,
     this.searchHint = 'Tap to search...',
     this.iconified = true,
     bool autofocus,
@@ -113,8 +114,11 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   /// or cancels/ends search action.
   final ValueChanged<bool> activatedChangedCallback;
 
-  /// Defining how to position and build search item widget in AppBar
+  /// Defining how to position and build search item widget in AppBar.
   final SearchItem searchItem;
+
+  /// Status bar overlay brightness applied when widget is activated.
+  final SystemUiOverlayStyle overlayStyle;
 
   static final ValueChanged<bool> _blankActivatedCallback = (_) {};
 
