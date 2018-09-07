@@ -7,4 +7,8 @@ class StateHolder<T extends State> {
     value = state;
     return state;
   }
+
+  void runSafe(void block(T)) {
+    if (value != null) block(value);
+  }
 }

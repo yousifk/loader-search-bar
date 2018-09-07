@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'InheritedSearchWidget.dart';
 import 'ListModel.dart';
+import 'StateHolder.dart';
 
 typedef List<T> QuerySetCall<T>(String query);
 
@@ -41,8 +42,14 @@ class QuerySetLoader<T> extends StatefulWidget {
   /// animated.
   final bool animateChanges;
 
+  /// Stores latest [QuerySetLoaderState] instance.
+  final StateHolder<QuerySetLoaderState> _state = StateHolder();
+
+  /// Used internally by SearchBar to clear list data once user ends search action.
+  void clearData() => _state.runSafe((it) => it.clearListModel());
+
   @override
-  QuerySetLoaderState createState() => QuerySetLoaderState<T>();
+  QuerySetLoaderState createState() => _state.applyState(QuerySetLoaderState<T>());
 }
 
 class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
@@ -68,6 +75,8 @@ class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
           : ListModel.NO_ANIM_DURATION,
     );
   }
+
+  void clearListModel() => _listModel.clear();
 
   void _loadDataIfQueryChanged(BuildContext context) {
     final _currentQuery = InheritedSearchQuery.of(context);
@@ -141,7 +150,6 @@ class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
     final stack = Stack(
       children: [_buildAnimatedList()],
     );
-    print("Loading is $_isLoading");
     if (_isLoading) {
       stack.children.add(Container(
         color: Colors.black12,

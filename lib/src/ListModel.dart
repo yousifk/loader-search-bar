@@ -28,6 +28,14 @@ class ListModel<T> {
 
   AnimatedListState get _animatedList => listKey.currentState;
 
+  void clear() {
+    while (_items.isNotEmpty) {
+      final item = _items.removeAt(0);
+      final animation = _removeAnimationOf(item);
+      _animatedList.removeItem(0, animation, duration: NO_ANIM_DURATION);
+    }
+  }
+
   void insert(int index, T item) {
     _items.insert(index, item);
     _animatedList.insertItem(index, duration: animationDuration);
@@ -38,13 +46,15 @@ class ListModel<T> {
     if (removedItem != null) {
       _animatedList.removeItem(
         index,
-        (context, animation) =>
-            removedItemBuilder(removedItem, context, animation),
+        _removeAnimationOf(removedItem),
         duration: animationDuration,
       );
     }
     return removedItem;
   }
+
+  AnimatedListRemovedItemBuilder _removeAnimationOf(T item) =>
+      (context, animation) => removedItemBuilder(item, context, animation);
 
   int get length => _items.length;
 

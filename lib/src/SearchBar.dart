@@ -203,11 +203,12 @@ class SearchBarState extends State<SearchBar> {
     });
     queryInputController.clear();
     searchFocusNode.unfocus();
+    widget.loader?.clearData();
   }
 
   void _redrawScaffold() {
     Future.delayed(
-      Duration(milliseconds: 50),
+      Duration(milliseconds: 0),
       () => Scaffold.of(context).setState(() {}),
     );
   }
@@ -271,7 +272,9 @@ class SearchBarState extends State<SearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    _handleOrientationIfChanged(context);
+    if (widget.loader != null) {
+      _handleOrientationIfChanged(context);
+    }
     return SearchBarBuilder(this, context);
   }
 }
