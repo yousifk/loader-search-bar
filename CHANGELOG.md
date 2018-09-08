@@ -1,3 +1,12 @@
+## [1.0.0] - 08/09/2018
+
+- Release package
+
+## [0.0.3] - 08/09/2018
+
+- Support specifying search item widget and position in AppBar
+- Bug fixes
+
 ## [0.0.2] - 03/06/2018
 
 - Update documentation

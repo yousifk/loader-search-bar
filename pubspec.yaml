@@ -1,6 +1,6 @@
 name: loader_search_bar
 description: Flutter widget integrating search field feature into app bar.
-version: 0.0.3
+version: 1.0.0
 author: Tomasz Wyrowinski <tomwyr@hotmail.com>
 homepage: https://github.com/tomwyr/loader-search-bar
 
