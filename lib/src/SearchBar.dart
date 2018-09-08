@@ -62,21 +62,6 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
     textBoxOutlineColor: Colors.black26,
   );
 
-  bool get _shouldTakeWholeSpace =>
-      loader != null && (_stateKey.currentState?.activated ?? false);
-
-  Size get _tryGetAvailableSpace {
-    final screenSize = _tryGetScreenSize;
-    return (screenSize != null)
-        ? Size(screenSize.width, screenSize.height - attrs.loaderBottomMargin)
-        : null;
-  }
-
-  Size get _tryGetScreenSize {
-    final context = _stateKey.currentState.context;
-    return (context != null) ? MediaQuery.of(context).size : null;
-  }
-
   static final _stateKey = GlobalKey<SearchBarState>();
 
   /// Function being called whenever query changes with its current value
@@ -126,6 +111,21 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   Size get preferredSize => _shouldTakeWholeSpace
       ? _tryGetAvailableSpace ?? attrs.searchBarSize
       : attrs.searchBarSize;
+
+  bool get _shouldTakeWholeSpace =>
+      loader != null && (_stateKey.currentState?.activated ?? false);
+
+  Size get _tryGetAvailableSpace {
+    final screenSize = _tryGetScreenSize;
+    return (screenSize != null)
+        ? Size(screenSize.width, screenSize.height - attrs.loaderBottomMargin)
+        : null;
+  }
+
+  Size get _tryGetScreenSize {
+    final context = _stateKey.currentState.context;
+    return (context != null) ? MediaQuery.of(context).size : null;
+  }
 
   @override
   State createState() => SearchBarState();
@@ -210,7 +210,7 @@ class SearchBarState extends State<SearchBar> {
 
   void _redrawScaffold() {
     Future.delayed(
-      Duration(milliseconds: 0),
+      Duration(milliseconds: 1),
       () => Scaffold.of(context).setState(() {}),
     );
   }
