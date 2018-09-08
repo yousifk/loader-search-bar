@@ -48,13 +48,15 @@
       <li><a href="loader_search_bar/SearchBar/activatedChangedCallback.html">activatedChangedCallback</a></li>
       <li><a href="loader_search_bar/SearchBar/attrs.html">attrs</a></li>
       <li><a href="loader_search_bar/SearchBar/autofocus.html">autofocus</a></li>
-      <li><a href="loader_search_bar/SearchBar/defaultAppBar.html">defaultAppBar</a></li>
+      <li><a href="loader_search_bar/SearchBar/defaultBar.html">defaultBar</a></li>
       <li><a href="loader_search_bar/SearchBar/iconified.html">iconified</a></li>
       <li><a href="loader_search_bar/SearchBar/loader.html">loader</a></li>
       <li><a href="loader_search_bar/SearchBar/onQueryChanged.html">onQueryChanged</a></li>
       <li><a href="loader_search_bar/SearchBar/onQuerySubmitted.html">onQuerySubmitted</a></li>
+      <li><a href="loader_search_bar/SearchBar/overlayStyle.html">overlayStyle</a></li>
       <li><a href="loader_search_bar/SearchBar/preferredSize.html">preferredSize</a></li>
       <li><a href="loader_search_bar/SearchBar/searchHint.html">searchHint</a></li>
+      <li><a href="loader_search_bar/SearchBar/searchItem.html">searchItem</a></li>
       <li class="inherited"><a href="loader_search_bar/SearchBar/hashCode.html">hashCode</a></li>
       <li class="inherited"><a href="loader_search_bar/SearchBar/key.html">key</a></li>
       <li class="inherited"><a href="loader_search_bar/SearchBar/runtimeType.html">runtimeType</a></li>
@@ -84,26 +86,30 @@
 
     <section class="multi-line-signature">
       
-      <span class="name ">SearchBar</span>(<wbr>{<span class="parameter" id="-param-defaultAppBar"><span>@required</span> <span class="type-annotation">AppBar</span> <span class="parameter-name">defaultAppBar</span>, </span> <span class="parameter" id="-param-onQueryChanged"><span class="type-annotation">ValueChanged<span class="signature">&lt;<wbr><span class="type-parameter">String</span>&gt;</span></span> <span class="parameter-name">onQueryChanged</span>, </span> <span class="parameter" id="-param-onQuerySubmitted"><span class="type-annotation">ValueChanged<span class="signature">&lt;<wbr><span class="type-parameter">String</span>&gt;</span></span> <span class="parameter-name">onQuerySubmitted</span>, </span> <span class="parameter" id="-param-loader"><span class="type-annotation"><a href="loader_search_bar/QuerySetLoader-class.html">QuerySetLoader</a></span> <span class="parameter-name">loader</span>, </span> <span class="parameter" id="-param-searchHint"><span class="type-annotation">String</span> <span class="parameter-name">searchHint</span>: <span class="default-value">'Tap to search...'</span>, </span> <span class="parameter" id="-param-iconified"><span class="type-annotation">bool</span> <span class="parameter-name">iconified</span>: <span class="default-value">true</span>, </span> <span class="parameter" id="-param-autofocus"><span class="type-annotation">bool</span> <span class="parameter-name">autofocus</span>, </span> <span class="parameter" id="-param-onActivatedChanged"><span class="type-annotation">ValueChanged<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">onActivatedChanged</span>, </span> <span class="parameter" id="-param-attrs"><span class="type-annotation"><a href="loader_search_bar/SearchBarAttrs-class.html">SearchBarAttrs</a></span> <span class="parameter-name">attrs</span></span> })
+      <span class="name ">SearchBar</span>(<wbr>{<span class="parameter" id="-param-defaultBar"><span>@required</span> <span class="type-annotation">AppBar</span> <span class="parameter-name">defaultBar</span>, </span> <span class="parameter" id="-param-onQueryChanged"><span class="type-annotation">ValueChanged<span class="signature">&lt;<wbr><span class="type-parameter">String</span>&gt;</span></span> <span class="parameter-name">onQueryChanged</span>, </span> <span class="parameter" id="-param-onQuerySubmitted"><span class="type-annotation">ValueChanged<span class="signature">&lt;<wbr><span class="type-parameter">String</span>&gt;</span></span> <span class="parameter-name">onQuerySubmitted</span>, </span> <span class="parameter" id="-param-loader"><span class="type-annotation"><a href="loader_search_bar/QuerySetLoader-class.html">QuerySetLoader</a></span> <span class="parameter-name">loader</span>, </span> <span class="parameter" id="-param-overlayStyle"><span class="type-annotation">SystemUiOverlayStyle</span> <span class="parameter-name">overlayStyle</span>, </span> <span class="parameter" id="-param-searchHint"><span class="type-annotation">String</span> <span class="parameter-name">searchHint</span>: <span class="default-value">'Tap to search...'</span>, </span> <span class="parameter" id="-param-iconified"><span class="type-annotation">bool</span> <span class="parameter-name">iconified</span>: <span class="default-value">true</span>, </span> <span class="parameter" id="-param-autofocus"><span class="type-annotation">bool</span> <span class="parameter-name">autofocus</span>, </span> <span class="parameter" id="-param-searchItem"><span class="type-annotation"><a href="loader_search_bar/SearchItem-class.html">SearchItem</a></span> <span class="parameter-name">searchItem</span>, </span> <span class="parameter" id="-param-onActivatedChanged"><span class="type-annotation">void</span> <span class="parameter-name">onActivatedChanged</span>, </span> <span class="parameter" id="-param-attrs"><span class="type-annotation"><a href="loader_search_bar/SearchBarAttrs-class.html">SearchBarAttrs</a></span> <span class="parameter-name">attrs</span></span> })
     </section>
 
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
       <pre class="language-dart"><code class="language-dart">SearchBar({
-  @required this.defaultAppBar,
+  @required this.defaultBar,
   this.onQueryChanged,
   this.onQuerySubmitted,
   this.loader,
+  this.overlayStyle,
   this.searchHint = &#39;Tap to search...&#39;,
   this.iconified = true,
   bool autofocus,
+  SearchItem searchItem,
   ValueChanged&lt;bool&gt; onActivatedChanged,
   SearchBarAttrs attrs,
 })  : this.autofocus = autofocus ?? iconified,
+      this.searchItem = searchItem ?? SearchItem.action(),
       this.attrs = _initAttrs(iconified, attrs),
       this.activatedChangedCallback =
-          onActivatedChanged ?? _blankActivatedCallback;</code></pre>
+          onActivatedChanged ?? _blankActivatedCallback,
+      super(key: _stateKey);</code></pre>
     </section>
 
   </div> <!-- /.main-content -->
@@ -115,7 +121,7 @@
 
 <footer>
   <span class="no-break">
-    loader_search_bar 0.0.2
+    loader_search_bar 0.0.2+4
   </span>
 
 </footer>

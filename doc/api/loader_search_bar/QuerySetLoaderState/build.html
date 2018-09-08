@@ -53,6 +53,7 @@
     
       <li class="section-title"><a href="loader_search_bar/QuerySetLoaderState-class.html#instance-methods">Methods</a></li>
       <li><a href="loader_search_bar/QuerySetLoaderState/build.html">build</a></li>
+      <li><a href="loader_search_bar/QuerySetLoaderState/clearListModel.html">clearListModel</a></li>
       <li><a href="loader_search_bar/QuerySetLoaderState/initState.html">initState</a></li>
       <li class="inherited"><a href="loader_search_bar/QuerySetLoaderState/deactivate.html">deactivate</a></li>
       <li class="inherited"><a href="loader_search_bar/QuerySetLoaderState/debugFillProperties.html">debugFillProperties</a></li>
@@ -167,15 +168,8 @@ prints green, as expected.</p>
       <h2><span>Implementation</span> </h2>
       <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
-  final items = _buildAnimatedList();
-  if (_loaded) {
-    _loaded = false;
-    return items;
-  } else {
-    _cancelQuerySetLoad();
-    _querySetStream = _getQuerySetStream(context);
-    return _coverItemsWithProgressIndicator(items);
-  }
+  _loadDataIfQueryChanged(context);
+  return _buildListStack();
 }</code></pre>
     </section>
 
@@ -188,7 +182,7 @@ Widget build(BuildContext context) {
 
 <footer>
   <span class="no-break">
-    loader_search_bar 0.0.2
+    loader_search_bar 0.0.2+4
   </span>
 
 </footer>

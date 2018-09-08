@@ -26,7 +26,7 @@
     <li><a href="index.html">loader_search_bar</a></li>
     <li><a href="loader_search_bar/loader_search_bar-library.html">loader_search_bar</a></li>
     <li><a href="loader_search_bar/SearchBarAttrs-class.html">SearchBarAttrs</a></li>
-    <li class="self-crumb">SearchBarAttrs const constructor</li>
+    <li class="self-crumb">SearchBarAttrs constructor</li>
   </ol>
   <div class="self-name">SearchBarAttrs</div>
   <form class="search navbar-right" role="search">
@@ -46,22 +46,23 @@
         <a href="loader_search_bar/SearchBarAttrs-class.html#instance-properties">Properties</a>
       </li>
       <li><a href="loader_search_bar/SearchBarAttrs/blankInputIconSize.html">blankInputIconSize</a></li>
+      <li><a href="loader_search_bar/SearchBarAttrs/cancelSearchMarginLeft.html">cancelSearchMarginLeft</a></li>
       <li><a href="loader_search_bar/SearchBarAttrs/clearButtonMargin.html">clearButtonMargin</a></li>
-      <li><a href="loader_search_bar/SearchBarAttrs/disabledTextColor.html">disabledTextColor</a></li>
+      <li><a href="loader_search_bar/SearchBarAttrs/disabledDetailColor.html">disabledDetailColor</a></li>
       <li><a href="loader_search_bar/SearchBarAttrs/fontSize.html">fontSize</a></li>
       <li><a href="loader_search_bar/SearchBarAttrs/highlightButtonMargin.html">highlightButtonMargin</a></li>
       <li><a href="loader_search_bar/SearchBarAttrs/loaderBottomMargin.html">loaderBottomMargin</a></li>
-      <li><a href="loader_search_bar/SearchBarAttrs/primaryColor.html">primaryColor</a></li>
+      <li><a href="loader_search_bar/SearchBarAttrs/primaryDetailColor.html">primaryDetailColor</a></li>
       <li><a href="loader_search_bar/SearchBarAttrs/searchBarColor.html">searchBarColor</a></li>
       <li><a href="loader_search_bar/SearchBarAttrs/searchBarElevation.html">searchBarElevation</a></li>
       <li><a href="loader_search_bar/SearchBarAttrs/searchBarPadding.html">searchBarPadding</a></li>
       <li><a href="loader_search_bar/SearchBarAttrs/searchBarSize.html">searchBarSize</a></li>
-      <li><a href="loader_search_bar/SearchBarAttrs/searchBarTopMargin.html">searchBarTopMargin</a></li>
-      <li><a href="loader_search_bar/SearchBarAttrs/searchBoxHorizontalMargin.html">searchBoxHorizontalMargin</a></li>
+      <li><a href="loader_search_bar/SearchBarAttrs/searchInputBaseMargin.html">searchInputBaseMargin</a></li>
+      <li><a href="loader_search_bar/SearchBarAttrs/searchInputMargin.html">searchInputMargin</a></li>
       <li><a href="loader_search_bar/SearchBarAttrs/searchTextFieldHeight.html">searchTextFieldHeight</a></li>
       <li><a href="loader_search_bar/SearchBarAttrs/searchTextFieldPadding.html">searchTextFieldPadding</a></li>
-      <li><a href="loader_search_bar/SearchBarAttrs/secondaryColor.html">secondaryColor</a></li>
-      <li><a href="loader_search_bar/SearchBarAttrs/statusBarHeight.html">statusBarHeight</a></li>
+      <li><a href="loader_search_bar/SearchBarAttrs/secondaryDetailColor.html">secondaryDetailColor</a></li>
+      <li><a href="loader_search_bar/SearchBarAttrs/statusBarColor.html">statusBarColor</a></li>
       <li><a href="loader_search_bar/SearchBarAttrs/textBoxBackgroundColor.html">textBoxBackgroundColor</a></li>
       <li><a href="loader_search_bar/SearchBarAttrs/textBoxOutlineColor.html">textBoxOutlineColor</a></li>
       <li><a href="loader_search_bar/SearchBarAttrs/textBoxOutlineRadius.html">textBoxOutlineRadius</a></li>
@@ -86,23 +87,25 @@
     <h1>SearchBarAttrs constructor</h1>
 
     <section class="multi-line-signature">
-      const
-      <span class="name ">SearchBarAttrs</span>(<wbr>{<span class="parameter" id="-param-primaryColor"><span class="type-annotation">Color</span> <span class="parameter-name">primaryColor</span>: <span class="default-value">Colors.black87</span>, </span> <span class="parameter" id="-param-secondaryColor"><span class="type-annotation">Color</span> <span class="parameter-name">secondaryColor</span>: <span class="default-value">Colors.black54</span>, </span> <span class="parameter" id="-param-disabledTextColor"><span class="type-annotation">Color</span> <span class="parameter-name">disabledTextColor</span>: <span class="default-value">Colors.black26</span>, </span> <span class="parameter" id="-param-searchBarColor"><span class="type-annotation">Color</span> <span class="parameter-name">searchBarColor</span>: <span class="default-value">Colors.white30</span>, </span> <span class="parameter" id="-param-loaderBottomMargin"><span class="type-annotation">double</span> <span class="parameter-name">loaderBottomMargin</span>: <span class="default-value">0.0</span>, </span> <span class="parameter" id="-param-textBoxOutlineWidth"><span class="type-annotation">double</span> <span class="parameter-name">textBoxOutlineWidth</span>: <span class="default-value">1.0</span>, </span> <span class="parameter" id="-param-textBoxOutlineRadius"><span class="type-annotation">double</span> <span class="parameter-name">textBoxOutlineRadius</span>: <span class="default-value">16.0</span>, </span> <span class="parameter" id="-param-textBoxOutlineColor"><span class="type-annotation">Color</span> <span class="parameter-name">textBoxOutlineColor</span>, </span> <span class="parameter" id="-param-textBoxBackgroundColor"><span class="type-annotation">Color</span> <span class="parameter-name">textBoxBackgroundColor</span></span> })
+      
+      <span class="name ">SearchBarAttrs</span>(<wbr>{<span class="parameter" id="-param-primaryDetailColor"><span class="type-annotation">Color</span> <span class="parameter-name">primaryDetailColor</span>: <span class="default-value">Colors.black87</span>, </span> <span class="parameter" id="-param-secondaryDetailColor"><span class="type-annotation">Color</span> <span class="parameter-name">secondaryDetailColor</span>: <span class="default-value">Colors.black54</span>, </span> <span class="parameter" id="-param-disabledDetailColor"><span class="type-annotation">Color</span> <span class="parameter-name">disabledDetailColor</span>: <span class="default-value">Colors.black26</span>, </span> <span class="parameter" id="-param-searchBarColor"><span class="type-annotation">Color</span> <span class="parameter-name">searchBarColor</span>: <span class="default-value">Colors.white30</span>, </span> <span class="parameter" id="-param-loaderBottomMargin"><span class="type-annotation">double</span> <span class="parameter-name">loaderBottomMargin</span>: <span class="default-value">0.0</span>, </span> <span class="parameter" id="-param-textBoxOutlineWidth"><span class="type-annotation">double</span> <span class="parameter-name">textBoxOutlineWidth</span>: <span class="default-value">1.0</span>, </span> <span class="parameter" id="-param-textBoxOutlineRadius"><span class="type-annotation">double</span> <span class="parameter-name">textBoxOutlineRadius</span>: <span class="default-value">16.0</span>, </span> <span class="parameter" id="-param-searchInputMargin"><span class="type-annotation">EdgeInsets</span> <span class="parameter-name">searchInputMargin</span>: <span class="default-value">const EdgeInsets.all(0.0)</span>, </span> <span class="parameter" id="-param-textBoxOutlineColor"><span class="type-annotation">Color</span> <span class="parameter-name">textBoxOutlineColor</span>, </span> <span class="parameter" id="-param-textBoxBackgroundColor"><span class="type-annotation">Color</span> <span class="parameter-name">textBoxBackgroundColor</span>, </span> <span class="parameter" id="-param-statusBarColor"><span class="type-annotation">Color</span> <span class="parameter-name">statusBarColor</span>: <span class="default-value">Colors.transparent</span></span> })
     </section>
 
     
     <section class="summary source-code" id="source">
       <h2><span>Implementation</span> </h2>
-      <pre class="language-dart"><code class="language-dart">const SearchBarAttrs({
-  this.primaryColor = Colors.black87,
-  this.secondaryColor = Colors.black54,
-  this.disabledTextColor = Colors.black26,
+      <pre class="language-dart"><code class="language-dart">SearchBarAttrs({
+  this.primaryDetailColor = Colors.black87,
+  this.secondaryDetailColor = Colors.black54,
+  this.disabledDetailColor = Colors.black26,
   this.searchBarColor = Colors.white30,
   this.loaderBottomMargin = 0.0,
   this.textBoxOutlineWidth = 1.0,
   this.textBoxOutlineRadius = 16.0,
+  this.searchInputMargin = const EdgeInsets.all(0.0),
   this.textBoxOutlineColor,
   this.textBoxBackgroundColor,
+  this.statusBarColor = Colors.transparent,
 });</code></pre>
     </section>
 
@@ -115,7 +118,7 @@
 
 <footer>
   <span class="no-break">
-    loader_search_bar 0.0.2
+    loader_search_bar 0.0.2+4
   </span>
 
 </footer>

@@ -44,14 +44,20 @@
       <li><a href="loader_search_bar/SearchBar-class.html">SearchBar</a></li>
       <li><a href="loader_search_bar/SearchBarAttrs-class.html">SearchBarAttrs</a></li>
       <li><a href="loader_search_bar/SearchBarState-class.html">SearchBarState</a></li>
+      <li><a href="loader_search_bar/SearchItem-class.html">SearchItem</a></li>
+      <li><a href="loader_search_bar/SearchItemGravity-class.html">SearchItemGravity</a></li>
     
     
     
     
+      <li class="section-title"><a href="loader_search_bar/loader_search_bar-library.html#enums">Enums</a></li>
+      <li><a href="loader_search_bar/SearchItemType-class.html">SearchItemType</a></li>
     
       <li class="section-title"><a href="loader_search_bar/loader_search_bar-library.html#typedefs">Typedefs</a></li>
+      <li><a href="loader_search_bar/MenuItemBuilder.html">MenuItemBuilder</a></li>
       <li><a href="loader_search_bar/QuerySetCall.html">QuerySetCall</a></li>
       <li><a href="loader_search_bar/QuerySetItemBuilder.html">QuerySetItemBuilder</a></li>
+      <li><a href="loader_search_bar/SearchItemBuilder.html">SearchItemBuilder</a></li>
     
     </ol>
   </div>
@@ -82,7 +88,7 @@ Scaffold body visible again.</p>
 
       <dl class="constructor-summary-list">
         <dt id="SearchBar" class="callable">
-          <span class="name"><a href="loader_search_bar/SearchBar/SearchBar.html">SearchBar</a></span><span class="signature">({<span class="parameter" id="-param-defaultAppBar"><span>@required</span> <span class="type-annotation">AppBar</span> <span class="parameter-name">defaultAppBar</span>, </span> <span class="parameter" id="-param-onQueryChanged"><span class="type-annotation">ValueChanged<span class="signature">&lt;<wbr><span class="type-parameter">String</span>&gt;</span></span> <span class="parameter-name">onQueryChanged</span>, </span> <span class="parameter" id="-param-onQuerySubmitted"><span class="type-annotation">ValueChanged<span class="signature">&lt;<wbr><span class="type-parameter">String</span>&gt;</span></span> <span class="parameter-name">onQuerySubmitted</span>, </span> <span class="parameter" id="-param-loader"><span class="type-annotation"><a href="loader_search_bar/QuerySetLoader-class.html">QuerySetLoader</a></span> <span class="parameter-name">loader</span>, </span> <span class="parameter" id="-param-searchHint"><span class="type-annotation">String</span> <span class="parameter-name">searchHint</span>: <span class="default-value">'Tap to search...'</span>, </span> <span class="parameter" id="-param-iconified"><span class="type-annotation">bool</span> <span class="parameter-name">iconified</span>: <span class="default-value">true</span>, </span> <span class="parameter" id="-param-autofocus"><span class="type-annotation">bool</span> <span class="parameter-name">autofocus</span>, </span> <span class="parameter" id="-param-onActivatedChanged"><span class="type-annotation">ValueChanged<span class="signature">&lt;<wbr><span class="type-parameter">bool</span>&gt;</span></span> <span class="parameter-name">onActivatedChanged</span>, </span> <span class="parameter" id="-param-attrs"><span class="type-annotation"><a href="loader_search_bar/SearchBarAttrs-class.html">SearchBarAttrs</a></span> <span class="parameter-name">attrs</span></span> })</span>
+          <span class="name"><a href="loader_search_bar/SearchBar/SearchBar.html">SearchBar</a></span><span class="signature">({<span class="parameter" id="-param-defaultBar"><span>@required</span> <span class="type-annotation">AppBar</span> <span class="parameter-name">defaultBar</span>, </span> <span class="parameter" id="-param-onQueryChanged"><span class="type-annotation">ValueChanged<span class="signature">&lt;<wbr><span class="type-parameter">String</span>&gt;</span></span> <span class="parameter-name">onQueryChanged</span>, </span> <span class="parameter" id="-param-onQuerySubmitted"><span class="type-annotation">ValueChanged<span class="signature">&lt;<wbr><span class="type-parameter">String</span>&gt;</span></span> <span class="parameter-name">onQuerySubmitted</span>, </span> <span class="parameter" id="-param-loader"><span class="type-annotation"><a href="loader_search_bar/QuerySetLoader-class.html">QuerySetLoader</a></span> <span class="parameter-name">loader</span>, </span> <span class="parameter" id="-param-overlayStyle"><span class="type-annotation">SystemUiOverlayStyle</span> <span class="parameter-name">overlayStyle</span>, </span> <span class="parameter" id="-param-searchHint"><span class="type-annotation">String</span> <span class="parameter-name">searchHint</span>: <span class="default-value">'Tap to search...'</span>, </span> <span class="parameter" id="-param-iconified"><span class="type-annotation">bool</span> <span class="parameter-name">iconified</span>: <span class="default-value">true</span>, </span> <span class="parameter" id="-param-autofocus"><span class="type-annotation">bool</span> <span class="parameter-name">autofocus</span>, </span> <span class="parameter" id="-param-searchItem"><span class="type-annotation"><a href="loader_search_bar/SearchItem-class.html">SearchItem</a></span> <span class="parameter-name">searchItem</span>, </span> <span class="parameter" id="-param-onActivatedChanged"><span class="type-annotation">void</span> <span class="parameter-name">onActivatedChanged</span>, </span> <span class="parameter" id="-param-attrs"><span class="type-annotation"><a href="loader_search_bar/SearchBarAttrs-class.html">SearchBarAttrs</a></span> <span class="parameter-name">attrs</span></span> })</span>
         </dt>
         <dd>
           
@@ -120,8 +126,8 @@ during widget building.
           Determining if search field should get focus once it becomes visible.
           <div class="features">final</div>
 </dd>
-        <dt id="defaultAppBar" class="property">
-          <span class="name"><a href="loader_search_bar/SearchBar/defaultAppBar.html">defaultAppBar</a></span>
+        <dt id="defaultBar" class="property">
+          <span class="name"><a href="loader_search_bar/SearchBar/defaultBar.html">defaultBar</a></span>
           <span class="signature">&#8594; AppBar</span>
         </dt>
         <dd>
@@ -166,6 +172,14 @@ as an argument.
 as an argument.
           <div class="features">final</div>
 </dd>
+        <dt id="overlayStyle" class="property">
+          <span class="name"><a href="loader_search_bar/SearchBar/overlayStyle.html">overlayStyle</a></span>
+          <span class="signature">&#8594; SystemUiOverlayStyle</span>
+        </dt>
+        <dd>
+          Status bar overlay brightness applied when widget is activated.
+          <div class="features">final</div>
+</dd>
         <dt id="preferredSize" class="property">
           <span class="name"><a href="loader_search_bar/SearchBar/preferredSize.html">preferredSize</a></span>
           <span class="signature">&#8594; Size</span>
@@ -180,6 +194,14 @@ as an argument.
         </dt>
         <dd>
           Hint string being displayed until user inputs any text.
+          <div class="features">final</div>
+</dd>
+        <dt id="searchItem" class="property">
+          <span class="name"><a href="loader_search_bar/SearchBar/searchItem.html">searchItem</a></span>
+          <span class="signature">&#8594; <a href="loader_search_bar/SearchItem-class.html">SearchItem</a></span>
+        </dt>
+        <dd>
+          Defining how to position and build search item widget in AppBar.
           <div class="features">final</div>
 </dd>
         <dt id="hashCode" class="property inherited">
@@ -256,7 +278,7 @@ children. <a href="loader_search_bar/SearchBar/debugDescribeChildren.html">[...]
         </dt>
         <dd class="inherited">
           Invoked when a non-existent method or property is accessed. <a href="loader_search_bar/SearchBar/noSuchMethod.html">[...]</a>
-          <div class="features">inherited</div>
+          <div class="features">@pragma(&quot;vm:entry-point&quot;), inherited</div>
 </dd>
         <dt id="toDiagnosticsNode" class="callable inherited">
           <span class="name"><a href="loader_search_bar/SearchBar/toDiagnosticsNode.html">toDiagnosticsNode</a></span><span class="signature">(<wbr>{<span class="parameter" id="toDiagnosticsNode-param-name"><span class="type-annotation">String</span> <span class="parameter-name">name</span>, </span> <span class="parameter" id="toDiagnosticsNode-param-style"><span class="type-annotation">DiagnosticsTreeStyle</span> <span class="parameter-name">style</span></span> })
@@ -338,13 +360,15 @@ tools and by <a href="loader_search_bar/SearchBar/toStringDeep.html">toStringDee
       <li><a href="loader_search_bar/SearchBar/activatedChangedCallback.html">activatedChangedCallback</a></li>
       <li><a href="loader_search_bar/SearchBar/attrs.html">attrs</a></li>
       <li><a href="loader_search_bar/SearchBar/autofocus.html">autofocus</a></li>
-      <li><a href="loader_search_bar/SearchBar/defaultAppBar.html">defaultAppBar</a></li>
+      <li><a href="loader_search_bar/SearchBar/defaultBar.html">defaultBar</a></li>
       <li><a href="loader_search_bar/SearchBar/iconified.html">iconified</a></li>
       <li><a href="loader_search_bar/SearchBar/loader.html">loader</a></li>
       <li><a href="loader_search_bar/SearchBar/onQueryChanged.html">onQueryChanged</a></li>
       <li><a href="loader_search_bar/SearchBar/onQuerySubmitted.html">onQuerySubmitted</a></li>
+      <li><a href="loader_search_bar/SearchBar/overlayStyle.html">overlayStyle</a></li>
       <li><a href="loader_search_bar/SearchBar/preferredSize.html">preferredSize</a></li>
       <li><a href="loader_search_bar/SearchBar/searchHint.html">searchHint</a></li>
+      <li><a href="loader_search_bar/SearchBar/searchItem.html">searchItem</a></li>
       <li class="inherited"><a href="loader_search_bar/SearchBar/hashCode.html">hashCode</a></li>
       <li class="inherited"><a href="loader_search_bar/SearchBar/key.html">key</a></li>
       <li class="inherited"><a href="loader_search_bar/SearchBar/runtimeType.html">runtimeType</a></li>
@@ -373,7 +397,7 @@ tools and by <a href="loader_search_bar/SearchBar/toStringDeep.html">toStringDee
 
 <footer>
   <span class="no-break">
-    loader_search_bar 0.0.2
+    loader_search_bar 0.0.2+4
   </span>
 
 </footer>
