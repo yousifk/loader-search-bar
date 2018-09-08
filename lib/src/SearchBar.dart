@@ -109,22 +109,15 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => _shouldTakeWholeSpace
-      ? _tryGetAvailableSpace ?? attrs.searchBarSize
+      ? _getAvailableSpace ?? attrs.searchBarSize
       : attrs.searchBarSize;
 
   bool get _shouldTakeWholeSpace =>
       loader != null && (_stateKey.currentState?.activated ?? false);
 
-  Size get _tryGetAvailableSpace {
-    final screenSize = _tryGetScreenSize;
-    return (screenSize != null)
-        ? Size(screenSize.width, screenSize.height - attrs.loaderBottomMargin)
-        : null;
-  }
-
-  Size get _tryGetScreenSize {
-    final context = _stateKey.currentState.context;
-    return (context != null) ? MediaQuery.of(context).size : null;
+  Size get _getAvailableSpace {
+    final screenSize = MediaQueryData.fromWindow(window).size;
+    return Size(screenSize.width, screenSize.height - attrs.loaderBottomMargin);
   }
 
   @override
@@ -206,11 +199,12 @@ class SearchBarState extends State<SearchBar> {
     queryInputController.clear();
     searchFocusNode.unfocus();
     widget.loader?.clearData();
+    _redrawScaffold();
   }
 
   void _redrawScaffold() {
     Future.delayed(
-      Duration(milliseconds: 1),
+      Duration(milliseconds: 50),
       () => Scaffold.of(context).setState(() {}),
     );
   }
@@ -265,19 +259,6 @@ class SearchBarState extends State<SearchBar> {
     return Future.value(shouldPop);
   }
 
-  void _handleOrientationIfChanged(BuildContext context) async {
-    final orientation = MediaQuery.of(context).orientation;
-    if (currentOrientation != orientation) {
-      currentOrientation = orientation;
-      _redrawScaffold();
-    }
-  }
-
   @override
-  Widget build(BuildContext context) {
-    if (widget.loader != null) {
-      _handleOrientationIfChanged(context);
-    }
-    return SearchBarBuilder(this, context);
-  }
+  Widget build(BuildContext context) => SearchBarBuilder(this, context);
 }
