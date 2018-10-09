@@ -278,10 +278,7 @@ class SearchBarBuilder extends StatelessWidget {
     return Positioned.fill(
       child: Center(
         child: TextField(
-          style: TextStyle(
-            color: _attrs.primaryDetailColor,
-            fontSize: _attrs.fontSize,
-          ),
+          style: _attrs.textStyle,
           autofocus: _widget.autofocus,
           focusNode: _state.searchFocusNode,
           controller: _state.queryInputController,

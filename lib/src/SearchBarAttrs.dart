@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 /// default value if omitted.
 class SearchBarAttrs {
   SearchBarAttrs({
-    this.primaryDetailColor = Colors.black87,
+    Color primaryDetailColor = Colors.black87,
     this.secondaryDetailColor = Colors.black54,
     this.disabledDetailColor = Colors.black26,
     this.searchBarColor = Colors.white30,
@@ -18,7 +18,12 @@ class SearchBarAttrs {
     this.textBoxOutlineColor,
     this.textBoxBackgroundColor,
     this.statusBarColor = Colors.transparent,
-  });
+    TextStyle textStyle,
+  })  : this.primaryDetailColor = primaryDetailColor,
+        this.textStyle = textStyle ?? _getDefaultTextStyle(primaryDetailColor);
+
+  static TextStyle _getDefaultTextStyle(Color color) =>
+      TextStyle(fontSize: 20.0, color: color);
 
   final Color primaryDetailColor;
   final Color secondaryDetailColor;
@@ -30,13 +35,13 @@ class SearchBarAttrs {
   final double textBoxOutlineRadius;
   final double loaderBottomMargin;
   final Color statusBarColor;
-  final double fontSize = 20.0;
+  final TextStyle textStyle;
+  final EdgeInsets searchInputMargin;
   final double blankInputIconSize = 40.0;
   final double searchBarElevation = 4.0;
   final double cancelSearchMarginLeft = 8.0;
   final double searchTextFieldHeight = 36.0;
   final double searchBarPadding = 4.0;
-  final EdgeInsets searchInputMargin;
   final EdgeInsets highlightButtonMargin = EdgeInsets.only(left: 4.0);
   final EdgeInsets clearButtonMargin = EdgeInsets.only(right: 4.0);
   final EdgeInsets searchInputBaseMargin =
@@ -50,11 +55,11 @@ class SearchBarAttrs {
   /// otherwise.
   SearchBarAttrs merge(SearchBarAttrs other) {
     return SearchBarAttrs(
-      disabledDetailColor:
-          other.disabledDetailColor ?? this.disabledDetailColor,
       primaryDetailColor: other.primaryDetailColor ?? this.primaryDetailColor,
       secondaryDetailColor:
           other.secondaryDetailColor ?? this.secondaryDetailColor,
+      disabledDetailColor:
+          other.disabledDetailColor ?? this.disabledDetailColor,
       searchBarColor: other.searchBarColor ?? this.searchBarColor,
       textBoxBackgroundColor:
           other.textBoxBackgroundColor ?? this.textBoxBackgroundColor,
@@ -67,6 +72,7 @@ class SearchBarAttrs {
           other.textBoxOutlineRadius ?? this.textBoxOutlineRadius,
       searchInputMargin: other.searchInputMargin ?? this.searchInputMargin,
       statusBarColor: other.statusBarColor ?? this.statusBarColor,
+      textStyle: other.textStyle ?? this.textStyle,
     );
   }
 }

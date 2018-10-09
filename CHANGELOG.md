@@ -1,3 +1,7 @@
+## [1.0.1] - 09/10/2018
+
+- Support more adjustable attributes
+
 ## [1.0.0] - 08/09/2018
 
 - Release package
