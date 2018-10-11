@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:loader_search_bar/src/StateHolder.dart';
 
 import 'QuerySetLoader.dart';
 import 'SearchBarAttrs.dart';
@@ -43,8 +44,7 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
         this.searchItem = searchItem ?? SearchItem.action(),
         this.attrs = _initAttrs(iconified, attrs),
         this.activatedChangedCallback =
-            onActivatedChanged ?? _blankActivatedCallback,
-        super(key: _stateKey);
+            onActivatedChanged ?? _blankActivatedCallback;
 
   static SearchBarAttrs _initAttrs(bool iconified, SearchBarAttrs attrs) {
     final defaultAttrs =
@@ -62,7 +62,7 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
     textBoxOutlineColor: Colors.black26,
   );
 
-  static final _stateKey = GlobalKey<SearchBarState>();
+  static final ValueChanged<bool> _blankActivatedCallback = (_) {};
 
   /// Function being called whenever query changes with its current value
   /// as an argument.
@@ -105,15 +105,17 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   /// Status bar overlay brightness applied when widget is activated.
   final SystemUiOverlayStyle overlayStyle;
 
-  static final ValueChanged<bool> _blankActivatedCallback = (_) {};
-
   @override
   Size get preferredSize => _shouldTakeWholeSpace
       ? _getAvailableSpace ?? attrs.searchBarSize
       : attrs.searchBarSize;
 
   bool get _shouldTakeWholeSpace =>
-      loader != null && (_stateKey.currentState?.activated ?? false);
+      loader != null && (_isThisOrLastActivated ?? false);
+
+  bool get _isThisOrLastActivated =>
+      SearchBarState._stateHolder[this]?.activated ??
+      SearchBarState._stateHolder.lastOrNull?.activated;
 
   Size get _getAvailableSpace {
     final screenSize = MediaQueryData.fromWindow(window).size;
@@ -125,6 +127,8 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class SearchBarState extends State<SearchBar> {
+  static final _stateHolder = StateHolder<SearchBar, SearchBarState>();
+
   final FocusNode searchFocusNode = FocusNode();
 
   final TextEditingController queryInputController = TextEditingController();
@@ -150,6 +154,7 @@ class SearchBarState extends State<SearchBar> {
   @override
   void initState() {
     super.initState();
+    _stateHolder.add(this);
     expanded = !widget.iconified;
     queryInputController.addListener(_onQueryControllerChange);
     searchFocusNode.addListener(_onSearchFocusChange);
@@ -199,10 +204,10 @@ class SearchBarState extends State<SearchBar> {
     queryInputController.clear();
     searchFocusNode.unfocus();
     widget.loader?.clearData();
-    _redrawScaffold();
+    _rebuildScaffold();
   }
 
-  void _redrawScaffold() {
+  void _rebuildScaffold() {
     Future.delayed(
       Duration(milliseconds: 50),
       () => Scaffold.of(context).setState(() {}),
@@ -238,13 +243,14 @@ class SearchBarState extends State<SearchBar> {
     setState(() {
       expanded = true;
     });
-    _redrawScaffold();
+    _rebuildScaffold();
   }
 
   @override
   void dispose() {
     searchFocusNode.dispose();
     queryInputController.dispose();
+    _stateHolder.remove(this);
     super.dispose();
   }
 

@@ -1,3 +1,7 @@
+## [1.0.2]
+
+- Fix duplicated GlobalKey across multiple pages
+
 ## [1.0.1] - 09/10/2018
 
 - Support more adjustable attributes

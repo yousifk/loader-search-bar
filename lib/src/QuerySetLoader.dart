@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:loader_search_bar/src/StateHolder.dart';
 
 import 'InheritedSearchWidget.dart';
 import 'ListModel.dart';
@@ -18,9 +19,7 @@ class QuerySetLoader<T> extends StatefulWidget {
     @required this.itemBuilder,
     this.loadOnEachChange = false,
     this.animateChanges = true,
-  }) : super(key: _stateKey);
-
-  static final _stateKey = GlobalKey<QuerySetLoaderState>();
+  });
 
   /// Instance with empty function bodies used internally by [SearchBar].
   static final QuerySetLoader blank =
@@ -44,13 +43,16 @@ class QuerySetLoader<T> extends StatefulWidget {
   final bool animateChanges;
 
   /// Used internally by SearchBar to clear list data once user ends search action.
-  void clearData() => _stateKey.currentState.clearListModel();
+  void clearData() => QuerySetLoaderState._stateHolder[this]?.clearListModel();
 
   @override
   QuerySetLoaderState createState() => QuerySetLoaderState<T>();
 }
 
 class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
+  static final _stateHolder =
+      StateHolder<QuerySetLoader, QuerySetLoaderState>();
+
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
 
   ListModel<T> _listModel;
@@ -64,6 +66,7 @@ class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
   @override
   void initState() {
     super.initState();
+    _stateHolder.add(this);
     _listModel = ListModel<T>(
       listKey: _listKey,
       initialItems: [],
@@ -72,6 +75,12 @@ class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
           ? ListModel.DEFAULT_ANIM_DURATION
           : ListModel.NO_ANIM_DURATION,
     );
+  }
+
+  @override
+  void dispose() {
+    _stateHolder.remove(this);
+    super.dispose();
   }
 
   void clearListModel() => _listModel.clear();
