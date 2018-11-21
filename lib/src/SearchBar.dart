@@ -35,6 +35,7 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
     this.loader,
     this.overlayStyle,
     this.searchHint = 'Tap to search...',
+    this.controller,
     this.iconified = true,
     bool autofocus,
     SearchItem searchItem,
@@ -86,6 +87,9 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
 
   /// Hint string being displayed until user inputs any text.
   final String searchHint;
+
+  /// Controller object allowing to access some properties of current state.
+  final SearchBarController controller;
 
   /// Indicating way of representing non-activated SearchBar:
   ///   true if widget should be showed as an action item in defaultAppBar,
@@ -266,5 +270,14 @@ class SearchBarState extends State<SearchBar> {
   }
 
   @override
-  Widget build(BuildContext context) => SearchBarBuilder(this, context);
+  Widget build(BuildContext context) {
+    widget.controller?._state = this;
+    return SearchBarBuilder(this, context);
+  }
+}
+
+class SearchBarController {
+  SearchBarState _state;
+
+  void setQueryText(String text) => _state?.queryInputController?.text = text;
 }
