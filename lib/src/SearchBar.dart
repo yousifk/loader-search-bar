@@ -39,13 +39,10 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
     this.iconified = true,
     bool autofocus,
     SearchItem searchItem,
-    ValueChanged<bool> onActivatedChanged,
     SearchBarAttrs attrs,
   })  : this.autofocus = autofocus ?? iconified,
         this.searchItem = searchItem ?? SearchItem.action(),
-        this.attrs = _initAttrs(iconified, attrs),
-        this.activatedChangedCallback =
-            onActivatedChanged ?? _blankActivatedCallback;
+        this.attrs = _initAttrs(iconified, attrs);
 
   static SearchBarAttrs _initAttrs(bool iconified, SearchBarAttrs attrs) {
     final defaultAttrs =
@@ -62,8 +59,6 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
     textBoxBackgroundColor: Colors.black12,
     textBoxOutlineColor: Colors.black26,
   );
-
-  static final ValueChanged<bool> _blankActivatedCallback = (_) {};
 
   /// Function being called whenever query changes with its current value
   /// as an argument.
@@ -98,10 +93,6 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
 
   /// Determining if search field should get focus once it becomes visible.
   final bool autofocus;
-
-  /// Callback function receiving widget's current state whenever user begins
-  /// or cancels/ends search action.
-  final ValueChanged<bool> activatedChangedCallback;
 
   /// Defining how to position and build search item widget in AppBar.
   final SearchItem searchItem;
@@ -197,7 +188,7 @@ class SearchBarState extends State<SearchBar> {
       focused = searchFocusNode.hasFocus;
       if (focused && !activated) {
         activated = true;
-        widget.activatedChangedCallback(true);
+        widget.controller.onActivatedChanged?.call(true);
       }
     });
   }
@@ -206,7 +197,7 @@ class SearchBarState extends State<SearchBar> {
     setState(() {
       if (activated) {
         activated = false;
-        widget.activatedChangedCallback(false);
+        widget.controller.onActivatedChanged?.call(false);
       }
       if (widget.iconified) expanded = false;
       loaderQuery = null;
@@ -283,10 +274,15 @@ class SearchBarState extends State<SearchBar> {
 }
 
 class SearchBarController {
-  SearchBarController({this.onCancelSearch, this.onClearQuery});
+  SearchBarController({
+    this.onCancelSearch,
+    this.onClearQuery,
+    this.onActivatedChanged,
+  });
 
   final VoidCallback onCancelSearch;
   final VoidCallback onClearQuery;
+  final ValueChanged<bool> onActivatedChanged;
 
   SearchBarState _state;
 
