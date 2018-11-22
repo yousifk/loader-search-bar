@@ -155,6 +155,12 @@ class SearchBarState extends State<SearchBar> {
 
   EdgeInsets get screenPadding => MediaQuery.of(context).padding;
 
+  VoidCallback get clearQueryCallback =>
+      widget.controller?.onClearQuery ?? _onClearQuery;
+
+  VoidCallback get cancelSearchCallback =>
+      widget.controller?.onCancelSearch ?? _onCancelSearch;
+
   @override
   void initState() {
     super.initState();
@@ -196,7 +202,7 @@ class SearchBarState extends State<SearchBar> {
     });
   }
 
-  void onCancelSearch() {
+  void _onCancelSearch() {
     setState(() {
       if (activated) {
         activated = false;
@@ -230,7 +236,7 @@ class SearchBarState extends State<SearchBar> {
     );
   }
 
-  void onClearQuery() {
+  void _onClearQuery() {
     if (queryNotEmpty) {
       _clearQueryField();
     } else {
@@ -261,7 +267,7 @@ class SearchBarState extends State<SearchBar> {
   Future<bool> onWillPop() {
     bool shouldPop;
     if (activated) {
-      onCancelSearch();
+      _onCancelSearch();
       shouldPop = false;
     } else {
       shouldPop = true;
@@ -277,7 +283,17 @@ class SearchBarState extends State<SearchBar> {
 }
 
 class SearchBarController {
+  SearchBarController({this.onCancelSearch, this.onClearQuery});
+
+  final VoidCallback onCancelSearch;
+  final VoidCallback onClearQuery;
+
   SearchBarState _state;
 
   void setQueryText(String text) => _state?.queryInputController?.text = text;
+  void cancelSearch() => _state?._onCancelSearch();
+  void clearQuery() => _state?._onClearQuery();
+  bool get isEmpty => _state != null ? !_state.queryNotEmpty : null;
+  bool get isActivated => _state.activated;
+  bool get isFocused => _state.focused;
 }

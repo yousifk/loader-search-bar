@@ -247,7 +247,7 @@ class SearchBarBuilder extends StatelessWidget {
     return SearchBarButton(
       icon: Icons.arrow_back,
       color: _attrs.primaryDetailColor,
-      onPressed: _state.onCancelSearch,
+      onPressed: _state.cancelSearchCallback,
       marginHorizontal: _attrs.cancelSearchMarginLeft,
     );
   }
@@ -344,7 +344,7 @@ class SearchBarBuilder extends StatelessWidget {
           color: _state.queryNotEmpty
               ? _attrs.primaryDetailColor
               : _attrs.secondaryDetailColor,
-          onPressed: _state.onClearQuery,
+          onPressed: _state.clearQueryCallback,
         ),
       ),
     );
