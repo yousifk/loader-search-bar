@@ -188,7 +188,7 @@ class SearchBarState extends State<SearchBar> {
       focused = searchFocusNode.hasFocus;
       if (focused && !activated) {
         activated = true;
-        widget.controller.onActivatedChanged?.call(true);
+        widget.controller?.onActivatedChanged?.call(true);
       }
     });
   }
@@ -197,7 +197,7 @@ class SearchBarState extends State<SearchBar> {
     setState(() {
       if (activated) {
         activated = false;
-        widget.controller.onActivatedChanged?.call(false);
+        widget.controller?.onActivatedChanged?.call(false);
       }
       if (widget.iconified) expanded = false;
       loaderQuery = null;
@@ -238,7 +238,11 @@ class SearchBarState extends State<SearchBar> {
   void _clearQueryField() {
     isClearingQuery = true;
     queryInputController.clear();
+    _focusSearchField();
   }
+
+  void _focusSearchField() =>
+      FocusScope.of(context).requestFocus(searchFocusNode);
 
   void onSearchAction() {
     setState(() {

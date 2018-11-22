@@ -269,10 +269,12 @@ class SearchBarBuilder extends StatelessWidget {
       children: [
         _buildSearchTextField(),
         _buildHighlightButton(),
-        _state.focused ? _buildClearButton() : null,
+        _shouldShowClear ? _buildClearButton() : null,
       ].where((it) => it != null).toList(),
     );
   }
+
+  bool get _shouldShowClear => _state.queryNotEmpty || _state.focused;
 
   Widget _buildSearchTextField() {
     return Positioned.fill(
