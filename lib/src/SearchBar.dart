@@ -35,6 +35,7 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
     this.loader,
     this.overlayStyle,
     this.searchHint = 'Tap to search...',
+    this.initialQuery,
     this.controller,
     this.iconified = true,
     bool autofocus,
@@ -83,6 +84,9 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   /// Hint string being displayed until user inputs any text.
   final String searchHint;
 
+  /// Query value displayed for the first time in search field.
+  final String initialQuery;
+
   /// Controller object allowing to access some properties of current state.
   final SearchBarController controller;
 
@@ -124,12 +128,6 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
 class SearchBarState extends State<SearchBar> {
   static final _stateHolder = StateHolder<SearchBar, SearchBarState>();
 
-  final FocusNode searchFocusNode = FocusNode();
-
-  final TextEditingController queryInputController = TextEditingController();
-
-  QuerySetLoader get _safeLoader => widget.loader ?? QuerySetLoader.blank;
-
   bool activated = false;
 
   bool focused = false;
@@ -140,9 +138,15 @@ class SearchBarState extends State<SearchBar> {
 
   bool expanded;
 
+  FocusNode searchFocusNode = FocusNode();
+
+  TextEditingController queryInputController;
+
   String loaderQuery;
 
   Orientation currentOrientation;
+
+  QuerySetLoader get _safeLoader => widget.loader ?? QuerySetLoader.blank;
 
   EdgeInsets get screenPadding => MediaQuery.of(context).padding;
 
@@ -156,6 +160,7 @@ class SearchBarState extends State<SearchBar> {
   void initState() {
     super.initState();
     _stateHolder.add(this);
+    queryInputController = TextEditingController(text: widget.initialQuery);
     expanded = !widget.iconified;
     queryInputController.addListener(_onQueryControllerChange);
     searchFocusNode.addListener(_onSearchFocusChange);
@@ -202,7 +207,6 @@ class SearchBarState extends State<SearchBar> {
       if (widget.iconified) expanded = false;
       loaderQuery = null;
     });
-    queryInputController.clear();
     searchFocusNode.unfocus();
     widget.loader?.clearData();
     _rebuildScaffold();
@@ -247,6 +251,9 @@ class SearchBarState extends State<SearchBar> {
   void onSearchAction() {
     setState(() {
       expanded = true;
+      if (widget.iconified) {
+        queryInputController.text = widget.initialQuery;
+      }
     });
     _rebuildScaffold();
   }
