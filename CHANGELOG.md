@@ -1,3 +1,8 @@
+## [1.0.3]
+
+- Support specifying initial value of search query
+- Support interacting with widget's state via SearchBarController
+
 ## [1.0.2]
 
 - Fix duplicated GlobalKey across multiple pages
