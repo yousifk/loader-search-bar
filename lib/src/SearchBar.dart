@@ -130,10 +130,6 @@ class SearchBarState extends State<SearchBar> {
 
   bool activated = false;
 
-  bool focused = false;
-
-  bool queryNotEmpty = false;
-
   bool isClearingQuery = false;
 
   bool expanded;
@@ -145,6 +141,10 @@ class SearchBarState extends State<SearchBar> {
   String loaderQuery;
 
   Orientation currentOrientation;
+
+  bool get focused => searchFocusNode.hasFocus;
+
+  bool get queryNotEmpty => queryInputController.text.isNotEmpty;
 
   QuerySetLoader get _safeLoader => widget.loader ?? QuerySetLoader.blank;
 
@@ -160,14 +160,24 @@ class SearchBarState extends State<SearchBar> {
   void initState() {
     super.initState();
     _stateHolder.add(this);
-    queryInputController = TextEditingController(text: widget.initialQuery);
     expanded = !widget.iconified;
-    queryInputController.addListener(_onQueryControllerChange);
     searchFocusNode.addListener(_onSearchFocusChange);
+    if (!widget.iconified) _initSearchQuery();
+  }
+
+  void _onSearchFocusChange() {
+    if (focused && !activated && !widget.iconified) {
+      setState(() => _updateActivated(true));
+    }
+  }
+
+  void _initSearchQuery() {
+    queryInputController?.dispose();
+    queryInputController = TextEditingController(text: widget.initialQuery)
+      ..addListener(_onQueryControllerChange);
   }
 
   void _onQueryControllerChange() {
-    queryNotEmpty = queryInputController.text.isNotEmpty;
     if (isClearingQuery) {
       isClearingQuery = false;
       onTextChange('');
@@ -175,41 +185,61 @@ class SearchBarState extends State<SearchBar> {
   }
 
   void onTextChange(String text) {
-    setState(() {
-      if (_safeLoader.loadOnEachChange) loaderQuery = text;
-    });
+    if (_safeLoader.loadOnEachChange) {
+      setState(() => loaderQuery = text);
+    }
     if (widget.onQueryChanged != null) widget.onQueryChanged(text);
   }
 
   void onTextSubmit(String text) {
-    setState(() {
-      if (!_safeLoader.loadOnEachChange) loaderQuery = text;
-    });
+    if (!_safeLoader.loadOnEachChange) {
+      setState(() => loaderQuery = text);
+    }
     if (widget.onQuerySubmitted != null) widget.onQuerySubmitted(text);
   }
 
-  void _onSearchFocusChange() {
+  void onSearchAction() {
+    _initSearchQuery();
     setState(() {
-      focused = searchFocusNode.hasFocus;
-      if (focused && !activated) {
-        activated = true;
-        widget.controller?.onActivatedChanged?.call(true);
-      }
+      expanded = true;
+      _updateActivated(true);
     });
+    _rebuildScaffold();
   }
 
   void _onCancelSearch() {
     setState(() {
-      if (activated) {
-        activated = false;
-        widget.controller?.onActivatedChanged?.call(false);
-      }
+      _updateActivated(false);
       if (widget.iconified) expanded = false;
       loaderQuery = null;
     });
     searchFocusNode.unfocus();
     widget.loader?.clearData();
     _rebuildScaffold();
+  }
+
+  void _updateActivated(bool value) {
+    if (activated != value) {
+      activated = value;
+      widget.controller?.onActivatedChanged?.call(value);
+      if (activated) {
+        loaderQuery = queryInputController.text;
+      }
+    }
+  }
+
+  void _onClearQuery() {
+    if (queryNotEmpty) {
+      _clearQueryField();
+    } else {
+      searchFocusNode.unfocus();
+    }
+  }
+
+  void _clearQueryField() {
+    isClearingQuery = true;
+    queryInputController.clear();
+    FocusScope.of(context).requestFocus(searchFocusNode);
   }
 
   void _rebuildScaffold() {
@@ -229,33 +259,6 @@ class SearchBarState extends State<SearchBar> {
       baseOffset: queryInputController.value.text.length,
       extentOffset: 0,
     );
-  }
-
-  void _onClearQuery() {
-    if (queryNotEmpty) {
-      _clearQueryField();
-    } else {
-      searchFocusNode.unfocus();
-    }
-  }
-
-  void _clearQueryField() {
-    isClearingQuery = true;
-    queryInputController.clear();
-    _focusSearchField();
-  }
-
-  void _focusSearchField() =>
-      FocusScope.of(context).requestFocus(searchFocusNode);
-
-  void onSearchAction() {
-    setState(() {
-      expanded = true;
-      if (widget.iconified) {
-        queryInputController.text = widget.initialQuery;
-      }
-    });
-    _rebuildScaffold();
   }
 
   @override
