@@ -134,6 +134,8 @@ class SearchBarState extends State<SearchBar> {
 
   bool expanded;
 
+  bool _hasPendingScaffold = false;
+
   FocusNode searchFocusNode = FocusNode();
 
   TextEditingController queryInputController;
@@ -228,31 +230,46 @@ class SearchBarState extends State<SearchBar> {
     }
   }
 
-  void _onClearQuery() {
-    if (queryNotEmpty) {
-      _clearQueryField();
-    } else {
-      searchFocusNode.unfocus();
-    }
-  }
+  void _onClearQuery() =>
+      queryNotEmpty ? _clearQueryField() : searchFocusNode.unfocus();
 
   void _clearQueryField() {
     isClearingQuery = true;
     queryInputController.clear();
-    FocusScope.of(context).requestFocus(searchFocusNode);
+    _requestSearchFocus();
+  }
+
+  void _activate([forceFocus = false]) {
+    if (!activated) {
+      widget.iconified ? onSearchAction() : _requestSearchFocus();
+    }
+    if (activated && forceFocus && !focused) {
+      _focusSearchField();
+    }
+  }
+
+  void _focusSearchField() async {
+    await Future.doWhile(() => Future(() => _hasPendingScaffold));
+    _requestSearchFocus();
   }
 
   void _rebuildScaffold() {
-    Future.delayed(
-      Duration(milliseconds: 50),
-      () => Scaffold.of(context).setState(() {}),
-    );
+    if (!_hasPendingScaffold) {
+      _hasPendingScaffold = true;
+      Future.delayed(Duration(milliseconds: 50), () {
+        Scaffold.of(context).setState(() {});
+        _hasPendingScaffold = false;
+      });
+    }
   }
 
   void onPrefixSearchTap() {
-    FocusScope.of(context).requestFocus(searchFocusNode);
+    _requestSearchFocus();
     _highlightQueryText();
   }
+
+  void _requestSearchFocus() =>
+      FocusScope.of(context).requestFocus(searchFocusNode);
 
   void _highlightQueryText() {
     queryInputController.selection = TextSelection(
@@ -301,6 +318,7 @@ class SearchBarController {
   SearchBarState _state;
 
   void setQueryText(String text) => _state?.queryInputController?.text = text;
+  void startSearch({forceFocus = false}) => _state?._activate(forceFocus);
   void cancelSearch() => _state?._onCancelSearch();
   void clearQuery() => _state?._onClearQuery();
   bool get isEmpty => _state != null ? !_state.queryNotEmpty : null;
