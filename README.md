@@ -35,6 +35,7 @@ Widget build(BuildContext context) {
    - *true* if widget should be showed as an action item in *defaultBar*,
    - *false* if widget should be merged with *defaultBar* (only leading icon of the default widget and search input field are displayed in such case),
  - autofocus - boolean value determining if search text field should get focus whenever it becomes visible,
+ - autoActive - ,
  - attrs - SearchBarAttrs class instance allowing to specify part of exact values used during widget building (e.g. search bar colors, text size, border radius),
  - controller - SearchBarController object that provides a way of interacing with current state of the widget,
  - searchItem - defining how to build and position search item widget in app bar,

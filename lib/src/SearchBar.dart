@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:loader_search_bar/src/AutoActive.dart';
 import 'package:loader_search_bar/src/StateHolder.dart';
 
 import 'QuerySetLoader.dart';
@@ -39,9 +40,11 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
     this.controller,
     this.iconified = true,
     bool autofocus,
+    AutoActive autoActive,
     SearchItem searchItem,
     SearchBarAttrs attrs,
-  })  : this.autofocus = autofocus ?? iconified,
+  })  : this.autoActive = autoActive ?? AutoActive.off(),
+        this.autofocus = autofocus ?? iconified,
         this.searchItem = searchItem ?? SearchItem.action(),
         this.attrs = _initAttrs(iconified, attrs);
 
@@ -97,6 +100,10 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
 
   /// Determining if search field should get focus once it becomes visible.
   final bool autofocus;
+
+  /// Allows to decide if SearchBar should be activated once it becomes
+  /// visible for the first time.
+  final AutoActive autoActive;
 
   /// Defining how to position and build search item widget in AppBar.
   final SearchItem searchItem;
@@ -164,11 +171,12 @@ class SearchBarState extends State<SearchBar> {
     _stateHolder.add(this);
     expanded = !widget.iconified;
     searchFocusNode.addListener(_onSearchFocusChange);
-    if (!widget.iconified) _initSearchQuery();
+    _initSearchQuery();
+    _initAutoActive();
   }
 
   void _onSearchFocusChange() {
-    if (focused && !activated && !widget.iconified) {
+    if (focused && !activated) {
       setState(() => _updateActivated(true));
     }
   }
@@ -200,24 +208,28 @@ class SearchBarState extends State<SearchBar> {
     if (widget.onQuerySubmitted != null) widget.onQuerySubmitted(text);
   }
 
+  void _initAutoActive() {
+    if (widget.autoActive.shouldActivate(this)) {
+      Future(() => _activate(false));
+    }
+  }
+
   void onSearchAction() {
     _initSearchQuery();
     setState(() {
       expanded = true;
       _updateActivated(true);
     });
-    _rebuildScaffold();
   }
 
   void _onCancelSearch() {
-    setState(() {
-      _updateActivated(false);
-      if (widget.iconified) expanded = false;
-      loaderQuery = null;
-    });
     searchFocusNode.unfocus();
     widget.loader?.clearData();
-    _rebuildScaffold();
+    setState(() {
+      if (widget.iconified) expanded = false;
+      loaderQuery = null;
+      _updateActivated(false);
+    });
   }
 
   void _updateActivated(bool value) {
@@ -227,6 +239,7 @@ class SearchBarState extends State<SearchBar> {
       if (activated) {
         loaderQuery = queryInputController.text;
       }
+      _rebuildScaffold();
     }
   }
 
@@ -239,12 +252,24 @@ class SearchBarState extends State<SearchBar> {
     _requestSearchFocus();
   }
 
-  void _activate([forceFocus = false]) {
+  void _activate(bool forceFocus) {
     if (!activated) {
-      widget.iconified ? onSearchAction() : _requestSearchFocus();
+      if (widget.iconified) {
+        onSearchAction();
+      } else {
+        _activateMerged();
+      }
     }
     if (activated && forceFocus && !focused) {
       _focusSearchField();
+    }
+  }
+
+  void _activateMerged() {
+    if (widget.autofocus) {
+      _requestSearchFocus();
+    } else {
+      setState(() => _updateActivated(true));
     }
   }
 
@@ -318,7 +343,7 @@ class SearchBarController {
   SearchBarState _state;
 
   void setQueryText(String text) => _state?.queryInputController?.text = text;
-  void startSearch({forceFocus = false}) => _state?._activate(forceFocus);
+  void startSearch({forceFocus = true}) => _state?._activate(forceFocus);
   void cancelSearch() => _state?._onCancelSearch();
   void clearQuery() => _state?._onClearQuery();
   bool get isEmpty => _state != null ? !_state.queryNotEmpty : null;

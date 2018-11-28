@@ -1,6 +1,6 @@
 ## [1.0.3]
 
-- Support specifying initial value of search query
+- Add initialQuery and autoActive attributes
 - Support interacting with widget's state via SearchBarController
 
 ## [1.0.2]

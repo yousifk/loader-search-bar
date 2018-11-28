@@ -275,7 +275,8 @@ class SearchBarBuilder extends StatelessWidget {
   }
 
   bool get _shouldShowClear =>
-      _state.focused || (_state.queryNotEmpty && _state.activated);
+      _state.focused ||
+      (_state.activated && (_state.queryNotEmpty || _widget.autofocus));
 
   Widget _buildSearchTextField() {
     return Positioned.fill(
