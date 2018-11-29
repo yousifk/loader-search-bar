@@ -7,7 +7,8 @@ import 'package:loader_search_bar/src/SearchBarButton.dart';
 import 'package:loader_search_bar/src/SearchBarState.dart';
 import 'package:loader_search_bar/src/SearchItem.dart';
 
-abstract class SearchBarBuilder extends StatelessWidget {
+abstract class SearchBarBuilder<T extends SearchBarState>
+    extends StatelessWidget {
   SearchBarBuilder(this.searchState, this.searchContext)
       : searchWidget = searchState.widget,
         searchAttrs = searchState.widget.attrs;
@@ -16,7 +17,7 @@ abstract class SearchBarBuilder extends StatelessWidget {
 
   final SearchBarAttrs searchAttrs;
 
-  final SearchBarState searchState;
+  final T searchState;
 
   final BuildContext searchContext;
 
@@ -65,26 +66,6 @@ abstract class SearchBarBuilder extends StatelessWidget {
     return InheritedSearchQuery(
       query: searchState.loaderQuery,
       child: searchWidget.loader,
-    );
-  }
-
-  PopupMenuButton wrapMenuWithSearchItem(PopupMenuButton menu) {
-    final searchItem =
-        searchWidget.searchItem.builder(searchContext) as PopupMenuItem;
-    return PopupMenuButton(
-      itemBuilder: (context) {
-        final items = menu.itemBuilder(context);
-        final searchIndex =
-            searchWidget.searchItem.gravity.getInsertPosition(items);
-        return items..insert(searchIndex, searchItem);
-      },
-      onSelected: (value) {
-        if (value == searchItem.value) {
-          searchState.onSearchAction();
-        } else {
-          menu.onSelected(value);
-        }
-      },
     );
   }
 
@@ -257,8 +238,8 @@ abstract class SearchBarBuilder extends StatelessWidget {
       searchAttrs.searchBarSize.height + searchState.screenPadding.top;
 }
 
-class IconifiedBarBuilder extends SearchBarBuilder {
-  IconifiedBarBuilder(SearchBarState state, BuildContext context)
+class IconifiedBarBuilder extends SearchBarBuilder<IconifiedBarState> {
+  IconifiedBarBuilder(IconifiedBarState state, BuildContext context)
       : super(state, context);
 
   @override
@@ -296,10 +277,30 @@ class IconifiedBarBuilder extends SearchBarBuilder {
         ? actions[menuIndex]
         : PopupMenuButton(itemBuilder: (_) => []);
     final wrapperIndex = menuIndex != -1 ? menuIndex : actions.length;
-    final menuWrapper = wrapMenuWithSearchItem(menu);
+    final menuWrapper = _wrapMenuWithSearchItem(menu);
     actions
       ..remove(menu)
       ..insert(wrapperIndex, menuWrapper);
+  }
+
+  PopupMenuButton _wrapMenuWithSearchItem(PopupMenuButton menu) {
+    final searchItem =
+        searchWidget.searchItem.builder(searchContext) as PopupMenuItem;
+    return PopupMenuButton(
+      itemBuilder: (context) {
+        final items = menu.itemBuilder(context);
+        final searchIndex =
+            searchWidget.searchItem.gravity.getInsertPosition(items);
+        return items..insert(searchIndex, searchItem);
+      },
+      onSelected: (value) {
+        if (value == searchItem.value) {
+          searchState.onSearchAction();
+        } else {
+          menu.onSelected(value);
+        }
+      },
+    );
   }
 
   AppBar _cloneDefaultBarWith(List<Widget> actions) {
@@ -326,8 +327,8 @@ class IconifiedBarBuilder extends SearchBarBuilder {
   }
 }
 
-class MergedBarBuilder extends SearchBarBuilder {
-  MergedBarBuilder(SearchBarState searchState, BuildContext searchContext)
+class MergedBarBuilder extends SearchBarBuilder<MergedBarState> {
+  MergedBarBuilder(MergedBarState searchState, BuildContext searchContext)
       : super(searchState, searchContext);
 
   @override

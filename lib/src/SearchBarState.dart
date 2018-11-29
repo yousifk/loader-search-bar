@@ -98,13 +98,6 @@ abstract class SearchBarState extends State<SearchBar> {
     }
   }
 
-  void onSearchAction() {
-    setState(() {
-      _initSearchQuery();
-      _updateActivated(true);
-    });
-  }
-
   void onCancelSearch() {
     setState(() {
       searchFocusNode.unfocus();
@@ -208,6 +201,13 @@ class MergedBarState extends SearchBarState {
 class IconifiedBarState extends SearchBarState {
   @override
   void handleActivate() => onSearchAction();
+
+  void onSearchAction() {
+    setState(() {
+      _initSearchQuery();
+      _updateActivated(true);
+    });
+  }
 
   @override
   SearchBarBuilder createBuilder() => IconifiedBarBuilder(this, context);
