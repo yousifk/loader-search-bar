@@ -5,7 +5,6 @@ import 'package:loader_search_bar/src/SearchBar.dart';
 import 'package:loader_search_bar/src/SearchBarAttrs.dart';
 import 'package:loader_search_bar/src/SearchBarButton.dart';
 import 'package:loader_search_bar/src/SearchBarState.dart';
-import 'package:loader_search_bar/src/SearchItem.dart';
 
 abstract class SearchBarBuilder<T extends SearchBarState>
     extends StatelessWidget {
@@ -25,20 +24,14 @@ abstract class SearchBarBuilder<T extends SearchBarState>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: searchState.onWillPop,
-      child: _buildSearchBarWidget(),
-    );
-  }
-
-  Widget _buildSearchBarWidget() {
     final appBar =
         searchState.activated ? _buildSearchBar() : buildInactiveBar();
-    if (searchWidget.loader != null) {
-      return _wrapWithLoader(appBar);
-    } else {
-      return appBar;
-    }
+    final appBarWidget =
+        searchWidget.loader != null ? _wrapWithLoader(appBar) : appBar;
+    return WillPopScope(
+      onWillPop: searchState.onWillPop,
+      child: appBarWidget,
+    );
   }
 
   Widget _wrapWithLoader(Widget appBar) {
@@ -245,62 +238,9 @@ class IconifiedBarBuilder extends SearchBarBuilder<IconifiedBarState> {
   @override
   Widget buildInactiveBar() {
     final actions = <Widget>[]..addAll(searchWidget.defaultBar.actions ?? []);
-    final itemType = searchWidget.searchItem.type;
-    switch (itemType) {
-      case SearchItemType.ACTION:
-        _addSearchActionItem(actions);
-        break;
-      case SearchItemType.MENU:
-        _addSearchMenuItem(actions);
-        break;
-      default:
-        throw Exception(
-            "Attempted to build SearchItem of unknown type: $itemType.");
-    }
+    searchWidget.searchItem
+        .addSearchItem(searchContext, actions, searchState.onSearchAction);
     return _cloneDefaultBarWith(actions);
-  }
-
-  void _addSearchActionItem(List<Widget> actions) {
-    final item = InkWell(
-      onTap: searchState.onSearchAction,
-      child: AbsorbPointer(
-        child: searchWidget.searchItem.builder(searchContext),
-      ),
-    );
-    final index = searchWidget.searchItem.gravity.getInsertPosition(actions);
-    actions.insert(index, item);
-  }
-
-  void _addSearchMenuItem(List<Widget> actions) {
-    final menuIndex = actions.lastIndexWhere((it) => it is PopupMenuButton);
-    final menu = menuIndex != -1
-        ? actions[menuIndex]
-        : PopupMenuButton(itemBuilder: (_) => []);
-    final wrapperIndex = menuIndex != -1 ? menuIndex : actions.length;
-    final menuWrapper = _wrapMenuWithSearchItem(menu);
-    actions
-      ..remove(menu)
-      ..insert(wrapperIndex, menuWrapper);
-  }
-
-  PopupMenuButton _wrapMenuWithSearchItem(PopupMenuButton menu) {
-    final searchItem =
-        searchWidget.searchItem.builder(searchContext) as PopupMenuItem;
-    return PopupMenuButton(
-      itemBuilder: (context) {
-        final items = menu.itemBuilder(context);
-        final searchIndex =
-            searchWidget.searchItem.gravity.getInsertPosition(items);
-        return items..insert(searchIndex, searchItem);
-      },
-      onSelected: (value) {
-        if (value == searchItem.value) {
-          searchState.onSearchAction();
-        } else {
-          menu.onSelected(value);
-        }
-      },
-    );
   }
 
   AppBar _cloneDefaultBarWith(List<Widget> actions) {
