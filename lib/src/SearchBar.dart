@@ -11,7 +11,7 @@ import 'QuerySetLoader.dart';
 import 'SearchBarAttrs.dart';
 import 'SearchItem.dart';
 
-/// Search field widget being displayed within Scaffold element.
+/// Search field widget displayed within Scaffold element.
 /// Depending on its state and passed attributes it can be rendered
 /// as an appBar action, expanded to its full size when activated or merged
 /// with appBar, making the search field visible although not activated.
@@ -48,20 +48,11 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
         this.attrs = _initAttrs(iconified, attrs);
 
   static SearchBarAttrs _initAttrs(bool iconified, SearchBarAttrs attrs) {
-    final defaultAttrs =
-        iconified ? _defaultIconifiedAttrs : _defaultMergedAttrs;
+    final defaultAttrs = iconified
+        ? SearchBarAttrs.defaultIconified()
+        : SearchBarAttrs.defaultMerged();
     return attrs != null ? defaultAttrs.merge(attrs) : defaultAttrs;
   }
-
-  static final _defaultIconifiedAttrs = SearchBarAttrs(
-    textBoxBackgroundColor: Colors.transparent,
-    textBoxOutlineColor: Colors.transparent,
-  );
-
-  static final _defaultMergedAttrs = SearchBarAttrs(
-    textBoxBackgroundColor: Colors.black12,
-    textBoxOutlineColor: Colors.black26,
-  );
 
   /// Function being called whenever query changes with its current value
   /// as an argument.

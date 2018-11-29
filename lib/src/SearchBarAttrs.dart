@@ -20,6 +20,14 @@ class SearchBarAttrs {
   })  : this.primaryDetailColor = primaryDetailColor,
         this.textStyle = textStyle ?? _getDefaultTextStyle(primaryDetailColor);
 
+  factory SearchBarAttrs.defaultIconified() => SearchBarAttrs(
+      textBoxBackgroundColor: Colors.transparent,
+      textBoxOutlineColor: Colors.transparent);
+
+  factory SearchBarAttrs.defaultMerged() => SearchBarAttrs(
+      textBoxBackgroundColor: Colors.black12,
+      textBoxOutlineColor: Colors.black26);
+
   static TextStyle _getDefaultTextStyle(Color color) =>
       TextStyle(fontSize: 20.0, color: color);
 
