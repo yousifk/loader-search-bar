@@ -43,7 +43,7 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
     AutoActive autoActive,
     SearchItem searchItem,
     SearchBarAttrs attrs,
-  })  : this.autoActive = autoActive ?? AutoActive.off(),
+  })  : this.autoActive = autoActive ?? AutoActive.off,
         this.autofocus = autofocus ?? iconified,
         this.searchItem = searchItem ?? SearchItem.action(),
         this.attrs = _initAttrs(iconified, attrs);
