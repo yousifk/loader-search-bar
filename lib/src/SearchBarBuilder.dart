@@ -247,7 +247,7 @@ class SearchBarBuilder extends StatelessWidget {
     return SearchBarButton(
       icon: Icons.arrow_back,
       color: _attrs.primaryDetailColor,
-      onPressed: _state.onCancelSearch,
+      onPressed: _state.cancelSearchCallback,
       marginHorizontal: _attrs.cancelSearchMarginLeft,
     );
   }
@@ -269,10 +269,14 @@ class SearchBarBuilder extends StatelessWidget {
       children: [
         _buildSearchTextField(),
         _buildHighlightButton(),
-        _state.focused ? _buildClearButton() : null,
+        _shouldShowClear ? _buildClearButton() : null,
       ].where((it) => it != null).toList(),
     );
   }
+
+  bool get _shouldShowClear =>
+      _state.focused ||
+      (_state.activated && (_state.queryNotEmpty || _widget.autofocus));
 
   Widget _buildSearchTextField() {
     return Positioned.fill(
@@ -344,7 +348,7 @@ class SearchBarBuilder extends StatelessWidget {
           color: _state.queryNotEmpty
               ? _attrs.primaryDetailColor
               : _attrs.secondaryDetailColor,
-          onPressed: _state.onClearQuery,
+          onPressed: _state.clearQueryCallback,
         ),
       ),
     );

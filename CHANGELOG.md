@@ -1,3 +1,8 @@
+## [1.0.3]
+
+- Add initialQuery and autoActive attributes
+- Support interacting with widget's state via SearchBarController
+
 ## [1.0.2]
 
 - Fix duplicated GlobalKey across multiple pages

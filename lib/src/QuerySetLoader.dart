@@ -43,7 +43,7 @@ class QuerySetLoader<T> extends StatefulWidget {
   final bool animateChanges;
 
   /// Used internally by SearchBar to clear list data once user ends search action.
-  void clearData() => QuerySetLoaderState._stateHolder[this]?.clearListModel();
+  void clearData() => QuerySetLoaderState._stateHolder[this]?.clearLoader();
 
   @override
   QuerySetLoaderState createState() => QuerySetLoaderState<T>();
@@ -83,14 +83,17 @@ class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
     super.dispose();
   }
 
-  void clearListModel() => _listModel.clear();
+  void clearLoader() {
+    _listModel.clear();
+    _previousQuery = null;
+  }
 
   void _loadDataIfQueryChanged(BuildContext context) {
-    final _currentQuery = InheritedSearchQuery.of(context);
-    if (_previousQuery != _currentQuery) {
+    final currentQuery = InheritedSearchQuery.of(context);
+    if (_previousQuery != currentQuery) {
       _cancelQuerySetLoad();
-      _launchQuerySetLoad(context, _currentQuery);
-      _previousQuery = _currentQuery;
+      _launchQuerySetLoad(context, currentQuery);
+      _previousQuery = currentQuery;
     }
   }
 

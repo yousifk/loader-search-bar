@@ -9,3 +9,4 @@ export 'src/SearchBarAttrs.dart';
 export 'src/QuerySetLoader.dart';
 export 'src/SearchItem.dart';
 export 'src/SearchItemGravity.dart';
+export 'src/AutoActive.dart';
