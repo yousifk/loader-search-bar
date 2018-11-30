@@ -1,4 +1,4 @@
-import 'package:loader_search_bar/loader_search_bar.dart';
+import 'package:loader_search_bar/src/SearchBarState.dart';
 
 typedef bool ActivePredicate(SearchBarState state);
 

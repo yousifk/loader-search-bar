@@ -5,6 +5,7 @@
 library loader_search_bar;
 
 export 'src/SearchBar.dart';
+export 'src/SearchBarController.dart';
 export 'src/SearchBarAttrs.dart';
 export 'src/QuerySetLoader.dart';
 export 'src/SearchItem.dart';

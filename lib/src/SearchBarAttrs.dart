@@ -1,5 +1,3 @@
-import 'dart:io' show Platform;
-
 import 'package:flutter/material.dart';
 
 /// Holder class containing attributes used during building [SearchBar] widget
@@ -21,6 +19,14 @@ class SearchBarAttrs {
     TextStyle textStyle,
   })  : this.primaryDetailColor = primaryDetailColor,
         this.textStyle = textStyle ?? _getDefaultTextStyle(primaryDetailColor);
+
+  factory SearchBarAttrs.defaultIconified() => SearchBarAttrs(
+      textBoxBackgroundColor: Colors.transparent,
+      textBoxOutlineColor: Colors.transparent);
+
+  factory SearchBarAttrs.defaultMerged() => SearchBarAttrs(
+      textBoxBackgroundColor: Colors.black12,
+      textBoxOutlineColor: Colors.black26);
 
   static TextStyle _getDefaultTextStyle(Color color) =>
       TextStyle(fontSize: 20.0, color: color);
@@ -75,20 +81,4 @@ class SearchBarAttrs {
       textStyle: other.textStyle ?? this.textStyle,
     );
   }
-}
-
-abstract class _SearchBarPlatformAttrs {
-  static _SearchBarPlatformAttrs create() {
-    if (Platform.isAndroid) return _SearchBarAndroidAttrs();
-    if (Platform.isIOS) return _SearchBarIosAttrs();
-    throw Exception('Not supported platform.');
-  }
-}
-
-class _SearchBarAndroidAttrs extends _SearchBarPlatformAttrs {
-  _SearchBarAndroidAttrs() : super();
-}
-
-class _SearchBarIosAttrs extends _SearchBarPlatformAttrs {
-  _SearchBarIosAttrs() : super();
 }
