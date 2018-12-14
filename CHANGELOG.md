@@ -2,6 +2,7 @@
 
 - Add initialQuery and autoActive attributes
 - Support interacting with widget's state via SearchBarController
+- Adjust *clear query* button behavior
 
 ## [1.0.2]
 
