@@ -119,7 +119,7 @@ abstract class SearchBarState extends State<SearchBar> {
   }
 
   void onClearQuery() =>
-      queryNotEmpty ? _clearQueryField() : searchFocusNode.unfocus();
+      queryNotEmpty ? _clearQueryField() : cancelSearchCallback();
 
   void _clearQueryField() {
     _isClearingQuery = true;

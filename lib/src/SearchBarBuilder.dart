@@ -147,9 +147,7 @@ abstract class SearchBarBuilder<T extends SearchBarState>
   }
 
   bool get _shouldShowClear =>
-      searchState.focused ||
-      (searchState.activated &&
-          (searchState.queryNotEmpty || searchWidget.autofocus));
+      searchState.activated && searchState.queryNotEmpty;
 
   Widget _buildSearchTextField() {
     return Positioned.fill(
