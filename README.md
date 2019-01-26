@@ -1,5 +1,10 @@
 # Loader SearchBar
 
+## This package's been discontinued
+Due to a *hacky* way this widget uses to display search results, it's become difficult to maintain and add new features.
+While it won't be developed anymore, you can still fork/use it in your Flutter project. 
+As a replacement, take a look at Flutter framework [showSearch](https://docs.flutter.io/flutter/material/showSearch.html) method or other [community packages](https://pub.dartlang.org/flutter/packages?q=search).
+
 [![pub package](https://img.shields.io/pub/v/loader_search_bar.svg)](https://pub.dartlang.org/packages/loader_search_bar)
 
 Flutter widget integrating search field feature into app bar, allowing to receive query change callbacks and automatically load new data set into ListView. It replaces standard AppBar widget and **needs to be placed underneath Scaffold** element in the widget tree to work properly.
@@ -118,9 +123,3 @@ appBar: SearchBar(
 ```
 
 Also, bear in mind that **SearchBar will prevent built item widget from receiving tap events** and will begin search action rather than that.  
-
-## Contributions
-Any kind of contribution to the project is welcomed.  
-Feel free to request new features, report encountered bugs or pull request changes you've made.  
-To do so, make use of [Pull requests](https://github.com/tomwyr/loader-search-bar/compare) and [Issues](https://github.com/tomwyr/loader-search-bar/issues/new) tabs.
-
