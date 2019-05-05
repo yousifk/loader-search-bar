@@ -25,9 +25,9 @@ abstract class SearchBarBuilder<T extends SearchBarState>
   @override
   Widget build(BuildContext context) {
     final appBar =
-        searchState.activated ? _buildSearchBar() : buildInactiveBar();
+    searchState.activated ? _buildSearchBar() : buildInactiveBar();
     final appBarWidget =
-        searchWidget.loader != null ? _wrapWithLoader(appBar) : appBar;
+    searchWidget.loader != null ? _wrapWithLoader(appBar) : appBar;
     return WillPopScope(
       onWillPop: searchState.onWillPop,
       child: appBarWidget,
@@ -118,7 +118,7 @@ abstract class SearchBarBuilder<T extends SearchBarState>
   Widget _buildCancelSearchButton() {
     return SearchBarButton(
       icon: Icons.arrow_back,
-      color: searchAttrs.primaryDetailColor,
+      color: searchAttrs.disabledDetailColor,
       onPressed: searchState.cancelSearchCallback,
       marginHorizontal: searchAttrs.cancelSearchMarginLeft,
     );
@@ -137,11 +137,13 @@ abstract class SearchBarBuilder<T extends SearchBarState>
   }
 
   Widget _buildSearchStack() {
-    return Stack(
+    return Row(
       children: [
-        _buildSearchTextField(),
+
         _buildHighlightButton(),
-        _shouldShowClear ? _buildClearButton() : null,
+        _buildSearchTextField(),
+        //     _shouldShowClear ? _buildClearButton() : null,
+        _buildClearButton()
       ].where((it) => it != null).toList(),
     );
   }
@@ -150,10 +152,10 @@ abstract class SearchBarBuilder<T extends SearchBarState>
       searchState.activated && searchState.queryNotEmpty;
 
   Widget _buildSearchTextField() {
-    return Positioned.fill(
+    return Expanded(
       child: Center(
         child: TextField(
-          style: searchAttrs.textStyle,
+          style: searchAttrs.textStyle,maxLines: 1,
           autofocus: searchWidget.autofocus,
           focusNode: searchState.searchFocusNode,
           controller: searchState.queryInputController,
@@ -172,14 +174,14 @@ abstract class SearchBarBuilder<T extends SearchBarState>
         width: searchAttrs.textBoxOutlineWidth,
       ),
       borderRadius:
-          BorderRadius.all(Radius.circular(searchAttrs.textBoxOutlineRadius)),
+      BorderRadius.all(Radius.circular(searchAttrs.textBoxOutlineRadius)),
       color: searchAttrs.textBoxBackgroundColor,
     );
   }
 
   InputDecoration _buildSearchTextFieldDecoration() {
     return InputDecoration(
-      contentPadding: searchAttrs.searchTextFieldPadding,
+      contentPadding:   EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
       border: InputBorder.none,
       hintText: searchWidget.searchHint,
       hintStyle: TextStyle(
@@ -190,38 +192,28 @@ abstract class SearchBarBuilder<T extends SearchBarState>
   }
 
   Widget _buildHighlightButton() {
-    return Positioned(
-      left: 0.0,
-      top: 0.0,
-      bottom: 0.0,
-      child: Container(
-        margin: searchAttrs.highlightButtonMargin,
-        child: SearchBarButton(
-          icon: Icons.search,
-          color: searchState.queryNotEmpty || !searchState.focused
-              ? searchAttrs.primaryDetailColor
-              : searchAttrs.secondaryDetailColor,
-          onPressed: searchState.onPrefixSearchTap,
-        ),
+    return  Container(
+      margin: searchAttrs.highlightButtonMargin,
+      child: SearchBarButton(
+        icon: Icons.search,
+        color:  searchAttrs.primaryDetailColor
+        ,
+        onPressed: searchState.onPrefixSearchTap,
       ),
+
     );
   }
 
   Widget _buildClearButton() {
-    return Positioned(
-      right: 0.0,
-      top: 0.0,
-      bottom: 0.0,
-      child: Container(
-        margin: searchAttrs.clearButtonMargin,
-        child: SearchBarButton(
-          icon: Icons.clear,
-          color: searchState.queryNotEmpty
-              ? searchAttrs.primaryDetailColor
-              : searchAttrs.secondaryDetailColor,
-          onPressed: searchState.clearQueryCallback,
-        ),
+    return  Container(
+      margin: searchAttrs.clearButtonMargin,
+      child: SearchBarButton(
+        icon: Icons.clear,
+        color:  searchAttrs.primaryDetailColor
+        ,
+        onPressed: searchState.clearQueryCallback,
       ),
+
     );
   }
 

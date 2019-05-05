@@ -19,9 +19,9 @@ class SearchBarButton extends StatelessWidget {
       onTap: onPressed,
       borderRadius: BorderRadius.circular(16.0),
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: marginHorizontal),
+        //    margin: EdgeInsets.symmetric(horizontal: marginHorizontal),
         child: Padding(
-          padding: EdgeInsets.all(4.0),
+          padding: EdgeInsets.all(2.0),
           child: Container(
             child: Icon(icon, color: color, size: 24.0),
           ),
