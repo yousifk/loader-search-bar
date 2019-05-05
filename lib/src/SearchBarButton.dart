@@ -21,7 +21,7 @@ class SearchBarButton extends StatelessWidget {
       child: Container(
         //    margin: EdgeInsets.symmetric(horizontal: marginHorizontal),
         child: Padding(
-          padding: EdgeInsets.all(2.0),
+          padding: EdgeInsets.all(1.0),
           child: Container(
             child: Icon(icon, color: color, size: 24.0),
           ),

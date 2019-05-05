@@ -6,8 +6,7 @@ import 'package:loader_search_bar/src/SearchBarAttrs.dart';
 import 'package:loader_search_bar/src/SearchBarButton.dart';
 import 'package:loader_search_bar/src/SearchBarState.dart';
 
-abstract class SearchBarBuilder<T extends SearchBarState>
-    extends StatelessWidget {
+abstract class SearchBarBuilder<T extends SearchBarState> extends StatelessWidget {
   SearchBarBuilder(this.searchState, this.searchContext)
       : searchWidget = searchState.widget,
         searchAttrs = searchState.widget.attrs;
@@ -24,10 +23,8 @@ abstract class SearchBarBuilder<T extends SearchBarState>
 
   @override
   Widget build(BuildContext context) {
-    final appBar =
-    searchState.activated ? _buildSearchBar() : buildInactiveBar();
-    final appBarWidget =
-    searchWidget.loader != null ? _wrapWithLoader(appBar) : appBar;
+    final appBar = searchState.activated ? _buildSearchBar() : buildInactiveBar();
+    final appBarWidget = searchWidget.loader != null ? _wrapWithLoader(appBar) : appBar;
     return WillPopScope(
       onWillPop: searchState.onWillPop,
       child: appBarWidget,
@@ -75,8 +72,7 @@ abstract class SearchBarBuilder<T extends SearchBarState>
     return _wrapWithOverlayIfPresent(barWidget);
   }
 
-  List<Widget> _buildBaseBarContent(
-      Widget leading, Widget search, List<Widget> actions) {
+  List<Widget> _buildBaseBarContent(Widget leading, Widget search, List<Widget> actions) {
     return []
       ..add(Container(width: searchAttrs.searchBarPadding))
       ..add(leading)
@@ -139,7 +135,6 @@ abstract class SearchBarBuilder<T extends SearchBarState>
   Widget _buildSearchStack() {
     return Row(
       children: [
-
         _buildHighlightButton(),
         _buildSearchTextField(),
         //     _shouldShowClear ? _buildClearButton() : null,
@@ -148,14 +143,14 @@ abstract class SearchBarBuilder<T extends SearchBarState>
     );
   }
 
-  bool get _shouldShowClear =>
-      searchState.activated && searchState.queryNotEmpty;
+  bool get _shouldShowClear => searchState.activated && searchState.queryNotEmpty;
 
   Widget _buildSearchTextField() {
     return Expanded(
       child: Center(
         child: TextField(
-          style: searchAttrs.textStyle,maxLines: 1,
+          style: searchAttrs.textStyle,
+          maxLines: 1,
           autofocus: searchWidget.autofocus,
           focusNode: searchState.searchFocusNode,
           controller: searchState.queryInputController,
@@ -173,63 +168,52 @@ abstract class SearchBarBuilder<T extends SearchBarState>
         color: searchAttrs.textBoxOutlineColor,
         width: searchAttrs.textBoxOutlineWidth,
       ),
-      borderRadius:
-      BorderRadius.all(Radius.circular(searchAttrs.textBoxOutlineRadius)),
+      borderRadius: BorderRadius.all(Radius.circular(searchAttrs.textBoxOutlineRadius)),
       color: searchAttrs.textBoxBackgroundColor,
     );
   }
 
   InputDecoration _buildSearchTextFieldDecoration() {
     return InputDecoration(
-      contentPadding:   EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
+      contentPadding: EdgeInsets.only(top: 6),
       border: InputBorder.none,
       hintText: searchWidget.searchHint,
-      hintStyle: TextStyle(
-          color: !searchState.focused
-              ? searchAttrs.secondaryDetailColor
-              : searchAttrs.disabledDetailColor),
+      hintStyle: TextStyle(color: !searchState.focused ? searchAttrs.secondaryDetailColor : searchAttrs.disabledDetailColor),
     );
   }
 
   Widget _buildHighlightButton() {
-    return  Container(
+    return Container(
       margin: searchAttrs.highlightButtonMargin,
       child: SearchBarButton(
         icon: Icons.search,
-        color:  searchAttrs.primaryDetailColor
-        ,
+        color: searchAttrs.primaryDetailColor,
         onPressed: searchState.onPrefixSearchTap,
       ),
-
     );
   }
 
   Widget _buildClearButton() {
-    return  Container(
+    return Container(
       margin: searchAttrs.clearButtonMargin,
       child: SearchBarButton(
         icon: Icons.clear,
-        color:  searchAttrs.primaryDetailColor
-        ,
+        color: searchAttrs.primaryDetailColor,
         onPressed: searchState.clearQueryCallback,
       ),
-
     );
   }
 
-  double get _searchBarTotalHeight =>
-      searchAttrs.searchBarSize.height + searchState.screenPadding.top;
+  double get _searchBarTotalHeight => searchAttrs.searchBarSize.height + searchState.screenPadding.top;
 }
 
 class IconifiedBarBuilder extends SearchBarBuilder<IconifiedBarState> {
-  IconifiedBarBuilder(IconifiedBarState state, BuildContext context)
-      : super(state, context);
+  IconifiedBarBuilder(IconifiedBarState state, BuildContext context) : super(state, context);
 
   @override
   Widget buildInactiveBar() {
     final actions = <Widget>[]..addAll(searchWidget.defaultBar.actions ?? []);
-    searchWidget.searchItem
-        .addSearchItem(searchContext, actions, searchState.onSearchAction);
+    searchWidget.searchItem.addSearchItem(searchContext, actions, searchState.onSearchAction);
     return _cloneDefaultBarWith(actions);
   }
 
@@ -258,14 +242,12 @@ class IconifiedBarBuilder extends SearchBarBuilder<IconifiedBarState> {
 }
 
 class MergedBarBuilder extends SearchBarBuilder<MergedBarState> {
-  MergedBarBuilder(MergedBarState searchState, BuildContext searchContext)
-      : super(searchState, searchContext);
+  MergedBarBuilder(MergedBarState searchState, BuildContext searchContext) : super(searchState, searchContext);
 
   @override
   Widget buildInactiveBar() {
     return buildBaseBar(
-      leading: searchWidget.defaultBar.leading ??
-          _buildScaffoldDefaultLeading(searchContext),
+      leading: searchWidget.defaultBar.leading ?? _buildScaffoldDefaultLeading(searchContext),
       search: buildSearchStackContainer(),
       actions: searchWidget.defaultBar.actions ?? [],
     );
@@ -276,8 +258,7 @@ class MergedBarBuilder extends SearchBarBuilder<MergedBarState> {
     final hasDrawer = scaffold?.hasDrawer ?? false;
     final parentRoute = ModalRoute.of(context);
     final canPop = parentRoute?.canPop ?? false;
-    final useCloseButton =
-        parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
+    final useCloseButton = parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
 
     if (hasDrawer) {
       return IconButton(
