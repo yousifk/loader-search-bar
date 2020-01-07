@@ -5,7 +5,8 @@ typedef T SearchItemBuilder<T>(BuildContext context);
 typedef PopupMenuItem<T> MenuItemBuilder<T>(BuildContext context);
 
 abstract class SearchItem<T> {
-  SearchItem(SearchItemGravity gravity, this._builder)
+  final VoidCallback onTapSearch;
+  SearchItem(SearchItemGravity gravity, this._builder, this.onTapSearch)
       : this.gravity = gravity ?? SearchItemGravity.start;
 
   final SearchItemGravity gravity;
@@ -16,22 +17,30 @@ abstract class SearchItem<T> {
   void addSearchItem(
       BuildContext context, List<Widget> actions, void onSearch());
 
-  static action({SearchItemGravity gravity, WidgetBuilder builder}) =>
-      _ActionSearchItem(gravity, builder);
+  static action(
+          {SearchItemGravity gravity,
+          WidgetBuilder builder,
+          VoidCallback onTapSearch}) =>
+      _ActionSearchItem(gravity, builder, onTapSearch);
 
-  static menu<T>({SearchItemGravity gravity, MenuItemBuilder<T> builder}) =>
-      _MenuSearchItem<T>(gravity, builder);
+  static menu<T>(
+          {SearchItemGravity gravity,
+          MenuItemBuilder<T> builder,
+          VoidCallback onTapSearch}) =>
+      _MenuSearchItem<T>(gravity, builder, onTapSearch);
 }
 
 class _ActionSearchItem extends SearchItem<Widget> {
-  _ActionSearchItem(
-    SearchItemGravity gravity,
-    SearchItemBuilder<Widget> builder,
-  ) : super(gravity, builder);
+  _ActionSearchItem(SearchItemGravity gravity,
+      SearchItemBuilder<Widget> builder, VoidCallback onTapSearch)
+      : super(gravity, builder, onTapSearch);
 
   @override
-  SearchItemBuilder get _defaultBuilder =>
-      (_) => IconButton(icon: Icon(Icons.search), onPressed: () {});
+  SearchItemBuilder get _defaultBuilder => (_) => IconButton(
+      icon: Icon(Icons.search),
+      onPressed: () {
+        onTapSearch();
+      });
 
   @override
   void addSearchItem(
@@ -48,10 +57,9 @@ class _ActionSearchItem extends SearchItem<Widget> {
 }
 
 class _MenuSearchItem<T> extends SearchItem<PopupMenuItem<T>> {
-  _MenuSearchItem(
-    SearchItemGravity gravity,
-    SearchItemBuilder<PopupMenuItem<T>> builder,
-  ) : super(gravity, builder);
+  _MenuSearchItem(SearchItemGravity gravity,
+      SearchItemBuilder<PopupMenuItem<T>> builder, VoidCallback onTapSearch)
+      : super(gravity, builder, onTapSearch);
 
   @override
   SearchItemBuilder get _defaultBuilder =>

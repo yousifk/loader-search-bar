@@ -27,7 +27,7 @@ class CallbackSearchBarPageState extends State<CallbackSearchBarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SearchBar(
+      appBar: SearchBar(onTapSearch: (){print("Click Click Click");},
         iconified: false,
         defaultBar: AppBar(),
         onQueryChanged: (query) => _onQueryChanged(context, query),

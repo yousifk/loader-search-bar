@@ -94,6 +94,10 @@ abstract class SearchBarState extends State<SearchBar> {
     if (widget.onQuerySubmitted != null) widget.onQuerySubmitted(text);
   }
 
+  void onTapSearchAction() {
+    if (widget.onTapSearch != null) widget.onTapSearch();
+  }
+
   void _initAutoActive() {
     if (widget.autoActive.shouldActivate(this)) {
       Future(() => activate(false));
@@ -156,6 +160,8 @@ abstract class SearchBarState extends State<SearchBar> {
   void onPrefixSearchTap() {
     _requestSearchFocus();
     _highlightQueryText();
+    print("onPrefixSearchTap");
+    if (widget.onTapSearch != null) widget.onTapSearch();
   }
 
   void _requestSearchFocus() =>

@@ -175,7 +175,7 @@ abstract class SearchBarBuilder<T extends SearchBarState> extends StatelessWidge
 
   InputDecoration _buildSearchTextFieldDecoration() {
     return InputDecoration(
-      contentPadding: EdgeInsets.only(top: 6),
+      contentPadding: EdgeInsets.only(top: 6,bottom : 6),
       border: InputBorder.none,
       hintText: searchWidget.searchHint,
       hintStyle: TextStyle(color: !searchState.focused ? searchAttrs.secondaryDetailColor : searchAttrs.disabledDetailColor),

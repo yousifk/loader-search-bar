@@ -41,10 +41,10 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
     bool autofocus,
     AutoActive autoActive,
     SearchItem searchItem,
-    SearchBarAttrs attrs,
+    SearchBarAttrs attrs, this.onTapSearch,
   })  : this.autoActive = autoActive ?? AutoActive.off,
         this.autofocus = autofocus ?? iconified,
-        this.searchItem = searchItem ?? SearchItem.action(),
+        this.searchItem = searchItem ?? SearchItem.action(onTapSearch: onTapSearch),
         this.attrs = _initAttrs(iconified, attrs);
 
   static SearchBarAttrs _initAttrs(bool iconified, SearchBarAttrs attrs) {
@@ -61,6 +61,9 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   /// Function being called whenever query is submitted with its current value
   /// as an argument.
   final ValueChanged<String> onQuerySubmitted;
+
+  //onTapSearch Search Botton
+  final VoidCallback onTapSearch;
 
   /// Widget automatically loading data corresponding to current query
   /// and displaying it in ListView.
