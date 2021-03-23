@@ -7,9 +7,7 @@ class InheritedSearchQuery extends InheritedWidget {
   }) : super(child: child);
 
   static String of(BuildContext context) =>
-      (context.inheritFromWidgetOfExactType(InheritedSearchQuery)
-              as InheritedSearchQuery)
-          .query;
+      context.dependOnInheritedWidgetOfExactType<InheritedSearchQuery>().query;
 
   final String query;
 
