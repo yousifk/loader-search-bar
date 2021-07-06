@@ -8,9 +8,9 @@ class SearchBarButton extends StatelessWidget {
     this.marginHorizontal = 0.0,
   });
 
-  final IconData icon;
-  final Color color;
-  final GestureTapCallback onPressed;
+  final IconData? icon;
+  final Color? color;
+  final GestureTapCallback? onPressed;
   final double marginHorizontal;
 
   @override

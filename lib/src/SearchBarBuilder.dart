@@ -55,7 +55,7 @@ abstract class SearchBarBuilder<T extends SearchBarState> extends StatelessWidge
   Widget _buildLoaderWidget() {
     return InheritedSearchQuery(
       query: searchState.loaderQuery,
-      child: searchWidget.loader,
+      child: searchWidget.loader!,
     );
   }
 
@@ -66,13 +66,13 @@ abstract class SearchBarBuilder<T extends SearchBarState> extends StatelessWidge
     );
   }
 
-  Widget buildBaseBar({Widget leading, Widget search, List<Widget> actions}) {
+  Widget buildBaseBar({Widget? leading, Widget? search, List<Widget>? actions}) {
     final barContent = _buildBaseBarContent(leading, search, actions);
     final barWidget = _buildBaseBarWidget(barContent);
     return _wrapWithOverlayIfPresent(barWidget);
   }
 
-  List<Widget> _buildBaseBarContent(Widget leading, Widget search, List<Widget> actions) {
+  List<Widget?> _buildBaseBarContent(Widget? leading, Widget? search, List<Widget>? actions) {
     return []
       ..add(Container(width: searchAttrs.searchBarPadding))
       ..add(leading)
@@ -93,7 +93,7 @@ abstract class SearchBarBuilder<T extends SearchBarState> extends StatelessWidge
           bottom: false,
           child: Container(
             color: searchAttrs.searchBarColor,
-            child: Row(children: barContent),
+            child: Row(children: barContent as List<Widget>),
           ),
         ),
       ),
@@ -103,7 +103,7 @@ abstract class SearchBarBuilder<T extends SearchBarState> extends StatelessWidge
   Widget _wrapWithOverlayIfPresent(Widget widget) {
     if (searchWidget.overlayStyle != null) {
       return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: searchWidget.overlayStyle,
+        value: searchWidget.overlayStyle!,
         child: widget,
       );
     } else {
@@ -139,11 +139,9 @@ abstract class SearchBarBuilder<T extends SearchBarState> extends StatelessWidge
         _buildSearchTextField(),
         //     _shouldShowClear ? _buildClearButton() : null,
         _buildClearButton()
-      ].where((it) => it != null).toList(),
+      ],
     );
   }
-
-  bool get _shouldShowClear => searchState.activated && searchState.queryNotEmpty;
 
   Widget _buildSearchTextField() {
     return Expanded(
@@ -165,7 +163,7 @@ abstract class SearchBarBuilder<T extends SearchBarState> extends StatelessWidge
   BoxDecoration _buildSearchTextBoxDecoration() {
     return BoxDecoration(
       border: Border.all(
-        color: searchAttrs.textBoxOutlineColor,
+        color: searchAttrs.textBoxOutlineColor!,
         width: searchAttrs.textBoxOutlineWidth,
       ),
       borderRadius: BorderRadius.all(Radius.circular(searchAttrs.textBoxOutlineRadius)),
@@ -253,9 +251,9 @@ class MergedBarBuilder extends SearchBarBuilder<MergedBarState> {
     );
   }
 
-  Widget _buildScaffoldDefaultLeading(BuildContext context) {
+  Widget? _buildScaffoldDefaultLeading(BuildContext context) {
     final scaffold = Scaffold.of(context);
-    final hasDrawer = scaffold?.hasDrawer ?? false;
+    final hasDrawer = scaffold.hasDrawer;
     final parentRoute = ModalRoute.of(context);
     final canPop = parentRoute?.canPop ?? false;
     final useCloseButton = parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;

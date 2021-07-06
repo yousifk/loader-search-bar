@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 typedef RemovedItemBuilder<T>(
@@ -7,12 +6,11 @@ typedef RemovedItemBuilder<T>(
 
 class ListModel<T> {
   ListModel({
-    @required this.listKey,
-    @required this.removedItemBuilder,
+    required this.listKey,
+    required this.removedItemBuilder,
     this.animationDuration = DEFAULT_ANIM_DURATION,
-    Iterable<T> initialItems,
-  })  : assert(listKey != null),
-        assert(removedItemBuilder != null),
+    Iterable<T>? initialItems,
+  })  : 
         _items = new List<T>.from(initialItems ?? <T>[]);
 
   static const DEFAULT_ANIM_DURATION = Duration(milliseconds: 300);
@@ -26,25 +24,25 @@ class ListModel<T> {
 
   final List<T> _items;
 
-  AnimatedListState get _animatedList => listKey.currentState;
+  AnimatedListState? get _animatedList => listKey.currentState;
 
   void clear() {
     while (_items.isNotEmpty) {
       final item = _items.removeAt(0);
       final animation = _removeAnimationOf(item);
-      _animatedList.removeItem(0, animation, duration: NO_ANIM_DURATION);
+      _animatedList!.removeItem(0, animation, duration: NO_ANIM_DURATION);
     }
   }
 
   void insert(int index, T item) {
     _items.insert(index, item);
-    _animatedList.insertItem(index, duration: animationDuration);
+    _animatedList!.insertItem(index, duration: animationDuration);
   }
 
   T removeAt(int index) {
     final T removedItem = _items.removeAt(index);
     if (removedItem != null) {
-      _animatedList.removeItem(
+      _animatedList!.removeItem(
         index,
         _removeAnimationOf(removedItem),
         duration: animationDuration,

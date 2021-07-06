@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_search_bar/src/StateHolder.dart';
 
@@ -15,15 +14,16 @@ typedef Widget QuerySetItemBuilder<T>(T item);
 /// ListView populated with loaded data.
 class QuerySetLoader<T> extends StatefulWidget {
   QuerySetLoader({
-    @required this.querySetCall,
-    @required this.itemBuilder,
+    required this.querySetCall,
+    required this.itemBuilder,
     this.loadOnEachChange = false,
     this.animateChanges = true,
   });
 
   /// Instance with empty function bodies used internally by [SearchBar].
-  static final QuerySetLoader blank =
-      QuerySetLoader(querySetCall: (_) {}, itemBuilder: (_) {});
+  static final QuerySetLoader blank = QuerySetLoader(
+      querySetCall: (_) {} as List<dynamic> Function(String),
+      itemBuilder: (_) {} as Widget Function(dynamic));
 
   /// Function being called in order to load data. Takes query string as
   /// argument and returns list of corresponding items. Received function is
@@ -55,13 +55,13 @@ class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
 
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
 
-  ListModel<T> _listModel;
+  late ListModel<T> _listModel;
 
   bool _isLoading = false;
 
-  StreamSubscription<List<T>> _querySetStream;
+  StreamSubscription<List<T>>? _querySetStream;
 
-  String _previousQuery;
+  String? _previousQuery;
 
   @override
   void initState() {
@@ -80,6 +80,7 @@ class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
   @override
   void dispose() {
     _stateHolder.remove(this);
+    _querySetStream?.cancel();
     super.dispose();
   }
 
@@ -99,12 +100,12 @@ class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
 
   void _cancelQuerySetLoad() {
     if (_querySetStream != null) {
-      _querySetStream.cancel();
+      _querySetStream!.cancel();
     }
     _setLoadedState();
   }
 
-  void _launchQuerySetLoad(BuildContext context, String query) {
+  void _launchQuerySetLoad(BuildContext context, String? query) {
     setState(() {
       _isLoading = true;
     });
@@ -113,7 +114,7 @@ class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
         .listen(_onQuerySetData, onError: _onQuerySetError);
   }
 
-  Future<List<T>> _loadQuerySet(BuildContext context, String query) async {
+  Future<List<T>> _loadQuerySet(BuildContext context, String? query) async {
     return query != null ? widget.querySetCall(query) : [];
   }
 
@@ -188,7 +189,7 @@ class QuerySetLoaderState<T> extends State<QuerySetLoader<T>> {
 
   Widget _buildAnimatedItem(T item, BuildContext _, Animation animation) {
     return FadeTransition(
-      opacity: animation,
+      opacity: animation as Animation<double>,
       child: SizeTransition(
         sizeFactor: animation,
         child: widget.itemBuilder(item),

@@ -29,7 +29,7 @@ import 'SearchItem.dart';
 /// Scaffold body visible again.
 class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   SearchBar({
-    @required this.defaultBar,
+    required this.defaultBar,
     this.onQueryChanged,
     this.onQuerySubmitted,
     this.loader,
@@ -38,16 +38,16 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
     this.initialQuery,
     this.controller,
     this.iconified = true,
-    bool autofocus,
-    AutoActive autoActive,
-    SearchItem searchItem,
-    SearchBarAttrs attrs, this.onTapSearch,
+    bool? autofocus,
+    AutoActive? autoActive,
+    SearchItem? searchItem,
+    SearchBarAttrs? attrs, this.onTapSearch,
   })  : this.autoActive = autoActive ?? AutoActive.off,
         this.autofocus = autofocus ?? iconified,
         this.searchItem = searchItem ?? SearchItem.action(onTapSearch: onTapSearch),
         this.attrs = _initAttrs(iconified, attrs);
 
-  static SearchBarAttrs _initAttrs(bool iconified, SearchBarAttrs attrs) {
+  static SearchBarAttrs _initAttrs(bool iconified, SearchBarAttrs? attrs) {
     final defaultAttrs = iconified
         ? SearchBarAttrs.defaultIconified()
         : SearchBarAttrs.defaultMerged();
@@ -56,18 +56,18 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
 
   /// Function being called whenever query changes with its current value
   /// as an argument.
-  final ValueChanged<String> onQueryChanged;
+  final ValueChanged<String>? onQueryChanged;
 
   /// Function being called whenever query is submitted with its current value
   /// as an argument.
-  final ValueChanged<String> onQuerySubmitted;
+  final ValueChanged<String>? onQuerySubmitted;
 
   //onTapSearch Search Botton
-  final VoidCallback onTapSearch;
+  final VoidCallback? onTapSearch;
 
   /// Widget automatically loading data corresponding to current query
   /// and displaying it in ListView.
-  final QuerySetLoader loader;
+  final QuerySetLoader? loader;
 
   /// SearchBarAttrs instance allowing to specify part of exact values used
   /// during widget building.
@@ -81,10 +81,10 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   final String searchHint;
 
   /// Query value displayed for the first time in search field.
-  final String initialQuery;
+  final String? initialQuery;
 
   /// Controller object allowing to access some properties of current state.
-  final SearchBarController controller;
+  final SearchBarController? controller;
 
   /// Indicating way of representing non-activated SearchBar:
   ///   true if widget should be showed as an action item in defaultAppBar,
@@ -102,11 +102,11 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   final SearchItem searchItem;
 
   /// Status bar overlay brightness applied when widget is activated.
-  final SystemUiOverlayStyle overlayStyle;
+  final SystemUiOverlayStyle? overlayStyle;
 
   @override
   Size get preferredSize => _shouldTakeWholeSpace
-      ? _getAvailableSpace ?? attrs.searchBarSize
+      ? _getAvailableSpace 
       : attrs.searchBarSize;
 
   bool get _shouldTakeWholeSpace => loader != null && _isThisOrLastActivated;

@@ -16,7 +16,7 @@ class SearchBarAttrs {
     this.textBoxOutlineColor,
     this.textBoxBackgroundColor,
     this.statusBarColor = Colors.transparent,
-    TextStyle textStyle,
+    TextStyle? textStyle,
   })  : this.primaryDetailColor = primaryDetailColor,
         this.textStyle = textStyle ?? _getDefaultTextStyle(primaryDetailColor);
 
@@ -35,8 +35,8 @@ class SearchBarAttrs {
   final Color secondaryDetailColor;
   final Color searchBarColor;
   final Color disabledDetailColor;
-  final Color textBoxBackgroundColor;
-  final Color textBoxOutlineColor;
+  final Color? textBoxBackgroundColor;
+  final Color? textBoxOutlineColor;
   final double textBoxOutlineWidth;
   final double textBoxOutlineRadius;
   final double loaderBottomMargin;
@@ -61,24 +61,19 @@ class SearchBarAttrs {
   /// otherwise.
   SearchBarAttrs merge(SearchBarAttrs other) {
     return SearchBarAttrs(
-      primaryDetailColor: other.primaryDetailColor ?? this.primaryDetailColor,
-      secondaryDetailColor:
-          other.secondaryDetailColor ?? this.secondaryDetailColor,
-      disabledDetailColor:
-          other.disabledDetailColor ?? this.disabledDetailColor,
-      searchBarColor: other.searchBarColor ?? this.searchBarColor,
-      textBoxBackgroundColor:
-          other.textBoxBackgroundColor ?? this.textBoxBackgroundColor,
+      primaryDetailColor: other.primaryDetailColor,
+      secondaryDetailColor: other.secondaryDetailColor,
+      disabledDetailColor: other.disabledDetailColor,
+      searchBarColor: other.searchBarColor,
+      textBoxBackgroundColor: other.textBoxBackgroundColor,
       textBoxOutlineColor:
           other.textBoxOutlineColor ?? this.textBoxOutlineColor,
-      loaderBottomMargin: other.loaderBottomMargin ?? this.loaderBottomMargin,
-      textBoxOutlineWidth:
-          other.textBoxOutlineWidth ?? this.textBoxOutlineWidth,
-      textBoxOutlineRadius:
-          other.textBoxOutlineRadius ?? this.textBoxOutlineRadius,
-      searchInputMargin: other.searchInputMargin ?? this.searchInputMargin,
-      statusBarColor: other.statusBarColor ?? this.statusBarColor,
-      textStyle: other.textStyle ?? this.textStyle,
+      loaderBottomMargin: other.loaderBottomMargin,
+      textBoxOutlineWidth: other.textBoxOutlineWidth,
+      textBoxOutlineRadius: other.textBoxOutlineRadius,
+      searchInputMargin: other.searchInputMargin,
+      statusBarColor: other.statusBarColor,
+      textStyle: other.textStyle,
     );
   }
 }

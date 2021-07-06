@@ -23,13 +23,13 @@ abstract class SearchBarState extends State<SearchBar> {
 
   FocusNode searchFocusNode = FocusNode();
 
-  TextEditingController queryInputController;
+  TextEditingController? queryInputController;
 
-  String loaderQuery;
+  String? loaderQuery;
 
   bool get focused => searchFocusNode.hasFocus;
 
-  bool get queryNotEmpty => queryInputController.text.isNotEmpty;
+  bool get queryNotEmpty => queryInputController!.text.isNotEmpty;
 
   QuerySetLoader get _safeLoader => widget.loader ?? QuerySetLoader.blank;
 
@@ -56,7 +56,7 @@ abstract class SearchBarState extends State<SearchBar> {
   @override
   void dispose() {
     searchFocusNode.dispose();
-    queryInputController.dispose();
+    queryInputController!.dispose();
     stateHolder.remove(this);
     super.dispose();
   }
@@ -84,18 +84,18 @@ abstract class SearchBarState extends State<SearchBar> {
     if (_safeLoader.loadOnEachChange) {
       setState(() => loaderQuery = text);
     }
-    if (widget.onQueryChanged != null) widget.onQueryChanged(text);
+    if (widget.onQueryChanged != null) widget.onQueryChanged!(text);
   }
 
   void onTextSubmit(String text) {
     if (!_safeLoader.loadOnEachChange) {
       setState(() => loaderQuery = text);
     }
-    if (widget.onQuerySubmitted != null) widget.onQuerySubmitted(text);
+    if (widget.onQuerySubmitted != null) widget.onQuerySubmitted!(text);
   }
 
   void onTapSearchAction() {
-    if (widget.onTapSearch != null) widget.onTapSearch();
+    if (widget.onTapSearch != null) widget.onTapSearch!();
   }
 
   void _initAutoActive() {
@@ -118,7 +118,7 @@ abstract class SearchBarState extends State<SearchBar> {
       activated = value;
       widget.controller?.onActivatedChanged?.call(value);
       if (activated) {
-        loaderQuery = queryInputController.text;
+        loaderQuery = queryInputController!.text;
       }
       _rebuildScaffold();
     }
@@ -129,7 +129,7 @@ abstract class SearchBarState extends State<SearchBar> {
 
   void _clearQueryField() {
     _isClearingQuery = true;
-    queryInputController.clear();
+    queryInputController!.clear();
     _requestSearchFocus();
   }
 
@@ -161,15 +161,15 @@ abstract class SearchBarState extends State<SearchBar> {
     _requestSearchFocus();
     _highlightQueryText();
     print("onPrefixSearchTap");
-    if (widget.onTapSearch != null) widget.onTapSearch();
+    if (widget.onTapSearch != null) widget.onTapSearch!();
   }
 
   void _requestSearchFocus() =>
       FocusScope.of(context).requestFocus(searchFocusNode);
 
   void _highlightQueryText() {
-    queryInputController.selection = TextSelection(
-      baseOffset: queryInputController.value.text.length,
+    queryInputController!.selection = TextSelection(
+      baseOffset: queryInputController!.value.text.length,
       extentOffset: 0,
     );
   }

@@ -5,41 +5,41 @@ typedef T SearchItemBuilder<T>(BuildContext context);
 typedef PopupMenuItem<T> MenuItemBuilder<T>(BuildContext context);
 
 abstract class SearchItem<T> {
-  final VoidCallback onTapSearch;
-  SearchItem(SearchItemGravity gravity, this._builder, this.onTapSearch)
+  final VoidCallback? onTapSearch;
+  SearchItem(SearchItemGravity? gravity, this._builder, this.onTapSearch)
       : this.gravity = gravity ?? SearchItemGravity.start;
 
   final SearchItemGravity gravity;
-  final SearchItemBuilder<T> _builder;
-  SearchItemBuilder<T> get builder => _builder ?? _defaultBuilder;
+  final SearchItemBuilder<T>? _builder;
+  SearchItemBuilder<T> get builder => _builder ?? _defaultBuilder as T Function(BuildContext);
 
   SearchItemBuilder get _defaultBuilder;
   void addSearchItem(
       BuildContext context, List<Widget> actions, void onSearch());
 
   static action(
-          {SearchItemGravity gravity,
-          WidgetBuilder builder,
-          VoidCallback onTapSearch}) =>
+          {SearchItemGravity? gravity,
+          WidgetBuilder? builder,
+          VoidCallback? onTapSearch}) =>
       _ActionSearchItem(gravity, builder, onTapSearch);
 
   static menu<T>(
-          {SearchItemGravity gravity,
-          MenuItemBuilder<T> builder,
-          VoidCallback onTapSearch}) =>
+          {SearchItemGravity? gravity,
+          MenuItemBuilder<T>? builder,
+          VoidCallback? onTapSearch}) =>
       _MenuSearchItem<T>(gravity, builder, onTapSearch);
 }
 
 class _ActionSearchItem extends SearchItem<Widget> {
-  _ActionSearchItem(SearchItemGravity gravity,
-      SearchItemBuilder<Widget> builder, VoidCallback onTapSearch)
+  _ActionSearchItem(SearchItemGravity? gravity,
+      SearchItemBuilder<Widget>? builder, VoidCallback? onTapSearch)
       : super(gravity, builder, onTapSearch);
 
   @override
   SearchItemBuilder get _defaultBuilder => (_) => IconButton(
       icon: Icon(Icons.search),
       onPressed: () {
-        onTapSearch();
+        onTapSearch!();
       });
 
   @override
@@ -57,8 +57,8 @@ class _ActionSearchItem extends SearchItem<Widget> {
 }
 
 class _MenuSearchItem<T> extends SearchItem<PopupMenuItem<T>> {
-  _MenuSearchItem(SearchItemGravity gravity,
-      SearchItemBuilder<PopupMenuItem<T>> builder, VoidCallback onTapSearch)
+  _MenuSearchItem(SearchItemGravity? gravity,
+      SearchItemBuilder<PopupMenuItem<T>>? builder, VoidCallback? onTapSearch)
       : super(gravity, builder, onTapSearch);
 
   @override
@@ -73,7 +73,7 @@ class _MenuSearchItem<T> extends SearchItem<PopupMenuItem<T>> {
         ? actions[menuIndex]
         : PopupMenuButton(itemBuilder: (_) => []);
     final wrapperIndex = menuIndex != -1 ? menuIndex : actions.length;
-    final menuWrapper = _wrapMenuWithSearchItem(menu, context, onSearch);
+    final menuWrapper = _wrapMenuWithSearchItem(menu as PopupMenuButton<dynamic>, context, onSearch);
     actions
       ..remove(menu)
       ..insert(wrapperIndex, menuWrapper);
@@ -81,7 +81,7 @@ class _MenuSearchItem<T> extends SearchItem<PopupMenuItem<T>> {
 
   PopupMenuButton _wrapMenuWithSearchItem(
       PopupMenuButton menu, BuildContext context, void onSearch()) {
-    final searchItem = builder(context);
+    final PopupMenuItem<T> searchItem = builder(context);
     return PopupMenuButton(
       itemBuilder: (context) {
         final items = menu.itemBuilder(context);
@@ -92,7 +92,7 @@ class _MenuSearchItem<T> extends SearchItem<PopupMenuItem<T>> {
         if (value == searchItem.value) {
           onSearch();
         } else {
-          menu.onSelected(value);
+          menu.onSelected!(value);
         }
       },
     );

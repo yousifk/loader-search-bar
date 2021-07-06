@@ -8,17 +8,17 @@ class SearchBarController {
     this.onActivatedChanged,
   });
 
-  final VoidCallback onCancelSearch;
-  final VoidCallback onClearQuery;
-  final ValueChanged<bool> onActivatedChanged;
+  final VoidCallback? onCancelSearch;
+  final VoidCallback? onClearQuery;
+  final ValueChanged<bool>? onActivatedChanged;
 
-  SearchBarState state;
+  SearchBarState? state;
 
   void setQueryText(String text) => state?.queryInputController?.text = text;
   void startSearch({forceFocus = true}) => state?.activate(forceFocus);
   void cancelSearch() => state?.onCancelSearch();
   void clearQuery() => state?.onClearQuery();
-  bool get isEmpty => state != null ? !state.queryNotEmpty : null;
-  bool get isActivated => state.activated;
-  bool get isFocused => state.focused;
+  bool? get isEmpty => state != null ? !state!.queryNotEmpty : null;
+  bool get isActivated => state!.activated;
+  bool get isFocused => state!.focused;
 }
