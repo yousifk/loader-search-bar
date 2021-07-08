@@ -8,7 +8,7 @@ import 'ListModel.dart';
 
 typedef List<T> QuerySetCall<T>(String query);
 
-typedef Widget QuerySetItemBuilder<T>(T item);
+typedef Widget? QuerySetItemBuilder<T>(T item);
 
 /// Widget that loads data set for current query string and transforms it into
 /// ListView populated with loaded data.
@@ -21,9 +21,11 @@ class QuerySetLoader<T> extends StatefulWidget {
   });
 
   /// Instance with empty function bodies used internally by [SearchBar].
-  static final QuerySetLoader blank = QuerySetLoader(
-      querySetCall: (_) {} as List<dynamic> Function(String),
-      itemBuilder: (_) {} as Widget Function(dynamic));
+  static final QuerySetLoader blank = QuerySetLoader(querySetCall: (_) {
+    return [];
+  }, itemBuilder: (_) {
+    return;
+  });
 
   /// Function being called in order to load data. Takes query string as
   /// argument and returns list of corresponding items. Received function is

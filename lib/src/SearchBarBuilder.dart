@@ -6,7 +6,8 @@ import 'package:loader_search_bar/src/SearchBarAttrs.dart';
 import 'package:loader_search_bar/src/SearchBarButton.dart';
 import 'package:loader_search_bar/src/SearchBarState.dart';
 
-abstract class SearchBarBuilder<T extends SearchBarState> extends StatelessWidget {
+abstract class SearchBarBuilder<T extends SearchBarState>
+    extends StatelessWidget {
   SearchBarBuilder(this.searchState, this.searchContext)
       : searchWidget = searchState.widget,
         searchAttrs = searchState.widget.attrs;
@@ -23,8 +24,10 @@ abstract class SearchBarBuilder<T extends SearchBarState> extends StatelessWidge
 
   @override
   Widget build(BuildContext context) {
-    final appBar = searchState.activated ? _buildSearchBar() : buildInactiveBar();
-    final appBarWidget = searchWidget.loader != null ? _wrapWithLoader(appBar) : appBar;
+    final appBar =
+        searchState.activated ? _buildSearchBar() : buildInactiveBar();
+    final appBarWidget =
+        searchWidget.loader != null ? _wrapWithLoader(appBar) : appBar;
     return WillPopScope(
       onWillPop: searchState.onWillPop,
       child: appBarWidget,
@@ -66,23 +69,25 @@ abstract class SearchBarBuilder<T extends SearchBarState> extends StatelessWidge
     );
   }
 
-  Widget buildBaseBar({Widget? leading, Widget? search, List<Widget>? actions}) {
+  Widget buildBaseBar(
+      {Widget? leading, Widget? search, List<Widget>? actions}) {
     final barContent = _buildBaseBarContent(leading, search, actions);
     final barWidget = _buildBaseBarWidget(barContent);
     return _wrapWithOverlayIfPresent(barWidget);
   }
 
-  List<Widget?> _buildBaseBarContent(Widget? leading, Widget? search, List<Widget>? actions) {
-    return []
-      ..add(Container(width: searchAttrs.searchBarPadding))
-      ..add(leading)
-      ..add(search)
-      ..add(Container(width: searchAttrs.searchBarPadding))
-      ..addAll(actions ?? [])
-      ..removeWhere((it) => it == null);
+  List<Widget> _buildBaseBarContent(
+      Widget? leading, Widget? search, List<Widget>? actions) {
+    return [
+      Container(width: searchAttrs.searchBarPadding),
+      if (leading != null) leading,
+      if (search != null) search,
+      Container(width: searchAttrs.searchBarPadding),
+      if (actions != null) ...actions,
+    ];
   }
 
-  Material _buildBaseBarWidget(List barContent) {
+  Material _buildBaseBarWidget(List<Widget> barContent) {
     return Material(
       borderRadius: BorderRadius.zero,
       elevation: searchAttrs.searchBarElevation,
@@ -93,7 +98,7 @@ abstract class SearchBarBuilder<T extends SearchBarState> extends StatelessWidge
           bottom: false,
           child: Container(
             color: searchAttrs.searchBarColor,
-            child: Row(children: barContent as List<Widget>),
+            child: Row(children: barContent),
           ),
         ),
       ),
@@ -166,17 +171,21 @@ abstract class SearchBarBuilder<T extends SearchBarState> extends StatelessWidge
         color: searchAttrs.textBoxOutlineColor!,
         width: searchAttrs.textBoxOutlineWidth,
       ),
-      borderRadius: BorderRadius.all(Radius.circular(searchAttrs.textBoxOutlineRadius)),
+      borderRadius:
+          BorderRadius.all(Radius.circular(searchAttrs.textBoxOutlineRadius)),
       color: searchAttrs.textBoxBackgroundColor,
     );
   }
 
   InputDecoration _buildSearchTextFieldDecoration() {
     return InputDecoration(
-      contentPadding: EdgeInsets.only(top: 6,bottom : 6),
+      contentPadding: EdgeInsets.only(top: 6, bottom: 6),
       border: InputBorder.none,
       hintText: searchWidget.searchHint,
-      hintStyle: TextStyle(color: !searchState.focused ? searchAttrs.secondaryDetailColor : searchAttrs.disabledDetailColor),
+      hintStyle: TextStyle(
+          color: !searchState.focused
+              ? searchAttrs.secondaryDetailColor
+              : searchAttrs.disabledDetailColor),
     );
   }
 
@@ -202,16 +211,19 @@ abstract class SearchBarBuilder<T extends SearchBarState> extends StatelessWidge
     );
   }
 
-  double get _searchBarTotalHeight => searchAttrs.searchBarSize.height + searchState.screenPadding.top;
+  double get _searchBarTotalHeight =>
+      searchAttrs.searchBarSize.height + searchState.screenPadding.top;
 }
 
 class IconifiedBarBuilder extends SearchBarBuilder<IconifiedBarState> {
-  IconifiedBarBuilder(IconifiedBarState state, BuildContext context) : super(state, context);
+  IconifiedBarBuilder(IconifiedBarState state, BuildContext context)
+      : super(state, context);
 
   @override
   Widget buildInactiveBar() {
     final actions = <Widget>[]..addAll(searchWidget.defaultBar.actions ?? []);
-    searchWidget.searchItem.addSearchItem(searchContext, actions, searchState.onSearchAction);
+    searchWidget.searchItem
+        .addSearchItem(searchContext, actions, searchState.onSearchAction);
     return _cloneDefaultBarWith(actions);
   }
 
@@ -240,12 +252,14 @@ class IconifiedBarBuilder extends SearchBarBuilder<IconifiedBarState> {
 }
 
 class MergedBarBuilder extends SearchBarBuilder<MergedBarState> {
-  MergedBarBuilder(MergedBarState searchState, BuildContext searchContext) : super(searchState, searchContext);
+  MergedBarBuilder(MergedBarState searchState, BuildContext searchContext)
+      : super(searchState, searchContext);
 
   @override
   Widget buildInactiveBar() {
     return buildBaseBar(
-      leading: searchWidget.defaultBar.leading ?? _buildScaffoldDefaultLeading(searchContext),
+      leading: searchWidget.defaultBar.leading ??
+          _buildScaffoldDefaultLeading(searchContext),
       search: buildSearchStackContainer(),
       actions: searchWidget.defaultBar.actions ?? [],
     );
@@ -256,7 +270,8 @@ class MergedBarBuilder extends SearchBarBuilder<MergedBarState> {
     final hasDrawer = scaffold.hasDrawer;
     final parentRoute = ModalRoute.of(context);
     final canPop = parentRoute?.canPop ?? false;
-    final useCloseButton = parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
+    final useCloseButton =
+        parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
 
     if (hasDrawer) {
       return IconButton(
